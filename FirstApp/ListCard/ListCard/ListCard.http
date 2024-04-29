@@ -1,0 +1,6 @@
+@ListCard_HostAddress = http://localhost:5221
+
+GET {{ListCard_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
