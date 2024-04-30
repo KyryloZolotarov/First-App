@@ -1,6 +1,0 @@
-@History.Host_HostAddress = http://localhost:5016
-
-GET {{History.Host_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

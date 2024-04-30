@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using List.Host.Data.Entities;
+using List.Host.Data.EntityConfigurations;
+using Microsoft.EntityFrameworkCore;
 
 namespace TestCatalog.Host.Data
 {
@@ -9,9 +11,10 @@ namespace TestCatalog.Host.Data
         {
         }
 
-
+        public DbSet<ListEntity> Lists { get; set; } = null!;
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.ApplyConfiguration(new ListEntityConfiguration());
         }
     }
 }

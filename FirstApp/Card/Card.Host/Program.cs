@@ -2,13 +2,18 @@ using Microsoft.EntityFrameworkCore;
 using TestCatalog.Host.Data;
 using Infrastructure.Services;
 using Infrastructure.Services.Interfaces;
+using Card.Host.Services.Interfaces;
+using Card.Host.Services;
+using Card.Host.Repositories.Interfaces;
+using Card.Host.Repositories;
 
 var configuration = GetConfiguration();
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddAutoMapper(typeof(Program));
-
+builder.Services.AddTransient<ICardService, CardService>();
+builder.Services.AddTransient<ICardRepository, CardRepository>();
 builder.Services.AddDbContextFactory<ApplicationDbContext>(opts =>
     opts.UseNpgsql(configuration["ConnectionString"]));
 builder.Services.AddScoped<IDbContextWrapper<ApplicationDbContext>, DbContextWrapper<ApplicationDbContext>>();
