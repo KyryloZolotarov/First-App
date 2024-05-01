@@ -7,7 +7,7 @@ using System.Net;
 
 namespace ListCard.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("lists")]
     [ApiController]
     public class ListController : ControllerBase
     {
@@ -22,6 +22,14 @@ namespace ListCard.Controllers
         public async Task<IActionResult> GetList(int id)
         {
             var result = await _listService.GetListAsync(id);
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [ProducesResponseType(typeof(UserListDto), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetListByUser([FromBody] string id)
+        {
+            var result = await _listService.GetListsAsync(id);
             return Ok(result);
         }
 

@@ -7,7 +7,7 @@ using System.Net;
 
 namespace ListCard.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("cards")]
     [ApiController]
     public class CardController : ControllerBase
     {
