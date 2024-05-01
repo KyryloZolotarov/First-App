@@ -2,12 +2,13 @@
 using List.Host.Models.Requests;
 using List.Host.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
 namespace List.Host.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("lists")]
     [ApiController]
     public class ListController : ControllerBase
     {
@@ -44,9 +45,9 @@ namespace List.Host.Controllers
 
         [HttpPatch("{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        public async Task<IActionResult> UpdateList(int id, [FromBody] ListRequest list)
+        public async Task<IActionResult> PatchList(int id, [FromBody] JsonPatchDocument<ListRequest> list)
         {
-            await _listService.UpdateListAsync(id, list);
+            await _listService.PatchListAsync(id, list);
             return Ok();
         }
 

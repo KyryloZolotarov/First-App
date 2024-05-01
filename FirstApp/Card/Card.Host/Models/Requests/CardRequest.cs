@@ -1,4 +1,4 @@
-﻿using Card.Host.Models.Enums;
+﻿using Infrastructure.Enums;
 
 namespace Card.Host.Models.Requests
 {

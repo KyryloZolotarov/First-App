@@ -10,7 +10,7 @@ namespace TestCatalog.Host.Mapping
         public MappingProfile()
         {
             CreateMap<ListDto, ListEntity>().ReverseMap();
-            CreateMap<ListRequest, ListEntity>();
+            CreateMap<ListRequest, ListEntity>().ReverseMap();
         }
     }
 }

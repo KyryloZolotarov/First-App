@@ -13,6 +13,8 @@ namespace List.Host.Data.EntityConfigurations
 
             builder.HasKey(ci => ci.Id);
             builder.Property(cx => cx.Id).UseHiLo("list_hilo");
+            builder.Property(ck => ck.UserId).IsRequired();
+            builder.Property(cz => cz.Title).HasMaxLength(30);
         }
     }
 }

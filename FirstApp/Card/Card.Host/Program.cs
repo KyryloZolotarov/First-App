@@ -6,6 +6,7 @@ using Card.Host.Services.Interfaces;
 using Card.Host.Services;
 using Card.Host.Repositories.Interfaces;
 using Card.Host.Repositories;
+using FluentValidation.AspNetCore;
 
 var configuration = GetConfiguration();
 
@@ -18,6 +19,7 @@ builder.Services.AddDbContextFactory<ApplicationDbContext>(opts =>
     opts.UseNpgsql(configuration["ConnectionString"]));
 builder.Services.AddScoped<IDbContextWrapper<ApplicationDbContext>, DbContextWrapper<ApplicationDbContext>>();
 builder.Services.AddControllers();
+builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
 builder.Services.AddOptions();
 builder.Services.AddMemoryCache();
 

@@ -1,6 +1,7 @@
 ﻿using Card.Host.Models.Dtos;
 using Card.Host.Models.Requests;
 using Card.Host.Services.Interfaces;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -8,7 +9,7 @@ using System.Net;
 
 namespace Card.Host.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("cards")]
     [ApiController]
     public class CardController : ControllerBase
     {
@@ -18,8 +19,7 @@ namespace Card.Host.Controllers
         {
             _cardService = cardService;
         }
-
-        // GET: api/<CardController>
+        
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<CardDto>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetCards([FromBody] int listId)
@@ -28,7 +28,6 @@ namespace Card.Host.Controllers
             return Ok(result);
         }
 
-        // GET api/<CardController>/5
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(CardDto), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetCard(int id)
@@ -37,7 +36,6 @@ namespace Card.Host.Controllers
             return Ok(result);
         }
 
-        // POST api/<CardController>
         [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<IActionResult> AddCard([FromBody] CardRequest card)
@@ -46,16 +44,14 @@ namespace Card.Host.Controllers
             return Ok();
         }
 
-        // PUT api/<CardController>/5
         [HttpPatch("{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        public async Task<IActionResult> UpdateCard(int id, [FromBody] CardRequest card)
+        public async Task<IActionResult> PatchCard(int id, JsonPatchDocument<CardRequest> card)
         {
-            await _cardService.UpdateCardAsync(id, card);
+            await _cardService.PatchCardAsync(id, card);
             return Ok();
         }
 
-        // DELETE api/<CardController>/5
         [HttpDelete("{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<IActionResult> DeleteCard(int id)

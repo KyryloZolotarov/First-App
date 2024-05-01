@@ -1,4 +1,6 @@
 ﻿using History.Host.Data.Entities;
+using History.Host.Models.Requests;
+using History.Host.Models.Responses;
 using History.Host.Repositories.Interfaces;
 using Infrastructure.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -22,9 +24,17 @@ namespace History.Host.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<List<RecordEntity>> GetRecordsAsync(string userId)
+        public async Task<PaginatedRecordsResponse<RecordEntity>> GetUserRecordsAsync(PaginatedRecordsRequest<string> param)
         {
-            return await _dbContext.History.Where(c => c.UserId == userId).ToListAsync();
+            var result = await _dbContext.History.Where(c => c.UserId == param.Id).Skip(param.PageSize*param.PageIndex).Take(param.PageSize).ToListAsync();
+            return new PaginatedRecordsResponse<RecordEntity>() { PageSize = param.PageSize, PageIndex = param.PageIndex, Records = result };
+        }
+
+        
+        public async Task<PaginatedRecordsResponse<RecordEntity>> GetCardRecordsAsync(PaginatedRecordsRequest<int> param)
+        {
+            var result = await _dbContext.History.Where(c => c.CardId == param.Id).Skip(param.PageSize * param.PageIndex).Take(param.PageSize).ToListAsync();
+            return new PaginatedRecordsResponse<RecordEntity>() { PageSize = param.PageSize, PageIndex = param.PageIndex, Records = result };
         }
     }
 }

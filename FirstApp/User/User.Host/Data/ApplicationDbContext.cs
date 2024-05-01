@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using User.Host.Data.Entities;
+using User.Host.Data.EntityConfigurations;
 
 namespace TestCatalog.Host.Data
 {
@@ -10,8 +12,11 @@ namespace TestCatalog.Host.Data
         }
 
 
+        public DbSet<UserEntity> UserProfiles { get; set; } = null!;
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.ApplyConfiguration(new UserEntityConfiguration());
         }
     }
 }

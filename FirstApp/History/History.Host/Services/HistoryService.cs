@@ -2,6 +2,7 @@
 using History.Host.Data.Entities;
 using History.Host.Models.Dtos;
 using History.Host.Models.Requests;
+using History.Host.Models.Responses;
 using History.Host.Repositories.Interfaces;
 using History.Host.Services.Interfaces;
 using Infrastructure.Services;
@@ -32,13 +33,33 @@ namespace History.Host.Services
             });
         }
 
-        public async Task<List<RecordDto>> GetRecordsAsync(string userId)
+        public async Task<PaginatedRecordsResponse<RecordDto>> GetUserRecordsAsync(PaginatedRecordsRequest<string> param)
         {
 
             return await ExecuteSafeAsync(async () =>
             {
-                var recordsList = await ExecuteSafeAsync(async () => await _historyRepository.GetRecordsAsync(userId));
-                var recordsResponse = recordsList.Select(s => _mapper.Map<RecordDto>(s)).ToList();
+                var recordsList = await ExecuteSafeAsync(async () => await _historyRepository.GetUserRecordsAsync(param));
+                var recordsResponse = new PaginatedRecordsResponse<RecordDto>() 
+                { 
+                    PageIndex = recordsList.PageIndex,
+                    PageSize = recordsList.PageSize,
+                    Records = recordsList.Records.Select(s => _mapper.Map<RecordDto>(s)).ToList() 
+                };
+                return (recordsResponse);
+            });
+        }
+
+        public async Task<PaginatedRecordsResponse<RecordDto>> GetCardRecordsAsync(PaginatedRecordsRequest<int> param)
+        {
+            return await ExecuteSafeAsync(async () =>
+            {
+                var recordsList = await ExecuteSafeAsync(async () => await _historyRepository.GetCardRecordsAsync(param));
+                var recordsResponse = new PaginatedRecordsResponse<RecordDto>()
+                {
+                    PageIndex = recordsList.PageIndex,
+                    PageSize = recordsList.PageSize,
+                    Records = recordsList.Records.Select(s => _mapper.Map<RecordDto>(s)).ToList()
+                };
                 return (recordsResponse);
             });
         }

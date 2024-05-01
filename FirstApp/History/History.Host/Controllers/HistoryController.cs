@@ -1,5 +1,6 @@
 ﻿using History.Host.Models.Dtos;
 using History.Host.Models.Requests;
+using History.Host.Models.Responses;
 using History.Host.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,10 +20,18 @@ namespace History.Host.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<RecordDto>), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> GetRecords([FromBody] string userId)
+        [ProducesResponseType(typeof(PaginatedRecordsResponse<RecordDto>), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetUserRecords([FromBody] PaginatedRecordsRequest<string> param)
         {
-            var result = await _historyService.GetRecordsAsync(userId);
+            var result = await _historyService.GetUserRecordsAsync(param);
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [ProducesResponseType(typeof(PaginatedRecordsResponse<RecordDto>), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetCardRecords([FromBody] PaginatedRecordsRequest<int> param)
+        {
+            var result = await _historyService.GetCardRecordsAsync(param);
             return Ok(result);
         }
 

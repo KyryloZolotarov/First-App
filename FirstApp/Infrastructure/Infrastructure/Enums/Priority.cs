@@ -1,4 +1,4 @@
-﻿namespace Card.Host.Models.Enums
+﻿namespace Infrastructure.Enums
 {
     public enum Priority
     {

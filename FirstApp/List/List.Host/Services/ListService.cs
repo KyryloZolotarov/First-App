@@ -7,6 +7,7 @@ using List.Host.Models.Dtos;
 using List.Host.Models.Requests;
 using List.Host.Repositories.Interfaces;
 using List.Host.Services.Interfaces;
+using Microsoft.AspNetCore.JsonPatch;
 using System.Collections.Generic;
 using TestCatalog.Host.Data;
 
@@ -66,16 +67,16 @@ namespace List.Host.Services
             });
         }
 
-        public async Task UpdateListAsync(int listId, ListRequest list)
+        public async Task PatchListAsync(int listId, JsonPatchDocument<ListRequest> list)
         {
             await ExecuteSafeAsync(async () =>
             {
-                var listExists = await ExecuteSafeAsync(async () => await _listRepository.GetListAsync(listId));
-
+                var listExists = _mapper.Map<ListRequest>( await ExecuteSafeAsync(async () => await _listRepository.GetListAsync(listId)));
                 if (listExists == null) throw new BusinessException($"List with id: {listId} not found");
-                if(list.UserId != null && list.UserId != listExists.UserId) listExists.UserId = list.UserId;
-                if(list.Title != null && list.Title != listExists.Title) listExists.Title = list.Title;
-                await _listRepository.UpdateListAsync(listExists);
+                list.ApplyTo(listExists);
+                var updateList = _mapper.Map<ListEntity>(listExists);
+                updateList.Id = listId;
+                await _listRepository.UpdateListAsync(updateList);
             });
         }
     }

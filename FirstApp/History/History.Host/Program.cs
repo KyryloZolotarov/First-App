@@ -1,3 +1,4 @@
+using FluentValidation.AspNetCore;
 using History.Host.Repositories;
 using History.Host.Repositories.Interfaces;
 using History.Host.Services;
@@ -18,6 +19,7 @@ builder.Services.AddDbContextFactory<ApplicationDbContext>(opts =>
     opts.UseNpgsql(configuration["ConnectionString"]));
 builder.Services.AddScoped<IDbContextWrapper<ApplicationDbContext>, DbContextWrapper<ApplicationDbContext>>();
 builder.Services.AddControllers();
+builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
 builder.Services.AddOptions();
 builder.Services.AddMemoryCache();
 

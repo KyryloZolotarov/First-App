@@ -1,5 +1,6 @@
 ﻿using Card.Host.Models.Dtos;
 using Card.Host.Models.Requests;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace Card.Host.Services.Interfaces
 {
@@ -9,6 +10,6 @@ namespace Card.Host.Services.Interfaces
         Task<CardDto> GetCardAsync(int id);
         Task AddCardAsync(CardRequest card);
         Task DeleteCardAsync(int id);
-        Task UpdateCardAsync(int id, CardRequest card);
+        Task PatchCardAsync(int id, JsonPatchDocument<CardRequest> card);
     }
 }

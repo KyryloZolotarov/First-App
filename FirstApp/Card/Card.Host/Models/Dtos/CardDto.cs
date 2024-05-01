@@ -1,5 +1,4 @@
-﻿using Card.Host.Models.Enums;
-using System.ComponentModel.DataAnnotations;
+﻿using Infrastructure.Enums;
 
 namespace Card.Host.Models.Dtos
 {
