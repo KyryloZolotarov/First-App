@@ -9,6 +9,7 @@ using Infrastructure.Services;
 using Infrastructure.Services.Interfaces;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 using TestCatalog.Host.Data;
 
 namespace Card.Host.Services
@@ -26,7 +27,7 @@ namespace Card.Host.Services
             _cardRepository = cardRepository;
         }
 
-        public async Task AddCardAsync(CardRequest card)
+        public async Task AddCardAsync(AddCardRequest card)
         {
             await ExecuteSafeAsync(async () =>
             {
@@ -43,6 +44,15 @@ namespace Card.Host.Services
 
                 if (cardExists == null) throw new BusinessException($"Card with id: {id} not found");
                 await _cardRepository.DeleteCardAsync(cardExists);
+            });
+        }
+        public async Task DeleteCardsAsync(int id)
+        {
+            await ExecuteSafeAsync(async () =>
+            {
+                var cardsList = await ExecuteSafeAsync(async () => await _cardRepository.GetCardsAsync(id));
+                if (cardsList == null) throw new BusinessException($"Cards with list id: {id} not found");                
+                await _cardRepository.DeleteCardsAsync(cardsList);
             });
         }
 
@@ -62,16 +72,17 @@ namespace Card.Host.Services
             return await ExecuteSafeAsync(async () =>
             {
                 var cardsList = await ExecuteSafeAsync(async () => await _cardRepository.GetCardsAsync(listId));
+                if (cardsList == null) throw new BusinessException($"Cards with list id: {listId} not found");
                 var cardsResponse = cardsList.Select(s => _mapper.Map<CardDto>(s)).ToList();
                 return (cardsResponse);
             });
         }
 
-        public async Task PatchCardAsync(int id, JsonPatchDocument<CardRequest> card)
+        public async Task PatchCardAsync(int id, JsonPatchDocument<UpdateCardRequest> card)
         {
             await ExecuteSafeAsync(async () =>
             {
-                var cardExists = _mapper.Map<CardRequest>( await ExecuteSafeAsync(async () => await _cardRepository.GetCardAsync(id)));
+                var cardExists = _mapper.Map<UpdateCardRequest>( await ExecuteSafeAsync(async () => await _cardRepository.GetCardAsync(id)));
                 if (cardExists == null) throw new BusinessException($"Card with id: {id} not found");
                 card.ApplyTo(cardExists);
                 var updatedCard = _mapper.Map<CardEntity>(cardExists);

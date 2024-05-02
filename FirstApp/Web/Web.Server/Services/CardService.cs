@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.JsonPatch;
 using Web.Server.Data.Models;
 using Web.Server.Data.Requests;
 using Web.Server.Repositories.Interfaces;
@@ -19,7 +20,7 @@ namespace Web.Server.Services
             _mapper = mapper;
     }
 
-        public async Task AddCardAsync(CardRequest card)
+        public async Task AddCardAsync(AddCardRequest card)
         {
             await _cardRepository.AddCardAsync(card);
         }
@@ -36,7 +37,7 @@ namespace Web.Server.Services
             return _mapper.Map<CardModel>(card);
         }
 
-        public async Task PatchCardAsync(int id, CardRequest card)
+        public async Task PatchCardAsync(int id, JsonPatchDocument<UpdateCardRequest> card)
         {
             await _cardRepository.PatchCardAsync(id, card);
         }

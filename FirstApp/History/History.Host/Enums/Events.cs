@@ -2,6 +2,9 @@
 {
     public enum Events
     {
-        Create, Delete, Change, Move
+        Add,
+        Remove,
+        Replace,
+        Move
     }
 }

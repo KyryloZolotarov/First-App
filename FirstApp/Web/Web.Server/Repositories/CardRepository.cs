@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Services.Interfaces;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.Extensions.Options;
 using Web.Server.Data.Requests;
 using Web.Server.Repositories.Interfaces;
@@ -15,9 +16,9 @@ namespace Web.Server.Repositories
             _httpClient = httpClient;
             _settings = settings;
         }
-        public async Task AddCardAsync(CardRequest card)
+        public async Task AddCardAsync(AddCardRequest card)
         {
-            await _httpClient.SendAsync<CardRequest>(
+            await _httpClient.SendAsync<AddCardRequest>(
                 $"{_settings.Value.ListCardUrl}/cards/",
             HttpMethod.Post, card);
         }
@@ -35,7 +36,7 @@ namespace Web.Server.Repositories
             HttpMethod.Get);
         }
 
-        public async Task PatchCardAsync(int id, CardRequest card)
+        public async Task PatchCardAsync(int id, JsonPatchDocument<UpdateCardRequest> card)
         {
             await _httpClient.SendAsync(
                 $"{_settings.Value.ListCardUrl}/cards/{id}",

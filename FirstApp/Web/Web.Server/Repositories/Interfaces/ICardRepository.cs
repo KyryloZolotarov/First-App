@@ -1,12 +1,13 @@
-﻿using Web.Server.Data.Requests;
+﻿using Microsoft.AspNetCore.JsonPatch;
+using Web.Server.Data.Requests;
 
 namespace Web.Server.Repositories.Interfaces
 {
     public interface ICardRepository
     {
         Task<CardDto> GetCardAsync(int id);
-        Task AddCardAsync(CardRequest card);
+        Task AddCardAsync(AddCardRequest card);
         Task DeleteCardAsync(int id);
-        Task PatchCardAsync(int id, CardRequest card);
+        Task PatchCardAsync(int id, JsonPatchDocument<UpdateCardRequest> card);
     }
 }

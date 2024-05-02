@@ -10,6 +10,7 @@ namespace Card.Host.Repositories.Interfaces
         Task<CardEntity> GetCardAsync(int id);
         Task AddCardAsync(CardEntity card);
         Task DeleteCardAsync(CardEntity id);
+        Task DeleteCardsAsync(List<CardEntity> cards);
         Task UpdateCardAsync(CardEntity card);
     }
 }

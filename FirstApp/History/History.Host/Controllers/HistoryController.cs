@@ -42,5 +42,13 @@ namespace History.Host.Controllers
             await _historyService.AddRecordAsync(record);
             return Ok();
         }
+
+        [HttpPost("list")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        public async Task<IActionResult> AddRecords([FromBody] List<RecordRequest> records)
+        {
+            await _historyService.AddRecordsAsync(records);
+            return Ok();
+        }
     }
 }

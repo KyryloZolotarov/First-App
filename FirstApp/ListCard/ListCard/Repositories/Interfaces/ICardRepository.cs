@@ -1,5 +1,6 @@
 ﻿using ListCard.Data.Dtos;
 using ListCard.Data.Requests;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace ListCard.Repositories.Interfaces
 {
@@ -7,8 +8,9 @@ namespace ListCard.Repositories.Interfaces
     {
         Task<List<CardDto>> GetCardsAsync(int listId);
         Task<CardDto> GetCardAsync(int id);
-        Task AddCardAsync(CardRequest card);
+        Task AddCardAsync(AddCardRequest card);
         Task DeleteCardAsync(int id);
-        Task PatchCardAsync(int id, CardRequest card);
+        Task PatchCardAsync(int id, JsonPatchDocument<UpdateCardRequest> card);
+        Task DeleteCardsByListAsync(int id);
     }
 }

@@ -3,6 +3,7 @@ using ListCard.Data.Dtos;
 using ListCard.Data.Requests;
 using ListCard.Repositories.Interfaces;
 using ListCard.Services.Interfaces;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace ListCard.Services
 {
@@ -18,7 +19,7 @@ namespace ListCard.Services
             _cardRepository = cardRepository;
         }
 
-        public async Task AddCardAsync(CardRequest card)
+        public async Task AddCardAsync(AddCardRequest card)
         {
             await _cardRepository.AddCardAsync(card);
         }
@@ -31,10 +32,9 @@ namespace ListCard.Services
         public async Task<CardDto> GetCardAsync(int id)
         {
             return await _cardRepository.GetCardAsync(id);
-            throw new NotImplementedException();
         }
 
-        public async Task PatchCardAsync(int id, CardRequest card)
+        public async Task PatchCardAsync(int id, JsonPatchDocument<UpdateCardRequest> card)
         {
             await _cardRepository.PatchCardAsync(id, card);
         }

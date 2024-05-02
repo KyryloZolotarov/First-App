@@ -29,7 +29,7 @@ namespace List.Host.Controllers
 
         [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        public async Task<IActionResult> AddList([FromBody] ListRequest list)
+        public async Task<IActionResult> AddList([FromBody] AddListRequest list)
         {
             await _listService.AddListAsync(list);
             return Ok();
@@ -37,7 +37,7 @@ namespace List.Host.Controllers
 
         [HttpPatch("{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        public async Task<IActionResult> PatchList(int id, [FromBody] JsonPatchDocument<ListRequest> list)
+        public async Task<IActionResult> PatchList(int id, [FromBody] JsonPatchDocument<UpdateListRequest> list)
         {
             await _listService.PatchListAsync(id, list);
             return Ok();

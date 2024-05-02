@@ -19,7 +19,7 @@ namespace Card.Host.Controllers
         {
             _cardService = cardService;
         }
-        
+
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<CardDto>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetCards([FromBody] int listId)
@@ -38,7 +38,7 @@ namespace Card.Host.Controllers
 
         [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        public async Task<IActionResult> AddCard([FromBody] CardRequest card)
+        public async Task<IActionResult> AddCard([FromBody] AddCardRequest card)
         {
             await _cardService.AddCardAsync(card);
             return Ok();
@@ -46,7 +46,7 @@ namespace Card.Host.Controllers
 
         [HttpPatch("{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        public async Task<IActionResult> PatchCard(int id, JsonPatchDocument<CardRequest> card)
+        public async Task<IActionResult> PatchCard(int id, JsonPatchDocument<UpdateCardRequest> card)
         {
             await _cardService.PatchCardAsync(id, card);
             return Ok();
@@ -59,5 +59,14 @@ namespace Card.Host.Controllers
             await _cardService.DeleteCardAsync(id);
             return Ok();
         }
+
+        [HttpDelete("listId={id}")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        public async Task<IActionResult> DeleteCards(int id)
+        {
+            await _cardService.DeleteCardsAsync(id);
+            return Ok();
+        }
     }
 }
+

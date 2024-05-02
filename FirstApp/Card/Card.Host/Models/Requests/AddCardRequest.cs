@@ -2,7 +2,7 @@
 
 namespace Card.Host.Models.Requests
 {
-    public class CardRequest
+    public class AddCardRequest
     {
         public string Name { get; set; }
         public string Description { get; set; }

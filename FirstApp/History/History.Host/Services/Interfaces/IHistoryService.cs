@@ -10,5 +10,6 @@ namespace History.Host.Services.Interfaces
         Task<PaginatedRecordsResponse<RecordDto>> GetUserRecordsAsync(PaginatedRecordsRequest<string> param);
         Task<PaginatedRecordsResponse<RecordDto>> GetCardRecordsAsync(PaginatedRecordsRequest<int> param);
         Task AddRecordAsync(RecordRequest record);
+        Task AddRecordsAsync(List<RecordRequest> records);
     }
 }

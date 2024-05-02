@@ -2,6 +2,7 @@
 using ListCard.Data.Requests;
 using ListCard.Data.Responses;
 using ListCard.Repositories.Interfaces;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 
@@ -18,9 +19,9 @@ namespace ListCard.Repositories
             _settings = settings;
         }
 
-        public async Task AddListAsync(ListRequest list)
+        public async Task AddListAsync(AddListRequest list)
         {
-            await _httpClient.SendAsync<ListRequest>(
+            await _httpClient.SendAsync<AddListRequest>(
                 $"{_settings.Value.ListUrl}/lists/",
             HttpMethod.Post, list);
         }
@@ -40,7 +41,7 @@ namespace ListCard.Repositories
             return result.ToList();
         }
 
-        public async Task PatchListAsync(int id, ListRequest list)
+        public async Task PatchListAsync(int id, JsonPatchDocument<UpdateListRequest> list)
         {
             await _httpClient.SendAsync(
                 $"{_settings.Value.ListUrl}/lists/{id}",

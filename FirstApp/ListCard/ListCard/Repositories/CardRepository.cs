@@ -2,6 +2,7 @@
 using ListCard.Data.Dtos;
 using ListCard.Data.Requests;
 using ListCard.Repositories.Interfaces;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.Extensions.Options;
 using System.Net.Http;
 
@@ -17,9 +18,9 @@ namespace ListCard.Repositories
             _httpClient = httpClient;
             _settings = settings;
         }
-        public async Task AddCardAsync(CardRequest card)
+        public async Task AddCardAsync(AddCardRequest card)
         {
-            await _httpClient.SendAsync<CardRequest>(
+            await _httpClient.SendAsync<AddCardRequest>(
                 $"{_settings.Value.CardUrl}/cards/",
             HttpMethod.Post, card);
         }
@@ -28,6 +29,13 @@ namespace ListCard.Repositories
         {
             await _httpClient.SendAsync(
                 $"{_settings.Value.CardUrl}/cards/{id}",
+            HttpMethod.Delete);
+        }
+
+        public async Task DeleteCardsByListAsync(int id)
+        {
+            await _httpClient.SendAsync<List<int>>(
+                $"{_settings.Value.CardUrl}/cards/listId={id}",
             HttpMethod.Delete);
         }
 
@@ -46,7 +54,7 @@ namespace ListCard.Repositories
             return result.ToList();
         }
 
-        public async Task PatchCardAsync(int id, CardRequest card)
+        public async Task PatchCardAsync(int id, JsonPatchDocument<UpdateCardRequest> card)
         {
             await _httpClient.SendAsync(
                 $"{_settings.Value.CardUrl}/cards/{id}",

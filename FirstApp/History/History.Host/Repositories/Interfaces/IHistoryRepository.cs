@@ -9,5 +9,6 @@ namespace History.Host.Repositories.Interfaces
         Task<PaginatedRecordsResponse<RecordEntity>> GetUserRecordsAsync(PaginatedRecordsRequest<string> param);
         Task<PaginatedRecordsResponse<RecordEntity>> GetCardRecordsAsync(PaginatedRecordsRequest<int> param);
         Task AddRecordAsync(RecordEntity record);
+        Task AddRecordsAsync(List<RecordEntity> records);
     }
 }

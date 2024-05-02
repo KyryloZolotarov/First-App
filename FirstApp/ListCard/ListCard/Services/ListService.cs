@@ -4,6 +4,7 @@ using ListCard.Data.Requests;
 using ListCard.Data.Responses;
 using ListCard.Repositories.Interfaces;
 using ListCard.Services.Interfaces;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace ListCard.Services
 {
@@ -21,7 +22,7 @@ namespace ListCard.Services
             _listRepository = listRepository;
         }
 
-        public async Task AddListAsync(ListRequest list)
+        public async Task AddListAsync(AddListRequest list)
         {
             await _listRepository.AddListAsync(list);
         }
@@ -29,6 +30,7 @@ namespace ListCard.Services
         public async Task DeleteListAsync(int id)
         {
             await _listRepository.DeleteListAsync(id);
+            await _cardRepository.DeleteCardsByListAsync(id);
         }
 
         public async Task<UserListDto> GetListsAsync(string userId)
@@ -43,7 +45,7 @@ namespace ListCard.Services
             return userLists;
         }
 
-        public async Task PatchListAsync(int id, ListRequest list)
+        public async Task PatchListAsync(int id, JsonPatchDocument<UpdateListRequest> list)
         {
             await _listRepository.PatchListAsync(id, list);
         }

@@ -24,6 +24,12 @@ namespace History.Host.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
+        public async Task AddRecordsAsync(List<RecordEntity> records)
+        {
+            await _dbContext.History.AddRangeAsync(records);
+            await _dbContext.SaveChangesAsync();
+        }
+
         public async Task<PaginatedRecordsResponse<RecordEntity>> GetUserRecordsAsync(PaginatedRecordsRequest<string> param)
         {
             var result = await _dbContext.History.Where(c => c.UserId == param.Id).Skip(param.PageSize*param.PageIndex).Take(param.PageSize).ToListAsync();

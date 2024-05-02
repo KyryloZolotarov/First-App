@@ -2,6 +2,7 @@
 using ListCard.Data.Requests;
 using ListCard.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -30,7 +31,7 @@ namespace ListCard.Controllers
 
         [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        public async Task<IActionResult> AddCard([FromBody] CardRequest card)
+        public async Task<IActionResult> AddCard([FromBody] AddCardRequest card)
         {
             await _cardService.AddCardAsync(card);
             return Ok();
@@ -39,7 +40,7 @@ namespace ListCard.Controllers
 
         [HttpPatch("{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        public async Task<IActionResult> PatchCard(int id, [FromBody] CardRequest card)
+        public async Task<IActionResult> PatchCard(int id, [FromBody] JsonPatchDocument<UpdateCardRequest> card)
         {
             await _cardService.PatchCardAsync(id, card);
             return Ok();

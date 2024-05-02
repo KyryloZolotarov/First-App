@@ -1,11 +1,11 @@
-﻿using FluentValidation;
-using ListCard.Data.Requests;
+﻿using Card.Host.Models.Requests;
+using FluentValidation;
 
-namespace ListCard.Validators
+namespace Card.Host.Validators
 {
-    public class CardRequestValidator : AbstractValidator<CardRequest>
+    public class AddCardRequestValidator : AbstractValidator<AddCardRequest>
     {
-        public CardRequestValidator()
+        public AddCardRequestValidator()
         {
             RuleFor(h => h.Name).NotEmpty().MaximumLength(30);
             RuleFor(x => x.Description).MaximumLength(300);

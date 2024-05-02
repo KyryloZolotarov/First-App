@@ -10,7 +10,8 @@ namespace TestCatalog.Host.Mapping
         public MappingProfile() 
         {
             CreateMap<CardDto, CardEntity>().ReverseMap();
-            CreateMap<CardRequest, CardEntity>().ReverseMap();
+            CreateMap<AddCardRequest, CardEntity>().ReverseMap();
+            CreateMap<UpdateCardRequest, CardEntity>().ReverseMap();
         }
     }
 }

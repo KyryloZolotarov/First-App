@@ -33,6 +33,15 @@ namespace History.Host.Services
             });
         }
 
+        public async Task AddRecordsAsync(List<RecordRequest> records)
+        {
+            await ExecuteSafeAsync(async () =>
+            {
+                var recordToDb = records.Select(s => _mapper.Map<RecordEntity>(s)).ToList();
+                await _historyRepository.AddRecordsAsync(recordToDb);
+            });
+        }
+
         public async Task<PaginatedRecordsResponse<RecordDto>> GetUserRecordsAsync(PaginatedRecordsRequest<string> param)
         {
 

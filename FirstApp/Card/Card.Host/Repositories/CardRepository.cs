@@ -26,6 +26,11 @@ namespace Card.Host.Repositories
             _dbContext.Cards.Remove(card);
             await _dbContext.SaveChangesAsync();
         }
+        public async Task DeleteCardsAsync(List<CardEntity> cards)
+        {
+            _dbContext.Cards.RemoveRange(cards);
+            await _dbContext.SaveChangesAsync();
+        }
 
         public async Task<CardEntity> GetCardAsync(int id)
         {

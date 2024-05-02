@@ -8,8 +8,9 @@ namespace Card.Host.Services.Interfaces
     {
         Task<List<CardDto>> GetCardsAsync(int listId);
         Task<CardDto> GetCardAsync(int id);
-        Task AddCardAsync(CardRequest card);
+        Task AddCardAsync(AddCardRequest card);
         Task DeleteCardAsync(int id);
-        Task PatchCardAsync(int id, JsonPatchDocument<CardRequest> card);
+        Task DeleteCardsAsync(int id);
+        Task PatchCardAsync(int id, JsonPatchDocument<UpdateCardRequest> card);
     }
 }

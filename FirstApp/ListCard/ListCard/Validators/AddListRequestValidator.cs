@@ -3,9 +3,9 @@ using ListCard.Data.Requests;
 
 namespace ListCard.Validators
 {
-    public class ListRequestValidator : AbstractValidator<ListRequest>
+    public class AddListRequestValidator : AbstractValidator<AddListRequest>
     {
-        public ListRequestValidator()
+        public AddListRequestValidator()
         {
             RuleFor(h => h.UserId).NotEmpty();
             RuleFor(x => x.Title).MaximumLength(30);

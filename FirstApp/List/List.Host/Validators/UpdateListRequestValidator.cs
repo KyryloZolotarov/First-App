@@ -3,11 +3,11 @@ using List.Host.Models.Requests;
 
 namespace List.Host.Validators
 {
-    public class ListRequestValidator : AbstractValidator<ListRequest>
+    public class UpdateListRequestValidator : AbstractValidator<UpdateListRequest>
     {
-        public ListRequestValidator()
+        public UpdateListRequestValidator()
         {
-            RuleFor(h => h.UserId).NotEmpty();
+            RuleFor(h => h.UserId);
             RuleFor(x => x.Title).MaximumLength(30);
         }
     }

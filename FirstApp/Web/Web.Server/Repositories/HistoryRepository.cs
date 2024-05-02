@@ -25,6 +25,13 @@ namespace Web.Server.Repositories
             HttpMethod.Post, record);
         }
 
+        public async Task AddRecordsAsync(List<RecordRequest> record)
+        {
+            await _httpClient.SendAsync<List<RecordRequest>>(
+                $"{_settings.Value.HistoryUrl}/history/list",
+            HttpMethod.Post, record);
+        }
+
         public async Task<PaginatedRecordsResponse<RecordDto>> GetCardRecordsAsync(PaginatedRecordsRequest<int> param)
         {
             return await _httpClient.SendAsync<PaginatedRecordsResponse<RecordDto>, PaginatedRecordsRequest<int>>(

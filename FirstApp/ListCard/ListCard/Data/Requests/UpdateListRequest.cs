@@ -1,6 +1,6 @@
-﻿namespace Web.Server.Data.Requests
+﻿namespace ListCard.Data.Requests
 {
-    public class ListRequest
+    public class UpdateListRequest
     {
         public string Title { get; set; }
         public string UserId { get; set; }

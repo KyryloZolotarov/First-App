@@ -2,7 +2,7 @@
 
 namespace Web.Server.Data.Requests
 {
-    public class CardRequest
+    public class AddCardRequest
     {
         public string Name { get; set; }
         public string Description { get; set; }

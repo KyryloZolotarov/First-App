@@ -26,7 +26,7 @@ namespace List.Host.Services
             _listRepository = listRepository;
         }
 
-        public async Task AddListAsync(ListRequest list)
+        public async Task AddListAsync(AddListRequest list)
         {
             await ExecuteSafeAsync(async () =>
             {
@@ -56,11 +56,11 @@ namespace List.Host.Services
             });
         }
 
-        public async Task PatchListAsync(int listId, JsonPatchDocument<ListRequest> list)
+        public async Task PatchListAsync(int listId, JsonPatchDocument<UpdateListRequest> list)
         {
             await ExecuteSafeAsync(async () =>
             {
-                var listExists = _mapper.Map<ListRequest>( await ExecuteSafeAsync(async () => await _listRepository.GetListAsync(listId)));
+                var listExists = _mapper.Map<UpdateListRequest>( await ExecuteSafeAsync(async () => await _listRepository.GetListAsync(listId)));
                 if (listExists == null) throw new BusinessException($"List with id: {listId} not found");
                 list.ApplyTo(listExists);
                 var updateList = _mapper.Map<ListEntity>(listExists);

@@ -9,6 +9,7 @@ namespace Web.Server.Repositories.Interfaces
     public interface IHistoryRepository
     {
         Task AddRecordAsync(RecordRequest record);
+        Task AddRecordsAsync(List<RecordRequest> record);
         Task<PaginatedRecordsResponse<RecordDto>> GetCardRecordsAsync(PaginatedRecordsRequest<int> param);
         Task<PaginatedRecordsResponse<RecordDto>> GetUserRecordsAsync(PaginatedRecordsRequest<string> param);
     }

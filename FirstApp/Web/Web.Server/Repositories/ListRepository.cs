@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Services.Interfaces;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.Extensions.Options;
 using Web.Server.Data.Requests;
 using Web.Server.Repositories.Interfaces;
@@ -16,9 +17,9 @@ namespace Web.Server.Repositories
             _settings = settings;
         }        
 
-        public async Task AddListAsync(ListRequest list)
+        public async Task AddListAsync(AddListRequest list)
         {
-            await _httpClient.SendAsync<ListRequest>(
+            await _httpClient.SendAsync<AddListRequest>(
                 $"{_settings.Value.ListCardUrl}/lists/",
             HttpMethod.Post, list);
         }
@@ -37,7 +38,7 @@ namespace Web.Server.Repositories
             HttpMethod.Get, userId);
         }
 
-        public async Task PatchListAsync(int id, ListRequest list)
+        public async Task PatchListAsync(int id, JsonPatchDocument<UpdateListRequest> list)
         {
             await _httpClient.SendAsync(
                 $"{_settings.Value.ListCardUrl}/lists/{id}",
