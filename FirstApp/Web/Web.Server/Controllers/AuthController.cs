@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using Web.Server.Data.Models;
 using Web.Server.Data.Requests;
-using Web.Server.Models;
 using Web.Server.Services.Interfaces;
 
 namespace Web.Server.Controllers

@@ -9,7 +9,6 @@ namespace List.Host.Services.Interfaces
         Task AddListAsync(ListRequest list);
         Task PatchListAsync(int listId, JsonPatchDocument<ListRequest> list);
         Task DeleteListAsync(int listId);
-        Task<ListDto> GetListAsync(int listId);
         Task<List<ListDto>> GetListsAsync(string userId);
     }
 }

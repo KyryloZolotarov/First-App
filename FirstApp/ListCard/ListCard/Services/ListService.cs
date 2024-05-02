@@ -31,13 +31,6 @@ namespace ListCard.Services
             await _listRepository.DeleteListAsync(id);
         }
 
-        public async Task<ListDto> GetListAsync(int listId)
-        {
-            var list = await _listRepository.GetListAsync(listId);
-            var cards = await _cardRepository.GetCardsAsync(listId);
-            return new ListDto() { UserId = list.UserId, Title = list.Title, Id = list.Id, Cards = cards };
-        }
-
         public async Task<UserListDto> GetListsAsync(string userId)
         {
             var lists = await _listRepository.GetListsAsync(userId);

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Web.Server.Data.Dtos;
+using Web.Server.Data.Models;
 using Web.Server.Data.Requests;
-using Web.Server.Models;
 using Web.Server.Repositories.Interfaces;
 using Web.Server.Services.Interfaces;
 

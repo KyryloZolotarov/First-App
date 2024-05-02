@@ -8,7 +8,7 @@ using System.Net;
 
 namespace History.Host.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("history")]
     [ApiController]
     public class HistoryController : ControllerBase
     {

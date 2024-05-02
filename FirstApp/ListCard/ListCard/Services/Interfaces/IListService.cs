@@ -9,7 +9,6 @@ namespace ListCard.Services.Interfaces
         Task AddListAsync(ListRequest list);
         Task PatchListAsync(int id, ListRequest list);
         Task DeleteListAsync(int id);
-        Task<ListDto> GetListAsync(int listId);
         Task<UserListDto> GetListsAsync(string userId);
     }
 }

@@ -1,11 +1,9 @@
 ﻿using Infrastructure.Services.Interfaces;
-using ListCard.Data.Requests;
-using ListCard.Data.Responses;
-using ListCard.Repositories.Interfaces;
 using Microsoft.Extensions.Options;
-using System.Collections.Generic;
+using Web.Server.Data.Requests;
+using Web.Server.Repositories.Interfaces;
 
-namespace ListCard.Repositories
+namespace Web.Server.Repositories
 {
     public class ListRepository : IListRepository
     {
@@ -16,34 +14,33 @@ namespace ListCard.Repositories
         {
             _httpClient = httpClient;
             _settings = settings;
-        }
+        }        
 
         public async Task AddListAsync(ListRequest list)
         {
             await _httpClient.SendAsync<ListRequest>(
-                $"{_settings.Value.ListUrl}/lists/",
+                $"{_settings.Value.ListCardUrl}/lists/",
             HttpMethod.Post, list);
         }
 
         public async Task DeleteListAsync(int id)
         {
             await _httpClient.SendAsync(
-                $"{_settings.Value.ListUrl}/lists/{id}",
+                $"{_settings.Value.ListCardUrl}/lists/{id}",
             HttpMethod.Delete);
         }
 
-        public async Task<List<ListResponse>> GetListsAsync(string userId)
+        public async Task<UserListDto> GetListsAsync(string userId)
         {
-            var result = await _httpClient.SendAsync<IEnumerable<ListResponse>, string>(
-                $"{_settings.Value.ListUrl}/lists/",
+            return await _httpClient.SendAsync<UserListDto, string>(
+                $"{_settings.Value.ListCardUrl}/lists/",
             HttpMethod.Get, userId);
-            return result.ToList();
         }
 
         public async Task PatchListAsync(int id, ListRequest list)
         {
             await _httpClient.SendAsync(
-                $"{_settings.Value.ListUrl}/lists/{id}",
+                $"{_settings.Value.ListCardUrl}/lists/{id}",
             HttpMethod.Patch, list);
         }
     }

@@ -27,14 +27,6 @@ namespace List.Host.Controllers
             return Ok(result);
         }
 
-        [HttpGet("{id}")]
-        [ProducesResponseType(typeof(ListDto), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> GetList(int id)
-        {
-            var result = await _listService.GetListAsync(id);
-            return Ok(result);
-        }
-
         [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<IActionResult> AddList([FromBody] ListRequest list)

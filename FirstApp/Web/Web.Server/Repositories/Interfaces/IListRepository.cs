@@ -1,13 +1,12 @@
-﻿using ListCard.Data.Requests;
-using ListCard.Data.Responses;
+﻿using Web.Server.Data.Requests;
 
-namespace ListCard.Repositories.Interfaces
+namespace Web.Server.Repositories.Interfaces
 {
     public interface IListRepository
     {
         Task AddListAsync(ListRequest list);
         Task PatchListAsync(int id, ListRequest list);
         Task DeleteListAsync(int id);
-        Task<List<ListResponse>> GetListsAsync(string userId);
+        Task<UserListDto> GetListsAsync(string userId);
     }
 }

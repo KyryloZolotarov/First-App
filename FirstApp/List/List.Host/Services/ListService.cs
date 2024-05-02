@@ -46,17 +46,6 @@ namespace List.Host.Services
             });
         }
 
-        public async Task<ListDto> GetListAsync(int listId)
-        {
-            return await ExecuteSafeAsync(async () =>
-            {
-                var list = await ExecuteSafeAsync(async () => await _listRepository.GetListAsync(listId));
-                if (list == null) throw new BusinessException($"List with id: {listId} not found");
-                var listResponse = _mapper.Map<ListDto>(list);
-                return (listResponse);
-            });
-        }
-
         public async Task<List<ListDto>> GetListsAsync(string userId)
         {
             return await ExecuteSafeAsync(async () =>

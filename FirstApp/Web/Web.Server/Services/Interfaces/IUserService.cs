@@ -1,5 +1,5 @@
-﻿using Web.Server.Data.Requests;
-using Web.Server.Models;
+﻿using Web.Server.Data.Models;
+using Web.Server.Data.Requests;
 
 namespace Web.Server.Services.Interfaces
 {

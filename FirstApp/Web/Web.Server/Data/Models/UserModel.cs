@@ -1,4 +1,4 @@
-﻿namespace Web.Server.Models
+﻿namespace Web.Server.Data.Models
 {
     public class UserModel
     {

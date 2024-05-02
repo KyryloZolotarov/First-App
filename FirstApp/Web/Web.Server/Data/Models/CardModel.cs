@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Enums;
 
-namespace Web.Server.Models
+namespace Web.Server.Data.Models
 {
     public class CardModel
     {
