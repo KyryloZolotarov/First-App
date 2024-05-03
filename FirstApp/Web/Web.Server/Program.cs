@@ -1,5 +1,8 @@
 using Infrastructure.Services;
 using Infrastructure.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.Extensions.Options;
 using Web.Server;
 using Web.Server.Repositories;
 using Web.Server.Repositories.Interfaces;
@@ -22,7 +25,10 @@ builder.Services.AddTransient<IHistoryRepository, HistoryRepository>();
 builder.Services.AddHttpClient();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IHttpClientService, HttpClientService>();
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.InputFormatters.Insert(0, MyJPIF.GetJsonPatchInputFormatter());
+});
 builder.Services.AddOptions();
 builder.Services.AddMemoryCache();
 builder.Services.AddCors(options =>
@@ -74,4 +80,23 @@ IConfiguration GetConfiguration()
         .AddEnvironmentVariables();
 
     return builder.Build();
+}
+
+public static class MyJPIF
+{
+    public static NewtonsoftJsonPatchInputFormatter GetJsonPatchInputFormatter()
+    {
+        var builder = new ServiceCollection()
+            .AddLogging()
+            .AddMvc()
+            .AddNewtonsoftJson()
+            .Services.BuildServiceProvider();
+
+        return builder
+            .GetRequiredService<IOptions<MvcOptions>>()
+            .Value
+            .InputFormatters
+            .OfType<NewtonsoftJsonPatchInputFormatter>()
+            .First();
+    }
 }

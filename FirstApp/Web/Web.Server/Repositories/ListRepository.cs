@@ -42,7 +42,7 @@ namespace Web.Server.Repositories
         {
             await _httpClient.SendAsync(
                 $"{_settings.Value.ListCardUrl}/lists/{id}",
-            HttpMethod.Patch, list);
+            HttpMethod.Patch, list) ;
         }
     }
 }

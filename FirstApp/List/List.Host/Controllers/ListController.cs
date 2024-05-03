@@ -36,6 +36,7 @@ namespace List.Host.Controllers
         }
 
         [HttpPatch("{id}")]
+        [Consumes("application/json-patch+json")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<IActionResult> PatchList(int id, [FromBody] JsonPatchDocument<UpdateListRequest> list)
         {

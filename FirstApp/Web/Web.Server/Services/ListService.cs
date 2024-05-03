@@ -26,7 +26,7 @@ namespace Web.Server.Services
         {
             await _listRepository.AddListAsync(list);
             var record = new RecordRequest();
-            record.DateTime = DateTime.Now;
+            record.DateTime = DateTime.UtcNow;
             record.Property = "Title";
             record.UserId = list.UserId;
             record.Event = OperationType.Add;
@@ -38,7 +38,7 @@ namespace Web.Server.Services
         {
             await _listRepository.DeleteListAsync(list.Id);
             var record = new RecordRequest();
-            record.DateTime = DateTime.Now;
+            record.DateTime = DateTime.UtcNow;
             record.Property = "Title";
             record.UserId = list.UserId;
             record.Event = OperationType.Remove;

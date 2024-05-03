@@ -39,6 +39,7 @@ namespace ListCard.Controllers
 
 
         [HttpPatch("{id}")]
+        [Consumes("application/json-patch+json")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<IActionResult> PatchCard(int id, [FromBody] JsonPatchDocument<UpdateCardRequest> card)
         {

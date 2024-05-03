@@ -39,7 +39,7 @@ namespace List.Host.Services
         {
             await ExecuteSafeAsync(async () =>
             {
-                var listExists = await ExecuteSafeAsync(async () => await _listRepository.GetListAsync(listId));
+                var listExists =  await _listRepository.GetListAsync(listId);
 
                 if (listExists == null) throw new BusinessException($"List with id: {listId} not found");
                 await _listRepository.DeleteListAsync(listExists);
@@ -50,7 +50,7 @@ namespace List.Host.Services
         {
             return await ExecuteSafeAsync(async () =>
             {
-                var lists = await ExecuteSafeAsync(async () => await _listRepository.GetListsAsync(userId));
+                var lists = await _listRepository.GetListsAsync(userId);
                 var listsResponse = lists.Select(s => _mapper.Map<ListDto>(s)).ToList();
                 return (listsResponse);
             });
@@ -60,12 +60,14 @@ namespace List.Host.Services
         {
             await ExecuteSafeAsync(async () =>
             {
-                var listExists = _mapper.Map<UpdateListRequest>( await ExecuteSafeAsync(async () => await _listRepository.GetListAsync(listId)));
+                var listExists = await _listRepository.GetListAsync(listId);
                 if (listExists == null) throw new BusinessException($"List with id: {listId} not found");
-                list.ApplyTo(listExists);
-                var updateList = _mapper.Map<ListEntity>(listExists);
-                updateList.Id = listId;
-                await _listRepository.UpdateListAsync(updateList);
+
+                var updateListRequest = _mapper.Map<UpdateListRequest>(listExists);
+
+                list.ApplyTo(updateListRequest);
+                _mapper.Map(updateListRequest, listExists);
+                await _listRepository.UpdateListAsync(listExists);
             });
         }
     }

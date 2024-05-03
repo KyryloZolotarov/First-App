@@ -47,7 +47,7 @@ namespace History.Host.Services
 
             return await ExecuteSafeAsync(async () =>
             {
-                var recordsList = await ExecuteSafeAsync(async () => await _historyRepository.GetUserRecordsAsync(param));
+                var recordsList = await _historyRepository.GetUserRecordsAsync(param);
                 var recordsResponse = new PaginatedRecordsResponse<RecordDto>() 
                 { 
                     PageIndex = recordsList.PageIndex,
@@ -62,7 +62,7 @@ namespace History.Host.Services
         {
             return await ExecuteSafeAsync(async () =>
             {
-                var recordsList = await ExecuteSafeAsync(async () => await _historyRepository.GetCardRecordsAsync(param));
+                var recordsList = await _historyRepository.GetCardRecordsAsync(param);
                 var recordsResponse = new PaginatedRecordsResponse<RecordDto>()
                 {
                     PageIndex = recordsList.PageIndex,
