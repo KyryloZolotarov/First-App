@@ -9,7 +9,7 @@ using ListCard.Services.Interfaces;
 var configuration = GetConfiguration();
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Services.Configure<AppSettings>(configuration);
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddTransient<IListService, ListService>();
 builder.Services.AddTransient<IListRepository, ListRepository>();
