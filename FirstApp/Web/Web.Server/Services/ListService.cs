@@ -42,6 +42,7 @@ namespace Web.Server.Services
             record.Property = "Title";
             record.UserId = list.UserId;
             record.Event = OperationType.Remove;
+            await _historyRepository.AddRecordAsync(record);
         }
 
         public async Task<UserListModel> GetListsAsync(string userId)
