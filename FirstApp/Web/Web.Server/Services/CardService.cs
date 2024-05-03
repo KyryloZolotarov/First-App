@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.JsonPatch.Operations;
+using System.Collections.Generic;
 using Web.Server.Data.Models;
 using Web.Server.Data.Requests;
 using Web.Server.Repositories.Interfaces;
@@ -20,14 +22,26 @@ namespace Web.Server.Services
             _mapper = mapper;
     }
 
-        public async Task AddCardAsync(AddCardRequest card)
+        public async Task AddCardAsync(string userId, AddCardRequest card)
         {
             await _cardRepository.AddCardAsync(card);
+            var record = new RecordRequest();
+            record.DateTime = DateTime.Now;
+            record.Property = "Card";
+            record.UserId = userId;
+            record.Event = OperationType.Add;
+            record.Destination = card.Name;
+            await _historyRepository.AddRecordAsync(record);
         }
 
-        public async Task DeleteCardAsync(int id)
+        public async Task DeleteCardAsync(string userId, DeleteCardRequest card)
         {
-            await _cardRepository.DeleteCardAsync(id);
+            await _cardRepository.DeleteCardAsync(card.Id);
+            var record = new RecordRequest();
+            record.DateTime = DateTime.Now;
+            record.Property = "Card";
+            record.UserId = userId;
+            record.Event = OperationType.Remove;
         }
 
         public async Task<CardModel> GetCardAsync(int id)
@@ -37,9 +51,16 @@ namespace Web.Server.Services
             return _mapper.Map<CardModel>(card);
         }
 
-        public async Task PatchCardAsync(int id, JsonPatchDocument<UpdateCardRequest> card)
+        public async Task PatchCardAsync(int cardId, string userId, JsonPatchDocument<UpdateCardRequest> card)
         {
-            await _cardRepository.PatchCardAsync(id, card);
+            await _cardRepository.PatchCardAsync(cardId, card);
+            var operations = card.Operations;
+            var records = new List<RecordRequest>();
+            foreach (var op in operations)
+            {
+                records.Add(new RecordRequest { CardId = cardId, DateTime = DateTime.Now, Event = op.OperationType, Property = op.path, Destination = (string)op.value, Origin = op.from, UserId = userId });
+            }
+            await _historyRepository.AddRecordsAsync(records);
         }
     }
 }

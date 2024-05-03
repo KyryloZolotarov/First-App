@@ -19,13 +19,13 @@ namespace Web.Server.Repositories
 
         public async Task<UserDto> LoginAsync(LoginDto login)
         {
-            return await _httpClient.SendAsync<UserDto, LoginDto>($"{_settings.Value.UserUrl}/user/login",
+            return await _httpClient.SendAsync<UserDto, LoginDto>($"{_settings.Value.UserUrl}/users/login",
                 HttpMethod.Post, login);
         }
 
         public async Task<UserDto> SignUpAsync(UserRequest user)
         {
-            return await _httpClient.SendAsync<UserDto, UserRequest>($"{_settings.Value.UserUrl}/user/signup",
+            return await _httpClient.SendAsync<UserDto, UserRequest>($"{_settings.Value.UserUrl}/users/signup",
                 HttpMethod.Post, user);
         }
     }

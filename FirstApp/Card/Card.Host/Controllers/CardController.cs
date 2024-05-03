@@ -46,7 +46,7 @@ namespace Card.Host.Controllers
 
         [HttpPatch("{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        public async Task<IActionResult> PatchCard(int id, JsonPatchDocument<UpdateCardRequest> card)
+        public async Task<IActionResult> PatchCard(int id, [FromBody] JsonPatchDocument<UpdateCardRequest> card)
         {
             await _cardService.PatchCardAsync(id, card);
             return Ok();

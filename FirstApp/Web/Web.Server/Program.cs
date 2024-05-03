@@ -1,11 +1,24 @@
 using Infrastructure.Services;
 using Infrastructure.Services.Interfaces;
 using Web.Server;
+using Web.Server.Repositories;
+using Web.Server.Repositories.Interfaces;
+using Web.Server.Services;
+using Web.Server.Services.Interfaces;
 
 var configuration = GetConfiguration();
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<AppSettings>(configuration);
 builder.Services.AddAutoMapper(typeof(Program));
+
+builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<IUserRepository, UserRepository>();
+builder.Services.AddTransient<ICardService, CardService>();
+builder.Services.AddTransient<ICardRepository, CardRepository>();
+builder.Services.AddTransient<IListService, ListService>();
+builder.Services.AddTransient<IListRepository, ListRepository>();
+builder.Services.AddTransient<IHistoryService, HistoryService>();
+builder.Services.AddTransient<IHistoryRepository, HistoryRepository>();
 builder.Services.AddHttpClient();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IHttpClientService, HttpClientService>();
@@ -20,14 +33,34 @@ builder.Services.AddCors(options =>
             .AllowAnyHeader()
             .AllowCredentials());
 });
-
+builder.Services.AddAuthentication("CookieAuth")
+            .AddCookie("CookieAuth", options =>
+            {
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                options.Cookie.SameSite = SameSiteMode.None;
+                options.Cookie.Name = "YourAuthCookieName";
+                options.Cookie.HttpOnly = false;
+                // options.ExpireTimeSpan = ...
+                // options.LoginPath = ...
+                // options.LogoutPath = ...
+            });
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("CookieAuth", policy =>
+    {
+        policy.AuthenticationSchemes.Add("CookieAuth");
+        policy.RequireAuthenticatedUser();
+        // Дополнительные требования
+    });
+});
 var app = builder.Build();
 
 app.UseRouting();
 app.UseCors("CorsPolicy");
+app.UseAuthentication();
+app.UseAuthorization();
 app.UseEndpoints(endpoints =>
 {
-    endpoints.MapDefaultControllerRoute();
     endpoints.MapControllers();
 });
 

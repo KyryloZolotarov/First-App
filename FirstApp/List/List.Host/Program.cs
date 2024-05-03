@@ -30,7 +30,6 @@ var app = builder.Build();
 app.UseRouting();
 app.UseEndpoints(endpoints =>
 {
-    endpoints.MapDefaultControllerRoute();
     endpoints.MapControllers();
 });
 

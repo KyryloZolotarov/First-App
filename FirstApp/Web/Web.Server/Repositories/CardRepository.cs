@@ -6,7 +6,7 @@ using Web.Server.Repositories.Interfaces;
 
 namespace Web.Server.Repositories
 {
-    public class CardRepository
+    public class CardRepository : ICardRepository
     {
         private readonly IHttpClientService _httpClient;
         private readonly IOptions<AppSettings> _settings;

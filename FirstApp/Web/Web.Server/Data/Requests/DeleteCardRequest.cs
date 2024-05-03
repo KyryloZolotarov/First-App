@@ -1,8 +1,8 @@
 ﻿using Infrastructure.Enums;
 
-namespace ListCard.Data.Dtos
+namespace Web.Server.Data.Requests
 {
-    public class CardDto
+    public class DeleteCardRequest
     {
         public int Id { get; set; }
         public string Name { get; set; }

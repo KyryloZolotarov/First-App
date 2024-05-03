@@ -8,7 +8,7 @@ using Web.Server.Services.Interfaces;
 
 namespace Web.Server.Controllers
 {
-    [Route("[controller]")]
+    [Route("auth")]
     [ApiController]
     public class AuthController : ControllerBase
     {

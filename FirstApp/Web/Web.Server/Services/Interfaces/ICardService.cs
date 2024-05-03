@@ -7,8 +7,8 @@ namespace Web.Server.Services.Interfaces
     public interface ICardService
     {
         Task<CardModel> GetCardAsync(int id);
-        Task AddCardAsync(AddCardRequest card);
-        Task DeleteCardAsync(int id);
-        Task PatchCardAsync(int id, JsonPatchDocument<UpdateCardRequest> card);
+        Task AddCardAsync(string userId, AddCardRequest card);
+        Task DeleteCardAsync(string userId, DeleteCardRequest card);
+        Task PatchCardAsync(int id, string userId, JsonPatchDocument<UpdateCardRequest> card);
     }
 }

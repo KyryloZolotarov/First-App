@@ -7,7 +7,7 @@ using User.Host.Services.Interfaces;
 
 namespace User.Host.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("users")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -26,9 +26,9 @@ namespace User.Host.Controllers
             return Ok(result);
         }
 
-        [HttpPut]
+        [HttpPut("{userId}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        public async Task<IActionResult> UpdateUserAsync([FromBody] string userId, UserRequest user)
+        public async Task<IActionResult> UpdateUserAsync(string userId, [FromBody] UserRequest user)
         {
             await _userService.UpdateUserAsync(userId, user);
             return Ok();

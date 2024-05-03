@@ -18,12 +18,7 @@ namespace Web.Server.Services
             _mapper = mapper;
         }
 
-        public async Task AddRecordAsync(RecordRequest record)
-        {
-            await _historyRepository.AddRecordAsync(record);
-        }
-
-        public async Task<PaginatedRecordsResponse<RecordModel>> GetCardRecorrdsAsync(PaginatedRecordsRequest<int> param)
+        public async Task<PaginatedRecordsResponse<RecordModel>> GetCardRecordsAsync(PaginatedRecordsRequest<int> param)
         {
             var records = await _historyRepository.GetCardRecordsAsync(param);
             var mappedRecords = _mapper.Map<PaginatedRecordsResponse<RecordModel>>(records);

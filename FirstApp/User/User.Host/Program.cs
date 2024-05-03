@@ -11,6 +11,7 @@ using User.Host.Services.Interfaces;
 var configuration = GetConfiguration();
 
 var builder = WebApplication.CreateBuilder(args);
+
 builder.Services.AddAutoMapper(typeof(Program));
 
 builder.Services.AddTransient<IUserService, UserService>();
@@ -28,7 +29,6 @@ var app = builder.Build();
 app.UseRouting();
 app.UseEndpoints(endpoints =>
 {
-    endpoints.MapDefaultControllerRoute();
     endpoints.MapControllers();
 });
 

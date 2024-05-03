@@ -21,7 +21,7 @@ namespace ListCard.Repositories
 
         public async Task AddListAsync(AddListRequest list)
         {
-            await _httpClient.SendAsync<AddListRequest>(
+            await _httpClient.SendAsync(
                 $"{_settings.Value.ListUrl}/lists/",
             HttpMethod.Post, list);
         }
