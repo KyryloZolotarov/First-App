@@ -9,8 +9,6 @@ namespace Card.Host.Validators
             {
                 RuleFor(h => h.Name).MaximumLength(30);
                 RuleFor(x => x.Description).MaximumLength(300);
-                RuleFor(x => x.Priority);
-                RuleFor(x => x.DueDate);
             }
     }
 }

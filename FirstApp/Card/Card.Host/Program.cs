@@ -7,6 +7,9 @@ using Card.Host.Services;
 using Card.Host.Repositories.Interfaces;
 using Card.Host.Repositories;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 var configuration = GetConfiguration();
 
@@ -18,12 +21,14 @@ builder.Services.AddTransient<ICardRepository, CardRepository>();
 builder.Services.AddDbContextFactory<ApplicationDbContext>(opts =>
     opts.UseNpgsql(configuration["ConnectionString"]));
 builder.Services.AddScoped<IDbContextWrapper<ApplicationDbContext>, DbContextWrapper<ApplicationDbContext>>();
-builder.Services.AddControllers();
 builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
 builder.Services.AddOptions();
 builder.Services.AddMemoryCache();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.InputFormatters.Insert(0, MyJPIF.GetJsonPatchInputFormatter());
+});
 
 var app = builder.Build();
 
@@ -61,5 +66,24 @@ void CreateDbIfNotExists(IHost host)
     {
         var logger = services.GetRequiredService<ILogger<Program>>();
         logger.LogError(ex, "An error occurred creating the DB.");
+    }
+}
+
+public static class MyJPIF
+{
+    public static NewtonsoftJsonPatchInputFormatter GetJsonPatchInputFormatter()
+    {
+        var builder = new ServiceCollection()
+            .AddLogging()
+            .AddMvc()
+            .AddNewtonsoftJson()
+            .Services.BuildServiceProvider();
+
+        return builder
+            .GetRequiredService<IOptions<MvcOptions>>()
+            .Value
+            .InputFormatters
+            .OfType<NewtonsoftJsonPatchInputFormatter>()
+            .First();
     }
 }

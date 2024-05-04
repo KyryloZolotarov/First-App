@@ -19,9 +19,9 @@ namespace ListCard.Services
             _cardRepository = cardRepository;
         }
 
-        public async Task AddCardAsync(AddCardRequest card)
+        public async Task<int> AddCardAsync(AddCardRequest card)
         {
-            await _cardRepository.AddCardAsync(card);
+            return await _cardRepository.AddCardAsync(card);
         }
 
         public async Task DeleteCardAsync(int id)

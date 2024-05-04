@@ -5,7 +5,9 @@ using History.Host.Services;
 using History.Host.Services.Interfaces;
 using Infrastructure.Services;
 using Infrastructure.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using TestCatalog.Host.Data;
 
 var configuration = GetConfiguration();

@@ -18,9 +18,9 @@ namespace ListCard.Repositories
             _httpClient = httpClient;
             _settings = settings;
         }
-        public async Task AddCardAsync(AddCardRequest card)
+        public async Task<int> AddCardAsync(AddCardRequest card)
         {
-            await _httpClient.SendAsync<AddCardRequest>(
+            return await _httpClient.SendAsync<int, AddCardRequest>(
                 $"{_settings.Value.CardUrl}/cards/",
             HttpMethod.Post, card);
         }

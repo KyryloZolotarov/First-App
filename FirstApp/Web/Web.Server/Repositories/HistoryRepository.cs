@@ -35,14 +35,14 @@ namespace Web.Server.Repositories
         public async Task<PaginatedRecordsResponse<RecordDto>> GetCardRecordsAsync(PaginatedRecordsRequest<int> param)
         {
             return await _httpClient.SendAsync<PaginatedRecordsResponse<RecordDto>, PaginatedRecordsRequest<int>>(
-                $"{_settings.Value.HistoryUrl}/history/",
+                $"{_settings.Value.HistoryUrl}/history/cardRecords",
             HttpMethod.Get, param);
         }
 
         public async Task<PaginatedRecordsResponse<RecordDto>> GetUserRecordsAsync(PaginatedRecordsRequest<string> param)
         {
             return await _httpClient.SendAsync<PaginatedRecordsResponse<RecordDto>, PaginatedRecordsRequest<string>>(
-                $"{_settings.Value.HistoryUrl}/history/",
+                $"{_settings.Value.HistoryUrl}/history/userRecords",
             HttpMethod.Get, param);
         }
     }

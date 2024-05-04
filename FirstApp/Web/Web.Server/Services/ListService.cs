@@ -58,7 +58,7 @@ namespace Web.Server.Services
             var records = new List<RecordRequest>();
             foreach (var op in operations)
             {
-                records.Add(new RecordRequest { CardId = id, DateTime = DateTime.Now, Event = op.OperationType, Property = op.path, Destination = (string)op.value, Origin = op.from, UserId = userId });
+                records.Add(new RecordRequest { DateTime = DateTime.UtcNow, Event = op.OperationType, Property = op.path, Destination = (string)op.value, Origin = op.from, UserId = userId });
             }
             await _historyRepository.AddRecordsAsync(records);
         }

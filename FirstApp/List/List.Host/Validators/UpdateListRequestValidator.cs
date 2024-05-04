@@ -7,7 +7,6 @@ namespace List.Host.Validators
     {
         public UpdateListRequestValidator()
         {
-            RuleFor(h => h.UserId);
             RuleFor(x => x.Title).MaximumLength(30);
         }
     }

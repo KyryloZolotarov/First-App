@@ -21,14 +21,24 @@ namespace Web.Server.Services
         public async Task<PaginatedRecordsResponse<RecordModel>> GetCardRecordsAsync(PaginatedRecordsRequest<int> param)
         {
             var records = await _historyRepository.GetCardRecordsAsync(param);
-            var mappedRecords = _mapper.Map<PaginatedRecordsResponse<RecordModel>>(records);
+            var mappedRecords = new PaginatedRecordsResponse<RecordModel>()
+            {
+                PageIndex = records.PageIndex,
+                PageSize = records.PageSize,
+                Records = records.Records.Select(s => _mapper.Map<RecordModel>(s)).ToList()
+            };
             return mappedRecords;
         }
 
         public async Task<PaginatedRecordsResponse<RecordModel>> GetUserRecordsAsync(PaginatedRecordsRequest<string> param)
         {
             var records = await _historyRepository.GetUserRecordsAsync(param);
-            var mappedRecords = _mapper.Map<PaginatedRecordsResponse<RecordModel>>(records);
+            var mappedRecords = new PaginatedRecordsResponse<RecordModel>()
+            {
+                PageIndex = records.PageIndex,
+                PageSize = records.PageSize,
+                Records = records.Records.Select(s => _mapper.Map<RecordModel>(s)).ToList()
+            };
             return mappedRecords;
         }
     }

@@ -20,20 +20,17 @@ namespace Web.Server.Controllers
             _historyService = historyService;
         }
 
-        [HttpGet]
+        [HttpGet("cardRecords")]
         [ProducesResponseType(typeof(PaginatedRecordsResponse<RecordModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetCardRecordsAsync(PaginatedRecordsRequest<int> param)
         {
             return Ok(await _historyService.GetCardRecordsAsync(param));
         }
 
-        [HttpGet]
+        [HttpGet("userRecords")]
         [ProducesResponseType(typeof(PaginatedRecordsResponse<RecordModel>), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> GetÚserRecordsAsync(int pageSize, int pageIndex)
+        public async Task<IActionResult> GetÚserRecordsAsync(PaginatedRecordsRequest<string> param)
         {
-            var param = new PaginatedRecordsRequest<string>();
-            param.PageSize = pageSize;
-            param.PageIndex = pageIndex;
             param.Id = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid)?.Value;
             return Ok(await _historyService.GetUserRecordsAsync(param));
         }

@@ -24,12 +24,13 @@ namespace Web.Server.Services
 
         public async Task AddCardAsync(string userId, AddCardRequest card)
         {
-            await _cardRepository.AddCardAsync(card);
+            var id = await _cardRepository.AddCardAsync(card);
             var record = new RecordRequest();
-            record.DateTime = DateTime.Now;
+            record.DateTime = DateTime.UtcNow;
             record.Property = "Card";
             record.UserId = userId;
             record.Event = OperationType.Add;
+            record.CardId = id;
             record.Destination = card.Name;
             await _historyRepository.AddRecordAsync(record);
         }
@@ -38,10 +39,12 @@ namespace Web.Server.Services
         {
             await _cardRepository.DeleteCardAsync(card.Id);
             var record = new RecordRequest();
-            record.DateTime = DateTime.Now;
+            record.DateTime = DateTime.UtcNow;
             record.Property = "Card";
             record.UserId = userId;
             record.Event = OperationType.Remove;
+            record.CardId = card.Id;
+            await _historyRepository.AddRecordAsync(record);
         }
 
         public async Task<CardModel> GetCardAsync(int id)
@@ -58,7 +61,7 @@ namespace Web.Server.Services
             var records = new List<RecordRequest>();
             foreach (var op in operations)
             {
-                records.Add(new RecordRequest { CardId = cardId, DateTime = DateTime.Now, Event = op.OperationType, Property = op.path, Destination = (string)op.value, Origin = op.from, UserId = userId });
+                records.Add(new RecordRequest { CardId = cardId, DateTime = DateTime.UtcNow, Event = op.OperationType, Property = op.path, Destination = op.value.ToString(), Origin = op.from, UserId = userId });
             }
             await _historyRepository.AddRecordsAsync(records);
         }

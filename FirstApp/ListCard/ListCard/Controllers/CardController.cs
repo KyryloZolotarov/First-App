@@ -30,11 +30,10 @@ namespace ListCard.Controllers
 
 
         [HttpPost]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> AddCard([FromBody] AddCardRequest card)
         {
-            await _cardService.AddCardAsync(card);
-            return Ok();
+            return Ok(await _cardService.AddCardAsync(card));
         }
 
 

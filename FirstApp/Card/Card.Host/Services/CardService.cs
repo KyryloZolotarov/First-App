@@ -27,12 +27,13 @@ namespace Card.Host.Services
             _cardRepository = cardRepository;
         }
 
-        public async Task AddCardAsync(AddCardRequest card)
+        public async Task<int> AddCardAsync(AddCardRequest card)
         {
-            await ExecuteSafeAsync(async () =>
+            return await ExecuteSafeAsync(async () =>
             {
                 var cardToDb = _mapper.Map<CardEntity>(card);
                 await _cardRepository.AddCardAsync(cardToDb);
+                return cardToDb.Id;
             });
         }
 
@@ -82,12 +83,12 @@ namespace Card.Host.Services
         {
             await ExecuteSafeAsync(async () =>
             {
-                var cardExists = _mapper.Map<UpdateCardRequest>( await _cardRepository.GetCardAsync(id));
+                var cardExists = await _cardRepository.GetCardAsync(id);
                 if (cardExists == null) throw new BusinessException($"Card with id: {id} not found");
-                card.ApplyTo(cardExists);
-                var updatedCard = _mapper.Map<CardEntity>(cardExists);
-                updatedCard.Id = id;
-                await _cardRepository.UpdateCardAsync(updatedCard);
+                var updateCardRequest = _mapper.Map<UpdateCardRequest>(cardExists);
+                card.ApplyTo(updateCardRequest);
+                _mapper.Map(updateCardRequest, cardExists);
+                await _cardRepository.UpdateCardAsync(cardExists);
             });
         }
     }

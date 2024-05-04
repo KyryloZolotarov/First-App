@@ -19,7 +19,7 @@ namespace History.Host.Controllers
             _historyService = historyService;
         }
 
-        [HttpGet]
+        [HttpGet("userRecords")]
         [ProducesResponseType(typeof(PaginatedRecordsResponse<RecordDto>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetUserRecords([FromBody] PaginatedRecordsRequest<string> param)
         {
@@ -27,7 +27,7 @@ namespace History.Host.Controllers
             return Ok(result);
         }
 
-        [HttpGet]
+        [HttpGet("cardRecords")]
         [ProducesResponseType(typeof(PaginatedRecordsResponse<RecordDto>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetCardRecords([FromBody] PaginatedRecordsRequest<int> param)
         {

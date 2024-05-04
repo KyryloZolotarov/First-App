@@ -8,7 +8,7 @@ namespace ListCard.Repositories.Interfaces
     {
         Task<List<CardDto>> GetCardsAsync(int listId);
         Task<CardDto> GetCardAsync(int id);
-        Task AddCardAsync(AddCardRequest card);
+        Task<int> AddCardAsync(AddCardRequest card);
         Task DeleteCardAsync(int id);
         Task PatchCardAsync(int id, JsonPatchDocument<UpdateCardRequest> card);
         Task DeleteCardsByListAsync(int id);

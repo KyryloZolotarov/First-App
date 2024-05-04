@@ -46,6 +46,7 @@ namespace Web.Server.Controllers
         }
 
         [HttpPatch("{id}")]
+        [Consumes("application/json-patch+json")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<IActionResult> PatchCardAsync(int id, [FromBody] JsonPatchDocument<UpdateCardRequest> card)
         {
