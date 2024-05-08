@@ -26,12 +26,12 @@ namespace List.Host.Services
             _listRepository = listRepository;
         }
 
-        public async Task AddListAsync(AddListRequest list)
+        public async Task<int> AddListAsync(AddListRequest list)
         {
-            await ExecuteSafeAsync(async () =>
+            return await ExecuteSafeAsync(async () =>
             {
-                var listToDb = _mapper.Map<ListEntity>(list);
-                await _listRepository.AddListAsync(listToDb);
+                var listToDb = _mapper.Map<ListEntity>(list);                
+                return await _listRepository.AddListAsync(listToDb);
             });
         }
 

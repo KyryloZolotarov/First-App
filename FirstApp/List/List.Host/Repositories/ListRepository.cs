@@ -17,10 +17,11 @@ namespace List.Host.Repositories
             _dbContext = dbContextWrapper.DbContext;
         }
 
-        public async Task AddListAsync(ListEntity  list)
+        public async Task<int> AddListAsync(ListEntity  list)
         {
-            await _dbContext.Lists.AddAsync(list);
+            var listAdded = await _dbContext.Lists.AddAsync(list);
             await _dbContext.SaveChangesAsync();
+            return listAdded.Entity.Id;
         }
 
         public async Task DeleteListAsync(ListEntity list)

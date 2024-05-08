@@ -1,0 +1,12 @@
+<div style="padding: 10px;">
+    <button 
+        class="px-4 py-2 bg-transparent border-dotted border-2 border-gray-500 text-gray-500 rounded hover:bg-gray-500 hover:text-white hover:border-gray-600"
+        style="width: 100%; margin-bottom: 10px;"
+        (click)="openModal()">+ Add new card</button>
+    <app-add-card *ngIf="isModalOpen" [availableLists]="availableListsInput" (cardAdded)="onCardAdded($event)" (close)="closeModal()"></app-add-card>
+    <div style="width: 100%;">
+        <div *ngFor="let item of singleList.cards" style="margin-bottom: 20px;">
+            <app-card [card]="item" (cardDeleted)="onCardDeleted($event)"></app-card>
+        </div>
+    </div>
+</div>

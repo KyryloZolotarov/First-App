@@ -17,9 +17,9 @@ namespace Web.Server.Repositories
             _settings = settings;
         }        
 
-        public async Task AddListAsync(AddListRequest list)
+        public async Task<int> AddListAsync(AddListRequest list)
         {
-            await _httpClient.SendAsync<AddListRequest>(
+            return await _httpClient.SendAsync<int, AddListRequest>(
                 $"{_settings.Value.ListCardUrl}/lists/",
             HttpMethod.Post, list);
         }

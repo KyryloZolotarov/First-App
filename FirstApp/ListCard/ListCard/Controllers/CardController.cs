@@ -33,7 +33,8 @@ namespace ListCard.Controllers
         [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> AddCard([FromBody] AddCardRequest card)
         {
-            return Ok(await _cardService.AddCardAsync(card));
+            var cardId = await _cardService.AddCardAsync(card);
+            return Ok(cardId);
         }
 
 

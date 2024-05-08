@@ -31,9 +31,8 @@ namespace Card.Host.Services
         {
             return await ExecuteSafeAsync(async () =>
             {
-                var cardToDb = _mapper.Map<CardEntity>(card);
-                await _cardRepository.AddCardAsync(cardToDb);
-                return cardToDb.Id;
+                var cardToDb = _mapper.Map<CardEntity>(card);                
+                return await _cardRepository.AddCardAsync(cardToDb);
             });
         }
 

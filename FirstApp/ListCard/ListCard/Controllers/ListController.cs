@@ -28,11 +28,11 @@ namespace ListCard.Controllers
 
 
         [HttpPost]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> AddList([FromBody] AddListRequest list)
         {
-            await _listService.AddListAsync(list);
-            return Ok();
+            var listId = await _listService.AddListAsync(list);
+            return Ok(listId);
         }
 
 

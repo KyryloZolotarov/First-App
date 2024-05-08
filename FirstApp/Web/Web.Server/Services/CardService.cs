@@ -22,7 +22,7 @@ namespace Web.Server.Services
             _mapper = mapper;
     }
 
-        public async Task AddCardAsync(string userId, AddCardRequest card)
+        public async Task<int> AddCardAsync(string userId, AddCardRequest card)
         {
             var id = await _cardRepository.AddCardAsync(card);
             var record = new RecordRequest();
@@ -33,6 +33,7 @@ namespace Web.Server.Services
             record.CardId = id;
             record.Destination = card.Name;
             await _historyRepository.AddRecordAsync(record);
+            return id;
         }
 
         public async Task DeleteCardAsync(string userId, DeleteCardRequest card)

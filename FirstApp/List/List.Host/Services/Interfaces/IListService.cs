@@ -6,7 +6,7 @@ namespace List.Host.Services.Interfaces
 {
     public interface IListService
     {
-        Task AddListAsync(AddListRequest list);
+        Task<int> AddListAsync(AddListRequest list);
         Task PatchListAsync(int listId, JsonPatchDocument<UpdateListRequest> list);
         Task DeleteListAsync(int listId);
         Task<List<ListDto>> GetListsAsync(string userId);

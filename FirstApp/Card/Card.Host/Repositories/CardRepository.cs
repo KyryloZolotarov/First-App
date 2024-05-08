@@ -15,10 +15,11 @@ namespace Card.Host.Repositories
             _dbContext = dbContextWrapper.DbContext;
         }
 
-        public async Task AddCardAsync(CardEntity card)
+        public async Task<int> AddCardAsync(CardEntity card)
         {
-            await _dbContext.Cards.AddAsync(card);
+            var cardAdded = await _dbContext.Cards.AddAsync(card);
             await _dbContext.SaveChangesAsync();
+            return cardAdded.Entity.Id;
         }
 
         public async Task DeleteCardAsync(CardEntity card)
@@ -39,7 +40,7 @@ namespace Card.Host.Repositories
 
         public async Task<List<CardEntity>> GetCardsAsync(int listId)
         {
-            return await _dbContext.Cards.Where(c => c.Id == listId).ToListAsync();
+            return await _dbContext.Cards.Where(c => c.ListId == listId).ToListAsync();
         }
 
         public async Task UpdateCardAsync(CardEntity card)

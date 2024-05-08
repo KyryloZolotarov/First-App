@@ -22,9 +22,9 @@ namespace ListCard.Services
             _listRepository = listRepository;
         }
 
-        public async Task AddListAsync(AddListRequest list)
+        public async Task<int> AddListAsync(AddListRequest list)
         {
-            await _listRepository.AddListAsync(list);
+            return await _listRepository.AddListAsync(list);
         }
 
         public async Task DeleteListAsync(int id)

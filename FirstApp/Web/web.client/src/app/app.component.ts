@@ -1,12 +1,5 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-
-interface WeatherForecast {
-  date: string;
-  temperatureC: number;
-  temperatureF: number;
-  summary: string;
-}
+import { AuthService } from './auth/AuthProvider';
 
 @Component({
   selector: 'app-root',
@@ -14,24 +7,20 @@ interface WeatherForecast {
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit {
-  public forecasts: WeatherForecast[] = [];
-
-  constructor(private http: HttpClient) {}
+  public isAuthenticated: boolean = false;
+  constructor(private authService: AuthService) {}
 
   ngOnInit() {
-    this.getForecasts();
+    this.authService.checkAuth(); // Вызываем метод checkAuth() из сервиса AuthService
+    this.authService.isAuthenticated$.subscribe(isAuthenticated => {
+      this.isAuthenticated = isAuthenticated; // Обновляем значение isAuthenticated
+    });
   }
 
-  getForecasts() {
-    this.http.get<WeatherForecast[]>('/weatherforecast').subscribe(
-      (result) => {
-        this.forecasts = result;
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
+  toggleAuth(): void {
+    this.isAuthenticated = !this.isAuthenticated;
   }
+  
 
   title = 'web.client';
 }

@@ -28,12 +28,12 @@ namespace Web.Server.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> AddCardAsync([FromBody] AddCardRequest card)
         {
             var userId = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid)?.Value;
-            await _cardService.AddCardAsync(userId, card);
-            return Ok();
+            var id = await _cardService.AddCardAsync(userId, card);
+            return Ok(id);
         }
 
         [HttpDelete("{id}")]

@@ -22,9 +22,9 @@ namespace Web.Server.Services
             _mapper = mapper;
         }
 
-        public async Task AddListAsync(AddListRequest list)
+        public async Task<int> AddListAsync(AddListRequest list)
         {
-            await _listRepository.AddListAsync(list);
+            var listId = await _listRepository.AddListAsync(list);
             var record = new RecordRequest();
             record.DateTime = DateTime.UtcNow;
             record.Property = "Title";
@@ -32,6 +32,7 @@ namespace Web.Server.Services
             record.Event = OperationType.Add;
             record.Destination = list.Title;
             await _historyRepository.AddRecordAsync(record);
+            return listId;
         }
 
         public async Task DeleteListAsync(DeleteListRequest list)

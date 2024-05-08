@@ -5,7 +5,7 @@ namespace List.Host.Repositories.Interfaces
 {
     public interface IListRepository
     {
-        Task AddListAsync(ListEntity list);
+        Task<int> AddListAsync(ListEntity list);
         Task UpdateListAsync(ListEntity list);
         Task DeleteListAsync(ListEntity list);
         Task<ListEntity> GetListAsync(int listId);

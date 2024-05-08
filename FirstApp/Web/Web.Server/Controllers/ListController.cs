@@ -29,13 +29,13 @@ namespace Web.Server.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> AddListAsync([FromBody] AddListRequest list)
         {
             var userId = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid)?.Value;
             list.UserId = userId;
-            await _listService.AddListAsync(list);
-            return Ok();
+            var listId = await _listService.AddListAsync(list);
+            return Ok(listId);
         }
 
         [HttpDelete("{id}")]
