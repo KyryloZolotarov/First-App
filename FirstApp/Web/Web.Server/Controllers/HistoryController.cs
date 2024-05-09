@@ -20,14 +20,14 @@ namespace Web.Server.Controllers
             _historyService = historyService;
         }
 
-        [HttpGet("cardRecords")]
+        [HttpPost("cardRecords")]
         [ProducesResponseType(typeof(PaginatedRecordsResponse<RecordModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetCardRecordsAsync(PaginatedRecordsRequest<int> param)
         {
             return Ok(await _historyService.GetCardRecordsAsync(param));
         }
 
-        [HttpGet("userRecords")]
+        [HttpPost("userRecords")]
         [ProducesResponseType(typeof(PaginatedRecordsResponse<RecordModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetÚserRecordsAsync(PaginatedRecordsRequest<string> param)
         {

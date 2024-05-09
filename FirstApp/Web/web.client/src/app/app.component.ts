@@ -8,6 +8,7 @@ import { AuthService } from './auth/AuthProvider';
 })
 export class AppComponent implements OnInit {
   public isAuthenticated: boolean = false;
+  historyPanelState: boolean = false;
   constructor(private authService: AuthService) {}
 
   ngOnInit() {
@@ -20,7 +21,16 @@ export class AppComponent implements OnInit {
   toggleAuth(): void {
     this.isAuthenticated = !this.isAuthenticated;
   }
-  
+
+  closePanel(): void {
+    console.log("I'm trying to close panel");
+    this.historyPanelState = false;
+    console.log(this.historyPanelState);
+  }
+
+  openPanel(): void {
+    this.historyPanelState = true;
+  }
 
   title = 'web.client';
 }

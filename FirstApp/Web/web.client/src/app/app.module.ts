@@ -9,6 +9,7 @@ import { AuthModule } from './auth/auth.module';
 import { AuthComponent } from './auth/auth.component';
 import axios from 'axios';
 import { WorkDashboardModule } from './work-dashboard/work-dashboard.module';
+import { HistoryPanelModule } from './history-panel/history-panel.module';
 
 axios.defaults.withCredentials = true;
 
@@ -19,7 +20,7 @@ axios.defaults.withCredentials = true;
   imports: [
     BrowserModule, HttpClientModule,
     AppRoutingModule,
-    WorkDashboardModule, AuthModule,
+    WorkDashboardModule, AuthModule, HistoryPanelModule
   ],
   providers: [CookieService],
   bootstrap: [AppComponent]
