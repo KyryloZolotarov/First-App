@@ -27,7 +27,13 @@ export class CardComponent {
   async deleteCard() {
     try {
       console.log("I'm deleting the card");
-      await axios.delete<ICard>(`http://localhost:5007/cards/${this.card.id}`, {data: this.card});
+      let date:Date = new Date(this.card.dueDate);
+      await axios.delete<ICard>(`http://localhost:5007/cards/${this.card.id}`, {data: {
+        name:this.card.name,
+        description:this.card.description,
+        priority:+this.card.priority,
+        listId:+this.card.listId,
+        dueDate:date.toISOString()  }});
       console.log(this.card);
       this.cardDeleted.emit(this.card);
     } catch (error) {
