@@ -45,7 +45,7 @@ services:
     container_name: lde.listcard.api
     build:
       context: .
-      dockerfile: ListCard/ListCard.Host/Dockerfile
+      dockerfile: ListCard/ListCard/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:5000
