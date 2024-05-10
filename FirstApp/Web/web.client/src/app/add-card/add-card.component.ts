@@ -12,6 +12,7 @@ import { ICard } from '../interfaces/card';
 })
 export class AddCardComponent {
   @Input() availableLists!: IAvailableList[];
+  @Input() selectedList!: IAvailableList;
   @Output() close: EventEmitter<void> = new EventEmitter<void>();
   @Output() cardAdded = new EventEmitter<ICard>();
   today: Date;

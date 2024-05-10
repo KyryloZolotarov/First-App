@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ListComponent } from './list.component';
 import { CardModule } from '../card/card.module';
 import { AddCardModule } from '../add-card/add-card.module';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -13,7 +14,8 @@ import { AddCardModule } from '../add-card/add-card.module';
   imports: [
     CommonModule,
     CardModule,
-    AddCardModule
+    AddCardModule,
+    FormsModule
   ],
   exports: [
     ListComponent

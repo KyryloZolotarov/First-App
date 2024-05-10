@@ -52,6 +52,7 @@ namespace History.Host.Services
                 { 
                     PageIndex = recordsList.PageIndex,
                     PageSize = recordsList.PageSize,
+                    TotalCount = recordsList.TotalCount,
                     Records = recordsList.Records.Select(s => _mapper.Map<RecordDto>(s)).ToList() 
                 };
                 return (recordsResponse);
@@ -67,6 +68,7 @@ namespace History.Host.Services
                 {
                     PageIndex = recordsList.PageIndex,
                     PageSize = recordsList.PageSize,
+                    TotalCount = recordsList.TotalCount,
                     Records = recordsList.Records.Select(s => _mapper.Map<RecordDto>(s)).ToList()
                 };
                 return (recordsResponse);

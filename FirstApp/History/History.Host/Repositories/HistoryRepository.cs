@@ -32,15 +32,29 @@ namespace History.Host.Repositories
 
         public async Task<PaginatedRecordsResponse<RecordEntity>> GetUserRecordsAsync(PaginatedRecordsRequest<string> param)
         {
-            var result = await _dbContext.History.Where(c => c.UserId == param.Id).Skip(param.PageSize*param.PageIndex).Take(param.PageSize).ToListAsync();
-            return new PaginatedRecordsResponse<RecordEntity>() { PageSize = param.PageSize, PageIndex = param.PageIndex, Records = result };
+            IQueryable<RecordEntity> query = _dbContext.History;
+            var count = await query.Where(c => c.UserId == param.Id).CountAsync();
+            var result = await query.Where(c => c.UserId == param.Id)
+                                    .Skip(param.PageSize * param.PageIndex)
+                                    .Take(param.PageSize)
+                                    .ToListAsync();
+
+            return new PaginatedRecordsResponse<RecordEntity>()
+            {
+                PageSize = param.PageSize,
+                PageIndex = param.PageIndex,
+                TotalCount = count,
+                Records = result
+            };
         }
 
         
         public async Task<PaginatedRecordsResponse<RecordEntity>> GetCardRecordsAsync(PaginatedRecordsRequest<int> param)
         {
-            var result = await _dbContext.History.Where(c => c.CardId == param.Id).Skip(param.PageSize * param.PageIndex).Take(param.PageSize).ToListAsync();
-            return new PaginatedRecordsResponse<RecordEntity>() { PageSize = param.PageSize, PageIndex = param.PageIndex, Records = result };
+            IQueryable<RecordEntity> query = _dbContext.History;
+            var count = await query.Where(c => c.CardId == param.Id).CountAsync();
+            var result = await query.Where(c => c.CardId == param.Id).Skip(param.PageSize * param.PageIndex).Take(param.PageSize).ToListAsync();
+            return new PaginatedRecordsResponse<RecordEntity>() { PageSize = param.PageSize, PageIndex = param.PageIndex, TotalCount = count, Records = result };
         }
     }
 }

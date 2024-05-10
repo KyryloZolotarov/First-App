@@ -1,8 +1,10 @@
+import { OperationType } from "./operationType";
+
 export interface IRecord {    
-    "Id": number,
-    "Event":string,
-    "Property":string,
-    "Origin": string,
-    "Destination":string,
-    "DateTime": Date,
+    "id": number,
+    "event":OperationType,
+    "property":string,
+    "origin": string,
+    "destination":string,
+    "dateTime": Date,
 }

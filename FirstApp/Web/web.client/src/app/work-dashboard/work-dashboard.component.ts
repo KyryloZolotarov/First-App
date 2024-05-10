@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { IList } from '../interfaces/list';
 import axios from 'axios';
 import { IUserLists } from '../interfaces/userLists';
@@ -16,7 +16,6 @@ addList: IAddList = { Title : ""};
 availableListsForCards: IAvailableList[] = [];
 addingNewList:boolean = false;
 isDropdownOpen: boolean = false;
-
     toggleDropdown() {
         this.isDropdownOpen = !this.isDropdownOpen;
     }
@@ -48,6 +47,7 @@ async onAddList(){
     let listId:number = await axios.post("http://localhost:5007/lists", this.addList);
     let newList: IList = { id:listId, title:this.addList.Title, cards:[] };
     console.log("Added list:", this.addList);
+    this.addingNewList=false;
     this.lists.push(newList);
     console.log("Updated lists:", this.lists);
   } catch (error) {
@@ -55,10 +55,8 @@ async onAddList(){
   };
 
 }
-async deleteList() {
-
-}
-async editList() {
-
+async refresh(){
+  console.log("refreshing");
+  await this.getLists();
 }
 }

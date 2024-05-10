@@ -1,12 +1,42 @@
-<div style="padding: 10px;">
+<div>
+    <div *ngIf="!editingList" style="padding: 8px; margin-bottom: 5px; background-color: transparent; border-bottom: 1px solid #ccc; border-top: 1px solid #ccc; color: #555; display: flex; align-items: center;">
+        <div style="flex: 1; text-align: center;">{{ singleList.title }}</div>
+        <div style="position: relative;">
+            {{ this.singleList.cards.length }}
+        </div>
+        <div style="position: relative;" class="relative" (click)="toggleDropdown()">
+            <div class="flex items-center justify-center w-8 h-8 rounded-full cursor-pointer">
+                ⋮
+            </div>
+            <div *ngIf="isDropdownOpen" class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-300">
+                <div class="py-1">
+                    <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-200" style="text-align: left;" (click)="onEditListSelected()">
+                        <img src="https://img.icons8.com/ios/50/create-new.png" class="inline-block w-4 h-4 mr-2" alt="Edit Icon">
+                        Edit
+                    </a>
+                    <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-200" style="text-align: left;" (click)="deleteList()">
+                        <img src="/assets/delete.svg" class="inline-block w-4 h-4 mr-2" alt="Delete Icon">
+                        Delete
+                    </a>
+                </div>
+            </div>
+        </div>        
+    </div>
+    <div *ngIf="editingList" style="margin-right: 10px; margin-bottom: 10px;">
+        <input type="text" placeholder="{{ singleList.title }}" [(ngModel)]="singleList.title" required>
+        <div style="margin-top: 8px; display: flex; justify-content: space-between;">
+            <button class="rounded-md" style="flex: 1; margin-right: 5px; background-color: #7575a3; border: none; padding: 8px;" (click)="onEditList()" >Save</button>
+            <button class="rounded-md" style="flex: 1; margin-left: 5px; background-color: #f0f0f5; border: none; padding: 8px;" (click)="editingList = false;">Cancel</button>
+        </div>
+    </div>
     <button 
         class="px-4 py-2 bg-transparent border-dotted border-2 border-gray-500 text-gray-500 rounded hover:bg-gray-500 hover:text-white hover:border-gray-600"
         style="width: 100%; margin-bottom: 10px;"
         (click)="openModal()">+ Add new card</button>
-    <app-add-card *ngIf="isModalOpen" [availableLists]="availableListsInput" (cardAdded)="onCardAdded($event)" (close)="closeModal()"></app-add-card>
+    <app-add-card *ngIf="isModalOpen" [selectedList]="currentList" [availableLists]="availableListsInput" (cardAdded)="onCardAdded($event)" (close)="closeModal()"></app-add-card>
     <div style="width: 100%;">
         <div *ngFor="let item of singleList.cards" style="margin-bottom: 20px;">
-            <app-card [card]="item" (cardDeleted)="onCardDeleted($event)"></app-card>
+            <app-card [card]="item" [currentListName]="singleList.title" [availableLists]="availableListsInput" (cardMoved)="onCardMoved()" (cardDeleted)="onCardDeleted($event)"></app-card>
         </div>
     </div>
 </div>

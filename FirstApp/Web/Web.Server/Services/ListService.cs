@@ -27,7 +27,7 @@ namespace Web.Server.Services
             var listId = await _listRepository.AddListAsync(list);
             var record = new RecordRequest();
             record.DateTime = DateTime.UtcNow;
-            record.Property = "Title";
+            record.Property = "List";
             record.UserId = list.UserId;
             record.Event = OperationType.Add;
             record.Destination = list.Title;
@@ -40,7 +40,7 @@ namespace Web.Server.Services
             await _listRepository.DeleteListAsync(list.Id);
             var record = new RecordRequest();
             record.DateTime = DateTime.UtcNow;
-            record.Property = "Title";
+            record.Property = "List";
             record.UserId = list.UserId;
             record.Event = OperationType.Remove;
             await _historyRepository.AddRecordAsync(record);
@@ -59,7 +59,7 @@ namespace Web.Server.Services
             var records = new List<RecordRequest>();
             foreach (var op in operations)
             {
-                records.Add(new RecordRequest { DateTime = DateTime.UtcNow, Event = op.OperationType, Property = op.path, Destination = (string)op.value, Origin = op.from, UserId = userId });
+                records.Add(new RecordRequest { DateTime = DateTime.UtcNow, Event = op.OperationType, Property = op.path.TrimStart('/'), Destination = (string)op.value, Origin = op.from, UserId = userId });
             }
             await _historyRepository.AddRecordsAsync(records);
         }

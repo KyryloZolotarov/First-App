@@ -24,7 +24,8 @@ namespace Web.Server.Controllers
         [ProducesResponseType(typeof(PaginatedRecordsResponse<RecordModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetCardRecordsAsync(PaginatedRecordsRequest<int> param)
         {
-            return Ok(await _historyService.GetCardRecordsAsync(param));
+            var result = await _historyService.GetCardRecordsAsync(param);
+            return Ok(result);
         }
 
         [HttpPost("userRecords")]
@@ -32,7 +33,8 @@ namespace Web.Server.Controllers
         public async Task<IActionResult> GetÚserRecordsAsync(PaginatedRecordsRequest<string> param)
         {
             param.Id = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid)?.Value;
-            return Ok(await _historyService.GetUserRecordsAsync(param));
+            var result = await _historyService.GetUserRecordsAsync(param);
+            return Ok(result);
         }
     }
 }

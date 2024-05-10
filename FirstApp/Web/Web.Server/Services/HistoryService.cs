@@ -25,6 +25,7 @@ namespace Web.Server.Services
             {
                 PageIndex = records.PageIndex,
                 PageSize = records.PageSize,
+                TotalCount = records.TotalCount,
                 Records = records.Records.Select(s => _mapper.Map<RecordModel>(s)).ToList()
             };
             return mappedRecords;
@@ -37,6 +38,7 @@ namespace Web.Server.Services
             {
                 PageIndex = records.PageIndex,
                 PageSize = records.PageSize,
+                TotalCount = records.TotalCount,
                 Records = records.Records.Select(s => _mapper.Map<RecordModel>(s)).ToList()
             };
             return mappedRecords;
