@@ -4,7 +4,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:5000",
+      "applicationUrl": "http://localhost:5009",
       "sslPort": 0
     }
   },
@@ -16,7 +16,7 @@
       "ConnectionString": "Host=localhost;Port=5432;Database=postgres;User Id=postgres;Password=password"
     },
     "dotnetRunMessages": true,
-    "applicationUrl": "http://localhost:5000"
+    "applicationUrl": "http://localhost:5009"
   },
   "IIS Express": {
     "commandName": "IISExpress",

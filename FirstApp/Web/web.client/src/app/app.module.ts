@@ -19,7 +19,6 @@ axios.defaults.withCredentials = true;
   ],
   imports: [
     BrowserModule, HttpClientModule,
-    AppRoutingModule,
     WorkDashboardModule, AuthModule, HistoryPanelModule
   ],
   providers: [CookieService],

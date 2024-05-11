@@ -34,13 +34,13 @@ services:
       dockerfile: List/List.Host/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:5000
+      - ASPNETCORE_URLS=http://+:5009
       - ConnectionString=server=localhost;port=5433;database=cards;uid=postgres;password=postgres;
-      - PathBase=http://localhost:5000
+      - PathBase=http://localhost:5009
     depends_on:
       - postgres
     ports:
-      - 5000:5000
+      - 5009:5009
   listcard.api:
     container_name: lde.listcard.api
     build:
@@ -50,7 +50,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:5000
       - CardUrl=http://localhost:5006
-      - ListUrl= http://localhost:5000
+      - ListUrl= http://localhost:5009
       - PathBase=http://localhost:5000
     depends_on:
       - card.api
@@ -103,7 +103,15 @@ services:
     depends_on:
       - web.server
     ports:
-      - 4200:4200
+      - 4200:80
+  nginx:
+    image: nginx
+    container_name: lde.nginx
+    ports:
+      - 80:80
+    volumes:
+      - ./Proxy/gateway/nginx/conf.d:/etc/nginx/conf.d
+      - ./Proxy/assets:/var/www/assets
   pgadmin4:
     image: dpage/pgadmin4
     container_name: lde.pgadmin4
