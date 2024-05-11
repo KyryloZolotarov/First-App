@@ -7,8 +7,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:5006
-      - ConnectionString=server=localhost;port=5433;database=cards;uid=postgres;password=postgres;
-      - PathBase=http://localhost:5006
+      - ConnectionString=server=postgres;port=5432;database=cards;uid=postgres;password=postgres;
     depends_on:
       - postgres
     ports:
@@ -21,8 +20,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:5004
-      - ConnectionString=server=localhost;port=5433;database=cards;uid=postgres;password=postgres;
-      - PathBase=http://localhost:5004
+      - ConnectionString=server=postgres;port=5432;database=history;uid=postgres;password=postgres;
     depends_on:
       - postgres
     ports:
@@ -35,8 +33,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:5009
-      - ConnectionString=server=localhost;port=5433;database=cards;uid=postgres;password=postgres;
-      - PathBase=http://localhost:5009
+      - ConnectionString=server=postgres;port=5432;database=lists;uid=postgres;password=postgres;
     depends_on:
       - postgres
     ports:
@@ -48,15 +45,14 @@ services:
       dockerfile: ListCard/ListCard/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:5000
-      - CardUrl=http://localhost:5006
-      - ListUrl= http://localhost:5009
-      - PathBase=http://localhost:5000
+      - ASPNETCORE_URLS=http://+:5002
+      - CardUrl=http://card.api:5006
+      - ListUrl= http://list.api:5009
     depends_on:
       - card.api
       - list.api
     ports:
-      - 5000:5000
+      - 5002:5002
   user.api:
     container_name: lde.user.api
     build:
@@ -65,8 +61,7 @@ services:
     environment:
        - ASPNETCORE_ENVIRONMENT=Development
        - ASPNETCORE_URLS=http://+:5003
-       - ConnectionString=server=localhost;port=5433;database=catalog;uid=postgres;password=postgres;
-       - PathBase=http://localhost:5003
+       - ConnectionString=server=postgres;port=5432;database=catalog;uid=postgres;password=postgres;
     depends_on:
       - postgres
     ports:
@@ -79,10 +74,9 @@ services:
     environment:
        - ASPNETCORE_ENVIRONMENT=Development
        - ASPNETCORE_URLS=http://+:5007
-       - UserUrl=http://localhost:5002
-       - ListCardUrl=http://localhost:5003
-       - HistoryUrl=http://localhost:5004
-       - PathBase=http://localhost:5007
+       - UserUrl=http://user.api:5003
+       - ListCardUrl=http://listcard.api:5002
+       - HistoryUrl=http://history.api:5004
     depends_on:
       - user.api
       - history.api
@@ -92,18 +86,12 @@ services:
   web.client:
     container_name: web.client
     build:
-      context: .
-      dockerfile: Web/web.client/Dockerfile
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:5001
-      - PathBase=https://localhost:4200
-      - CatalogUrl=http://www.alevelwebsite.com:5000/api/v1/catalogbff
-      - BasketUrl=http://www.alevelwebsite.com:5003/api/v1/basketbff
-    depends_on:
-      - web.server
+     context: .
+     dockerfile: Web/web.client/Dockerfile
     ports:
-      - 4200:80
+     - 4200:80
+    depends_on:
+    - web.server
   nginx:
     image: nginx
     container_name: lde.nginx
