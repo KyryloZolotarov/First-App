@@ -1,4 +1,4 @@
-﻿namespace Card.Host.Data
+﻿namespace Board.Host.Data
 {
     public class DbInitializer
     {
@@ -6,6 +6,5 @@
         {
             await context.Database.EnsureCreatedAsync();
         }
-
     }
 }

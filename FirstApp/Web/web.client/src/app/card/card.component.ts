@@ -51,7 +51,7 @@ export class CardComponent {
   async moveCardToOteherList(id:number){
     try {
       console.log("I'm patching the card");
-      axios.patch(`http://localhost:5007/cards/${this.card.id}`, [{ "op": "replace", "path": "/ListId", "from": this.card.listId, "value": id }], {
+      await axios.patch(`http://localhost:5007/cards/${this.card.id}`, [{ "op": "replace", "path": "/ListId", "from": this.card.listId, "value": id }], {
         headers: {
           'Content-Type': 'application/json-patch+json'
         } });

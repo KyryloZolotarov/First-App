@@ -1,23 +1,23 @@
 using Microsoft.EntityFrameworkCore;
 using Infrastructure.Services;
 using Infrastructure.Services.Interfaces;
-using Card.Host.Services.Interfaces;
-using Card.Host.Services;
-using Card.Host.Repositories.Interfaces;
-using Card.Host.Repositories;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Card.Host.Data;
+using Board.Host.Services.Interfaces;
+using Board.Host.Services;
+using Board.Host.Repositories.Interfaces;
+using Board.Host.Repositories;
+using Board.Host.Data;
 
 var configuration = GetConfiguration();
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddAutoMapper(typeof(Program));
-builder.Services.AddTransient<ICardService, CardService>();
-builder.Services.AddTransient<ICardRepository, CardRepository>();
+builder.Services.AddTransient<IBoardService, BoardService>();
+builder.Services.AddTransient<IBoardRepository, BoardRepository>();
 builder.Services.AddDbContextFactory<ApplicationDbContext>(opts =>
     opts.UseNpgsql(configuration["ConnectionString"]));
 builder.Services.AddScoped<IDbContextWrapper<ApplicationDbContext>, DbContextWrapper<ApplicationDbContext>>();
