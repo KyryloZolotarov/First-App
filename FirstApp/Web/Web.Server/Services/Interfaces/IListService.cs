@@ -6,9 +6,9 @@ namespace Web.Server.Services.Interfaces
 {
     public interface IListService
     {
-        Task<int> AddListAsync(AddListRequest list);
+        Task<int> AddListAsync(string userId, AddListRequest list);
         Task PatchListAsync(string userId, int id, JsonPatchDocument<UpdateListRequest> list);
-        Task DeleteListAsync(DeleteListRequest list);
-        Task<UserListModel> GetListsAsync(string userId);
+        Task DeleteListAsync(string userId, DeleteListRequest list);
+        Task<BoardListModel> GetListsAsync(int boardId);
     }
 }

@@ -46,11 +46,11 @@ namespace List.Host.Services
             });
         }
 
-        public async Task<List<ListDto>> GetListsAsync(string userId)
+        public async Task<List<ListDto>> GetListsAsync(int boardId)
         {
             return await ExecuteSafeAsync(async () =>
             {
-                var lists = await _listRepository.GetListsAsync(userId);
+                var lists = await _listRepository.GetListsAsync(boardId);
                 var listsResponse = lists.Select(s => _mapper.Map<ListDto>(s)).ToList();
                 return (listsResponse);
             });

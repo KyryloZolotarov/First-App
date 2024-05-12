@@ -21,9 +21,9 @@ namespace List.Host.Controllers
 
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<ListDto>), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> GetLists([FromBody] string userId)
+        public async Task<IActionResult> GetLists([FromBody] int boardId)
         {
-            var result = await _listService.GetListsAsync(userId);
+            var result = await _listService.GetListsAsync(boardId);
             return Ok(result);
         }
 

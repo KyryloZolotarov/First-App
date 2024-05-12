@@ -9,49 +9,50 @@ using Web.Server.Services.Interfaces;
 
 namespace Web.Server.Controllers
 {
-    [Route("lists")]
+    [Route("boards")]
     [ApiController]
-    public class ListController : ControllerBase
+    public class BoardController : ControllerBase
     {
-        private readonly IListService _listService;
+        private readonly IBoardService _boardService;
 
-        public ListController(IListService listService)
+        public BoardController(IBoardService boardService)
         {
-            _listService = listService;
+            _boardService = boardService;
         }
 
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(BoardListModel), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> GetListsAsync(int id)
+        [ProducesResponseType(typeof(IEnumerable<BoardModel>), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetBoardsAsync()
         {
-            return Ok(await _listService.GetListsAsync(id));
+            var userId = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid)?.Value;
+            return Ok(await _boardService.GetBoardsAsync(userId));
         }
 
         [HttpPost]
         [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> AddListAsync([FromBody] AddListRequest list)
+        public async Task<IActionResult> AddBoardAsync([FromBody] AddBoardRequest board)
         {
             var userId = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid)?.Value;
-            var listId = await _listService.AddListAsync(userId, list);
-            return Ok(listId);
+            var boardId = await _boardService.AddBoardAsync(userId, board);
+            return Ok(boardId);
         }
 
         [HttpDelete("{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        public async Task<IActionResult> DeleteListAsync([FromBody] DeleteListRequest list)
+        public async Task<IActionResult> DeleteBoardAsync([FromBody] DeleteBoardRequest board)
         {
             var userId = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid)?.Value;
-            await _listService.DeleteListAsync(userId, list);
+            await _boardService.DeleteBoardAsync(userId, board);
             return Ok();
         }
 
         [HttpPatch("{id}")]
         [Consumes("application/json-patch+json")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        public async Task<IActionResult> PatchListAsync(int id, [FromBody] JsonPatchDocument<UpdateListRequest> list)
+        public async Task<IActionResult> PatchListAsync(int id, [FromBody] JsonPatchDocument<UpdateBoardRequest> board)
         {
             var userId = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid)?.Value;
-            await _listService.PatchListAsync(userId, id, list);
+            await _boardService.PatchBoardAsync(userId, id, board);
             return Ok();
         }
     }

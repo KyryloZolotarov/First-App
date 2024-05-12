@@ -1,8 +1,8 @@
 ﻿namespace Web.Server.Data.Requests
 {
-    public class AddListRequest
+    public class UpdateBoardRequest
     {
         public string Title { get; set; }
-        public int? BoardId { get; set; }
+        public string UserId { get; set; }
     }
 }

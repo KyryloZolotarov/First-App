@@ -33,11 +33,11 @@ namespace ListCard.Repositories
             HttpMethod.Delete);
         }
 
-        public async Task<List<ListResponse>> GetListsAsync(string userId)
+        public async Task<List<ListResponse>> GetListsAsync(int boardId)
         {
-            var result = await _httpClient.SendAsync<IEnumerable<ListResponse>, string>(
+            var result = await _httpClient.SendAsync<IEnumerable<ListResponse>, int>(
                 $"{_settings.Value.ListUrl}/lists/",
-            HttpMethod.Get, userId);
+            HttpMethod.Get, boardId);
             return result.ToList();
         }
 

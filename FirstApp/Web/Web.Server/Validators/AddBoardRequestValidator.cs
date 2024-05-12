@@ -3,11 +3,10 @@ using Web.Server.Data.Requests;
 
 namespace Web.Server.Validators
 {
-    public class AddListRequestValidator : AbstractValidator<AddListRequest>
+    public class AddBoardRequestValidator : AbstractValidator<AddBoardRequest>
     {
-        public AddListRequestValidator()
+        public AddBoardRequestValidator()
         {
-            RuleFor(h => h.BoardId).NotEmpty();
             RuleFor(x => x.Title).MaximumLength(30);
         }
     }
