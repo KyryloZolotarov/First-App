@@ -1,7 +1,17 @@
 {
+  "$schema": "http://json.schemastore.org/launchsettings.json",
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:5010",
+      "sslPort": 0
+    }
+  },
   "profiles": {
     "http": {
       "commandName": "Project",
+      "launchBrowser": false,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ConnectionString": "Host=localhost;Port=5432;Database=postgres;User Id=postgres;Password=password"
@@ -9,30 +19,13 @@
       "dotnetRunMessages": true,
       "applicationUrl": "http://localhost:5010"
     },
-    "iisSettings": {
-      "windowsAuthentication": false,
-      "anonymousAuthentication": true,
-      "iisExpress": {
-        "applicationUrl": "http://localhost:5010",
-        "sslPort": 0
-      }
-    },
-    "Docker": {
-      "commandName": "Docker",
-      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "launchUrl": "weatherforecast",
       "environmentVariables": {
-        "ASPNETCORE_HTTP_PORTS": "8080"
-      },
-      "publishAllPorts": true
-    }
-  },
-  "$schema": "http://json.schemastore.org/launchsettings.json",
-  "IIS Express": {
-    "commandName": "IISExpress",
-    "launchBrowser": true,
-    "launchUrl": "weatherforecast",
-    "environmentVariables": {
-      "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
     }
   }
 }
