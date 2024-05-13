@@ -3,6 +3,10 @@ import axios from 'axios';
 import { ICard } from '../interfaces/card';
 import { IList } from '../interfaces/list';
 import { IAvailableList } from '../interfaces/availableList';
+import { Store, select } from '@ngrx/store';
+import { AppState } from '../store/reducers/app-reducer';
+import * as ModalActions from '../store/actions/app-actions';
+import { selectIsAddCardModalOpen } from '../store/selectors/app-selectors';
 
 @Component({
   selector: 'app-list',
@@ -14,15 +18,17 @@ export class ListComponent {
   @Input() availableListsInput!: IAvailableList[];
   @Output() refreshLists = new EventEmitter<void>();
 
-  isModalOpen: boolean = false;
+  isModalOpen$ = this.store.pipe(select(selectIsAddCardModalOpen));
   isDropdownOpen: boolean = false;
   originListTitle:string = "";
   editingList:boolean=false;
   currentList!:IAvailableList;
+
+  constructor(private store: Store<AppState>) {}
   
   openModal() {
     this.currentList={id:this.singleList.id, title:this.singleList.title};
-    this.isModalOpen = true;
+    this.store.dispatch(ModalActions.openAddCardModal());
   }
 
 
@@ -61,7 +67,7 @@ export class ListComponent {
   }
   
   closeModal() {
-    this.isModalOpen = false;
+    this.store.dispatch(ModalActions.closeAddCardModal());
   }
 
   onEditListSelected(){

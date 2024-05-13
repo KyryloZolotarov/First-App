@@ -4,6 +4,9 @@ import { IAvailableList } from '../interfaces/availableList';
 import axios from 'axios';
 import { IAddCard } from '../interfaces/addCard';
 import { ICard } from '../interfaces/card';
+import { Store } from '@ngrx/store';
+import { AppState } from '../store/reducers/app-reducer';
+import * as ModalActions from '../store/actions/app-actions';
 
 @Component({
   selector: 'app-add-card',
@@ -26,13 +29,13 @@ export class AddCardComponent {
     dueDate: new Date()
   };
 
-  constructor() {
+  constructor(private store: Store<AppState>) {
     const currentDate = new Date();
     this.today = currentDate;
   }
 
   onClose() {
-    this.close.emit();
+    this.store.dispatch(ModalActions.closeAddCardModal());
   }
 
   async onSubmit() {

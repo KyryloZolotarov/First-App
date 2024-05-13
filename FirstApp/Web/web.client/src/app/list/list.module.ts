@@ -4,6 +4,10 @@ import { ListComponent } from './list.component';
 import { CardModule } from '../card/card.module';
 import { AddCardModule } from '../add-card/add-card.module';
 import { FormsModule } from '@angular/forms';
+import { EffectsModule } from '@ngrx/effects';
+import { ModalEffects } from '../store/effects/app-effects';
+import { StoreModule } from '@ngrx/store';
+import { addCardModalReducer } from '../store/reducers/addcardmodal-reducer';
 
 
 
@@ -15,7 +19,9 @@ import { FormsModule } from '@angular/forms';
     CommonModule,
     CardModule,
     AddCardModule,
-    FormsModule
+    FormsModule,
+    EffectsModule.forFeature([ModalEffects]),
+    StoreModule.forFeature('addCardModal', addCardModalReducer)
   ],
   exports: [
     ListComponent

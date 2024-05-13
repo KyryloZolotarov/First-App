@@ -28,7 +28,7 @@ export class AppComponent implements OnInit {
     console.log(this.historyPanelState);
   }
 
-  openPanel(): void {
+  onOpenPanel(): void {
     this.historyPanelState = true;
   }
 
