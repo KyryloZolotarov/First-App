@@ -16,8 +16,7 @@ import { ModalEffects } from '../store/effects/app-effects';
   imports: [
     BrowserModule,
     FormsModule,
-    CommonModule,
-    EffectsModule.forFeature([ModalEffects])
+    CommonModule
   ],
   exports: [
     AddCardComponent

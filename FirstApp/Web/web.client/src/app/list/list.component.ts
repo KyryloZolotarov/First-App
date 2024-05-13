@@ -18,7 +18,7 @@ export class ListComponent {
   @Input() availableListsInput!: IAvailableList[];
   @Output() refreshLists = new EventEmitter<void>();
 
-  isModalOpen$ = this.store.pipe(select(selectIsAddCardModalOpen));
+  isModalOpen: boolean = false;
   isDropdownOpen: boolean = false;
   originListTitle:string = "";
   editingList:boolean=false;
@@ -28,7 +28,7 @@ export class ListComponent {
   
   openModal() {
     this.currentList={id:this.singleList.id, title:this.singleList.title};
-    this.store.dispatch(ModalActions.openAddCardModal());
+    this.isModalOpen = true;
   }
 
 
@@ -67,7 +67,7 @@ export class ListComponent {
   }
   
   closeModal() {
-    this.store.dispatch(ModalActions.closeAddCardModal());
+    this.isModalOpen = false;
   }
 
   onEditListSelected(){

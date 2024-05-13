@@ -35,7 +35,7 @@ export class AddCardComponent {
   }
 
   onClose() {
-    this.store.dispatch(ModalActions.closeAddCardModal());
+    this.close.emit();
   }
 
   async onSubmit() {

@@ -1,7 +1,7 @@
 import { createAction } from '@ngrx/store';
 
-export const openEditCardModal = createAction('[Modal] Open');
-export const closeEditCardModal = createAction('[Modal] Close');
+export const openEditCardModal = createAction('[Edit Card] Open Modal');
+export const closeEditCardModal = createAction('[Edit Card] Close Modal');
 
-export const openAddCardModal = createAction('[Modal] Open');
-export const closeAddCardModal = createAction('[Modal] Close');
+export const openAddCardModal = createAction('[Add Card] Open Modal');
+export const closeAddCardModal = createAction('[Edit Card] Close Modal');

@@ -19,9 +19,7 @@ import { addCardModalReducer } from '../store/reducers/addcardmodal-reducer';
     CommonModule,
     CardModule,
     AddCardModule,
-    FormsModule,
-    EffectsModule.forFeature([ModalEffects]),
-    StoreModule.forFeature('addCardModal', addCardModalReducer)
+    FormsModule
   ],
   exports: [
     ListComponent

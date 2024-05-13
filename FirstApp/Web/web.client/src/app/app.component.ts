@@ -31,6 +31,10 @@ export class AppComponent implements OnInit {
   onOpenPanel(): void {
     this.historyPanelState = true;
   }
+  
+  onBoardSelected(id:number){
+
+  }
 
   title = 'web.client';
 }

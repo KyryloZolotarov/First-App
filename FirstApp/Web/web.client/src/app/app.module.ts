@@ -13,6 +13,7 @@ import { HistoryPanelModule } from './history-panel/history-panel.module';
 import { reducers } from './store/reducers/app-reducer';
 import { ModalEffects } from './store/effects/app-effects';
 import { HeaderModule } from './header/header.module';
+import { BoardMenuModule } from './board-menu/board-menu.module';
 
 axios.defaults.withCredentials = true;
 
@@ -24,8 +25,7 @@ axios.defaults.withCredentials = true;
     BrowserModule, HttpClientModule,
     WorkDashboardModule, AuthModule, HistoryPanelModule,
     HeaderModule,
-    StoreModule.forRoot(reducers),
-    EffectsModule.forRoot([ModalEffects])
+    BoardMenuModule
   ],
   providers: [CookieService],
   bootstrap: [AppComponent]
