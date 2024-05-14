@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, Input } from '@angular/core';
 import { IList } from '../interfaces/list';
 import axios from 'axios';
-import { IUserLists } from '../interfaces/userLists';
+import { IBoardLists} from '../interfaces/boardLists';
 import { IAvailableList } from '../interfaces/availableList';
 import { IAddList } from '../interfaces/addList';
 
@@ -11,17 +11,19 @@ import { IAddList } from '../interfaces/addList';
   styleUrl: './work-dashboard.component.css'
 })
 export class WorkDashboardComponent {
-@Input() boardId!:number;
 lists: IList[] = [];
-addList: IAddList = { Title : ""};
+addList: IAddList = { title : "", boardId: 0};
 availableListsForCards: IAvailableList[] = [];
 addingNewList:boolean = false;
 isDropdownOpen: boolean = false;
+currentBordId!:number;
 
-public async getLists(): Promise<void> {
+public async getLists(boardId:number): Promise<void> {
   try {
+    this.currentBordId = boardId
     console.log("I'm trying to get lists");
-    const response = await axios.get<IUserLists>(`http://localhost:5007/lists${this.boardId}`);
+    console.log(boardId);
+    const response = await axios.get<IBoardLists>(`http://localhost:5007/lists/${boardId}`);
       this.lists = response.data.lists;
     console.log(this.lists);
 
@@ -41,10 +43,10 @@ async onAddList(){
     console.log("I'm trying to add list");
     console.log(this.addList);
     let listId:number = await axios.post(`http://localhost:5007/lists/`, this.addList);
-    let newList: IList = { id:listId, title:this.addList.Title, cards:[] };
+    let newList: IList = { id:listId, title:this.addList.title, boardId:this.currentBordId, cards:[] };
     console.log("Added list:", this.addList);
     this.addingNewList=false;
-    this.lists.push(newList);
+    this.refresh();
     console.log("Updated lists:", this.lists);
   } catch (error) {
     console.error(error);
@@ -57,6 +59,6 @@ toggleDropdown() {
 }
 async refresh(){
   console.log("refreshing");
-  await this.getLists();
+  await this.getLists(this.currentBordId);
 }
 }

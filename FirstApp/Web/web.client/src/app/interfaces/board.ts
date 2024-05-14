@@ -1,4 +1,4 @@
 export interface IBoard {
-    "Id":number,
-    "Title":string
+    "id":number,
+    "title":string
 }

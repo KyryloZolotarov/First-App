@@ -20,7 +20,7 @@ namespace Web.Server.Controllers
             _boardService = boardService;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<BoardModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetBoardsAsync()
         {
@@ -32,8 +32,8 @@ namespace Web.Server.Controllers
         [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> AddBoardAsync([FromBody] AddBoardRequest board)
         {
-            var userId = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid)?.Value;
-            var boardId = await _boardService.AddBoardAsync(userId, board);
+            board.UserId = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid)?.Value;
+            var boardId = await _boardService.AddBoardAsync(board);
             return Ok(boardId);
         }
 

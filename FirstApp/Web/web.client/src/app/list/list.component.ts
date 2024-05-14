@@ -23,8 +23,6 @@ export class ListComponent {
   originListTitle:string = "";
   editingList:boolean=false;
   currentList!:IAvailableList;
-
-  constructor(private store: Store<AppState>) {}
   
   openModal() {
     this.currentList={id:this.singleList.id, title:this.singleList.title};

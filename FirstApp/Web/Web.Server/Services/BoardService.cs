@@ -24,13 +24,13 @@ namespace Web.Server.Services
             _mapper = mapper;
         }
 
-        public async Task<int> AddBoardAsync(string userId, AddBoardRequest board)
+        public async Task<int> AddBoardAsync(AddBoardRequest board)
         {
             var boardId = await _boardRepository.AddBoardAsync(board);
             var record = new RecordRequest();
             record.DateTime = DateTime.UtcNow;
             record.Property = "Board";
-            record.UserId = userId;
+            record.UserId = board.UserId;
             record.Event = OperationType.Add;
             record.Destination = board.Title;
             await _historyRepository.AddRecordAsync(record);

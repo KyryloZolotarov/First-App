@@ -33,9 +33,9 @@ namespace Web.Server.Repositories
 
         public async Task<BoardListDto> GetListsAsync(int boardId)
         {
-            return await _httpClient.SendAsync<BoardListDto, int>(
-                $"{_settings.Value.ListCardUrl}/lists/",
-            HttpMethod.Get, boardId);
+            return await _httpClient.SendAsync<BoardListDto>(
+                $"{_settings.Value.ListCardUrl}/lists/{boardId}",
+            HttpMethod.Get);
         }
 
         public async Task PatchListAsync(int id, JsonPatchDocument<UpdateListRequest> list)

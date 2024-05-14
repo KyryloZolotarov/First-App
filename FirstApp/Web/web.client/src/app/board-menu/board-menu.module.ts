@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BoardMenuComponent } from './board-menu.component';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -9,7 +10,7 @@ import { BoardMenuComponent } from './board-menu.component';
     BoardMenuComponent
   ],
   imports: [
-    CommonModule
+    CommonModule, FormsModule
   ],
   exports: [
     BoardMenuComponent

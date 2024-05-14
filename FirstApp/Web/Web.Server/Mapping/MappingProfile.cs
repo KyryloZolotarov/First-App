@@ -16,6 +16,7 @@ namespace Web.Server.Mapping
             CreateMap<ListDto, ListModel>().ReverseMap();
             CreateMap<BoardListDto, BoardListModel>().ReverseMap();
             CreateMap<RecordDto, RecordModel>().ReverseMap();
+            CreateMap<BoardDto, BoardModel>().ReverseMap();
         }
     }
 }

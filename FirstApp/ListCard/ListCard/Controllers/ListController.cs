@@ -18,9 +18,9 @@ namespace ListCard.Controllers
             _listService = listService;
         }
 
-        [HttpGet]
+        [HttpGet("{id}")]
         [ProducesResponseType(typeof(BoardListDto), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> GetListByBoard([FromBody] int id)
+        public async Task<IActionResult> GetListByBoard(int id)
         {
             var result = await _listService.GetListsAsync(id);
             return Ok(result);
