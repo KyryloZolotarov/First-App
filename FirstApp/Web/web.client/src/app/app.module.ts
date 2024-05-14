@@ -12,6 +12,9 @@ import { EffectsModule } from '@ngrx/effects';
 import { HistoryPanelModule } from './history-panel/history-panel.module';
 import { HeaderModule } from './header/header.module';
 import { BoardMenuModule } from './board-menu/board-menu.module';
+import { rootReducer } from './store/reducers/app-reducer';
+import { ListEffects } from './store/effects/list-effects';
+import { listReducer } from './store/reducers/list-reducer';
 
 axios.defaults.withCredentials = true;
 
@@ -23,7 +26,9 @@ axios.defaults.withCredentials = true;
     BrowserModule, HttpClientModule,
     WorkDashboardModule, AuthModule, HistoryPanelModule,
     HeaderModule,
-    BoardMenuModule
+    BoardMenuModule,
+    StoreModule.forRoot(rootReducer),
+    EffectsModule.forRoot([ListEffects])
   ],
   providers: [CookieService],
   bootstrap: [AppComponent]

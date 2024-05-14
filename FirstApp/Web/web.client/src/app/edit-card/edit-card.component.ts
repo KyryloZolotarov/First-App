@@ -6,6 +6,7 @@ import { ICard } from '../interfaces/card';
 import { Store, select } from '@ngrx/store';
 import { selectAvailableListsForCards } from '../store/selectors/list-selectors';
 import { Observable } from 'rxjs';
+import { RootState } from '../store/interfaces/root-state';
 
 @Component({
   selector: 'app-edit-card',
@@ -31,7 +32,7 @@ export class EditCardComponent {
   };
 
 
-  constructor(private store: Store) {
+  constructor(private store: Store<RootState>) {
     const currentDate = new Date();
     this.today = currentDate;
   }

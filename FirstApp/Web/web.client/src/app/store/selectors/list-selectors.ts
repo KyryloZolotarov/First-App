@@ -2,8 +2,12 @@ import { createSelector, createFeatureSelector } from '@ngrx/store';
 import { ListState } from '../reducers/list-reducer';
 import { IList } from '../../interfaces/list';
 import { IAvailableList } from '../../interfaces/availableList';
+import { RootState } from '../interfaces/root-state';
 
-export const selectListState = createFeatureSelector<ListState>('list');
+export const selectListState = (state: RootState) => {
+  debugger;
+  return state.list;
+};
 
 export const selectLists = createSelector(
   selectListState,

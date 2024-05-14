@@ -1,5 +1,5 @@
 <div style="margin-top: 8px; display: flex; flex-wrap: wrap;">
-    <div *ngIf="(lists$ | async) as lists">
+    <div *ngIf="(this.lists$ | async) as lists">
         <div *ngFor="let list of lists" style="flex: 0 0 calc(25% - 10px); margin-right: 5px; margin-left: 5px; margin-bottom: 10px;">
             <app-list [singleList]="list" (refreshLists)="refresh()"></app-list>
         </div>

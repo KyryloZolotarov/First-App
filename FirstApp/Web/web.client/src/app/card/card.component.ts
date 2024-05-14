@@ -11,7 +11,7 @@ import {
 import { Store, select } from '@ngrx/store';
 import { selectAvailableListsForCards } from '../store/selectors/list-selectors';
 import { Observable } from 'rxjs';
-
+import { RootState } from '../store/interfaces/root-state';
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',
@@ -29,7 +29,7 @@ export class CardComponent {
   isModalOpen: boolean = false;
   cardForEdit!:ICard;
 
-  constructor(private store: Store) {}
+  constructor(private store: Store<RootState>) {}
 
     
   ngOnInit(): void {

@@ -6,6 +6,7 @@ import { IAvailableList } from '../interfaces/availableList';
 import { Store, select } from '@ngrx/store';
 import { selectAvailableListsForCards } from '../store/selectors/list-selectors';
 import { Observable } from 'rxjs';
+import { RootState } from '../store/interfaces/root-state';
 
 @Component({
   selector: 'app-list',
@@ -22,7 +23,7 @@ export class ListComponent {
   editingList:boolean=false;
   currentList!:IAvailableList;
 
-  constructor(private store: Store) {}
+  constructor(private store: Store<RootState>) {}
   
   ngOnInit(): void {
     console.log(this.singleList);

@@ -9,6 +9,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { ListEffects } from '../store/effects/list-effects';
 import { StoreModule } from '@ngrx/store';
 import { rootReducer } from '../store/reducers/app-reducer';
+import { listReducer } from '../store/reducers/list-reducer';
 
 
 
@@ -19,9 +20,7 @@ import { rootReducer } from '../store/reducers/app-reducer';
   imports: [
     CommonModule,
     ListModule,
-    FormsModule,    
-    StoreModule.forRoot({ list: rootReducer }),
-    EffectsModule.forRoot([ListEffects])
+    FormsModule
   ],
   exports: [
     WorkDashboardComponent

@@ -8,6 +8,7 @@ import { Store, select } from '@ngrx/store';
 import * as ModalActions from '../store/actions/list-actions';
 import { selectAvailableListsForCards } from '../store/selectors/list-selectors';
 import { Observable } from 'rxjs';
+import { RootState } from '../store/interfaces/root-state';
 
 @Component({
   selector: 'app-add-card',
@@ -30,7 +31,7 @@ export class AddCardComponent {
     dueDate: new Date()
   };
 
-  constructor(private store: Store) {
+  constructor(private store: Store<RootState>) {
     const currentDate = new Date();
     this.today = currentDate;
   }
