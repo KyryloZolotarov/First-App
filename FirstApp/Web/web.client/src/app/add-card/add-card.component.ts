@@ -4,9 +4,10 @@ import { IAvailableList } from '../interfaces/availableList';
 import axios from 'axios';
 import { IAddCard } from '../interfaces/addCard';
 import { ICard } from '../interfaces/card';
-import { Store } from '@ngrx/store';
-import { AppState } from '../store/reducers/app-reducer';
-import * as ModalActions from '../store/actions/app-actions';
+import { Store, select } from '@ngrx/store';
+import * as ModalActions from '../store/actions/list-actions';
+import { selectAvailableListsForCards } from '../store/selectors/list-selectors';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-add-card',
@@ -14,10 +15,10 @@ import * as ModalActions from '../store/actions/app-actions';
   styleUrls: ['./add-card.component.css']
 })
 export class AddCardComponent {
-  @Input() availableLists!: IAvailableList[];
   @Input() selectedList!: IAvailableList;
   @Output() close: EventEmitter<void> = new EventEmitter<void>();
   @Output() cardAdded = new EventEmitter<ICard>();
+  availableLists$: Observable<IAvailableList[]> = new Observable<IAvailableList[]>();
   today: Date;
   Priority = Priority;
   card: ICard = {
@@ -29,13 +30,17 @@ export class AddCardComponent {
     dueDate: new Date()
   };
 
-  constructor() {
+  constructor(private store: Store) {
     const currentDate = new Date();
     this.today = currentDate;
   }
 
   onClose() {
     this.close.emit();
+  }
+
+  ngOnInit(): void {
+    this.availableLists$ = this.store.pipe(select(selectAvailableListsForCards));
   }
 
   async onSubmit() {

@@ -1,8 +1,8 @@
 <div style="margin-top: 8px; display: flex; flex-wrap: wrap;">
-    <div *ngFor="let list of lists" style="flex: 0 0 calc(25% - 10px); margin-right: 5px; margin-left: 5px; margin-bottom: 10px;">
-        
-        
-        <app-list [singleList]="list" (refreshLists)="refresh()" [availableListsInput]="availableListsForCards"></app-list>
+    <div *ngIf="(lists$ | async) as lists">
+        <div *ngFor="let list of lists" style="flex: 0 0 calc(25% - 10px); margin-right: 5px; margin-left: 5px; margin-bottom: 10px;">
+            <app-list [singleList]="list" (refreshLists)="refresh()"></app-list>
+        </div>
     </div>
     <div style="flex: 0 0 calc(25% - 10px)">
         <div *ngIf="!addingNewList" 

@@ -1,14 +1,10 @@
-import { ActionReducerMap } from '@ngrx/store';
-import { IEditCardModalState, editCardModalReducer } from './editcardmodal-reducer';
-import { IAddCardModalState, addCardModalReducer } from './addcardmodal-reducer';
+import { combineReducers } from '@ngrx/store';
+import { listReducer } from './list-reducer';
+import { RootState } from '../interfaces/root-state';
 
-export interface AppState {
-  editCardModal: IEditCardModalState;
-  addCardModal: IAddCardModalState;
-}
+export const rootReducer = combineReducers({
+  list: listReducer,
+  // другие редюсеры...
+});
 
-export const reducers: ActionReducerMap<AppState> = {
-  editCardModal: editCardModalReducer,
-  addCardModal: addCardModalReducer
-};
-
+export type AppState = RootState;

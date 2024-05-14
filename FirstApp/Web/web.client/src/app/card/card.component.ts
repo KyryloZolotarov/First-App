@@ -8,6 +8,9 @@ import {
   Ripple,
   initTWE,
 } from "tw-elements";
+import { Store, select } from '@ngrx/store';
+import { selectAvailableListsForCards } from '../store/selectors/list-selectors';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-card',
@@ -16,31 +19,31 @@ import {
 })
 export class CardComponent {
   @Input() card!: ICard;
-  @Input() availableLists!: IAvailableList[];
   @Input() currentListName!: string;
   @Output() cardDeleted = new EventEmitter<ICard>();
   @Output() cardMoved = new EventEmitter<void>();
+  availableLists$: Observable<IAvailableList[]> = new Observable<IAvailableList[]>();
   Priority = Priority;
   isDropdownOpen: boolean = false;
   isDropdownTwoOpen: boolean = false;
   isModalOpen: boolean = false;
   cardForEdit!:ICard;
 
-    toggleDropdown() {
-        this.isDropdownOpen = !this.isDropdownOpen;
-    }
+  constructor(private store: Store) {}
 
-    toggle(){
-      this.isDropdownTwoOpen = !this.isDropdownTwoOpen;
-    }
+    
   ngOnInit(): void {
-
-    console.log(this.currentListName);
-    console.log(this.card);
-    console.log(this.card.dueDate);
+    this.availableLists$ = this.store.pipe(select(selectAvailableListsForCards));
     this.cardForEdit = { ...this.card };
-    console.log(this.cardForEdit);
   }
+
+  toggleDropdown() {
+    this.isDropdownOpen = !this.isDropdownOpen;
+}
+
+  toggle(){
+  this.isDropdownTwoOpen = !this.isDropdownTwoOpen;
+}
 
   toggleDropdownForList() {
     this.isDropdownTwoOpen = !this.isDropdownTwoOpen;

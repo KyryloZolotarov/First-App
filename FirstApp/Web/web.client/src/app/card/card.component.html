@@ -61,19 +61,21 @@
                   class="absolute z-[1000] float-left m-0 list-none overflow-hidden rounded-lg border-none bg-white bg-clip-padding text-base shadow-lg data-[twe-dropdown-show]:block dark:bg-surface-dark"
                   aria-labelledby="dropdownMenuButton9"
                   *ngIf="isDropdownTwoOpen">
-                  <li *ngFor="let item of availableLists">
-                    <div (click)="moveCardToOteherList(item.id)" class="block w-full whitespace-nowrap bg-white px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-zinc-200/60 focus:bg-zinc-200/60 focus:outline-none active:bg-zinc-200/60 active:no-underline dark:bg-surface-dark dark:text-black dark:hover:bg-neutral-800/25 dark:focus:bg-neutral-800/25 dark:active:bg-neutral-800/25">
-                        <div style="cursor: pointer; display: flex; align-items: center;">
-                          <img width="10" height="10" src="https://img.icons8.com/ios-glyphs/30/long-arrow-right.png" alt="long-arrow-right" style="vertical-align: middle; margin-right: 5px;">
-                          <span>{{ item.title }}</span>
-                        </div>
-                      </div>                       
-                  </li>
+                  <div *ngIf="availableLists$ | async as lists">
+                    <li *ngFor="let item of lists">
+                        <div (click)="moveCardToOteherList(item.id)" class="block w-full whitespace-nowrap bg-white px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-zinc-200/60 focus:bg-zinc-200/60 focus:outline-none active:bg-zinc-200/60 active:no-underline dark:bg-surface-dark dark:text-black dark:hover:bg-neutral-800/25 dark:focus:bg-neutral-800/25 dark:active:bg-neutral-800/25">
+                            <div style="cursor: pointer; display: flex; align-items: center;">
+                            <img width="10" height="10" src="https://img.icons8.com/ios-glyphs/30/long-arrow-right.png" alt="long-arrow-right" style="vertical-align: middle; margin-right: 5px;">
+                            <span>{{ item.title }}</span>
+                            </div>
+                        </div>                       
+                    </li>
+                  </div>
                 </ul>
               </div>
         </div>
     </div>
     <div *ngIf="isModalOpen">
-        <app-edit-card [lists]="availableLists" [cardEditing]="cardForEdit" (cardEdited)="onCardEdited()" (close)="closeModal()"></app-edit-card>
+        <app-edit-card [cardEditing]="cardForEdit" (cardEdited)="onCardEdited()" (close)="closeModal()"></app-edit-card>
     </div>
 </div>

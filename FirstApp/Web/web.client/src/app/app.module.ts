@@ -10,8 +10,6 @@ import { WorkDashboardModule } from './work-dashboard/work-dashboard.module';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { HistoryPanelModule } from './history-panel/history-panel.module';
-import { reducers } from './store/reducers/app-reducer';
-import { ModalEffects } from './store/effects/app-effects';
 import { HeaderModule } from './header/header.module';
 import { BoardMenuModule } from './board-menu/board-menu.module';
 

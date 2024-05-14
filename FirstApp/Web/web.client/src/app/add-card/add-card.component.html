@@ -13,7 +13,9 @@
                     <div class="mb-4">
                         <label class="block text-gray-700 font-semibold mb-2">List</label>
                         <select name="listId" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500" [(ngModel)]="card.listId" required>
-                            <option *ngFor="let list of availableLists" [value]="list.id">{{ list.title }}</option>
+                            <div *ngIf="availableLists$ | async as lists">
+                                <option *ngFor="let item of lists" [value]="item.id">{{ item.title }}</option>
+                            </div>
                         </select>
                     </div>
                     <div class="flex mb-4">

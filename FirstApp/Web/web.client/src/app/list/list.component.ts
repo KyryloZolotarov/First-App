@@ -4,9 +4,8 @@ import { ICard } from '../interfaces/card';
 import { IList } from '../interfaces/list';
 import { IAvailableList } from '../interfaces/availableList';
 import { Store, select } from '@ngrx/store';
-import { AppState } from '../store/reducers/app-reducer';
-import * as ModalActions from '../store/actions/app-actions';
-import { selectIsAddCardModalOpen } from '../store/selectors/app-selectors';
+import { selectAvailableListsForCards } from '../store/selectors/list-selectors';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-list',
@@ -15,14 +14,20 @@ import { selectIsAddCardModalOpen } from '../store/selectors/app-selectors';
 })
 export class ListComponent {
   @Input() singleList!: IList;
-  @Input() availableListsInput!: IAvailableList[];
   @Output() refreshLists = new EventEmitter<void>();
-
+  availableLists$: Observable<IAvailableList[]> = new Observable<IAvailableList[]>();
   isModalOpen: boolean = false;
   isDropdownOpen: boolean = false;
   originListTitle:string = "";
   editingList:boolean=false;
   currentList!:IAvailableList;
+
+  constructor(private store: Store) {}
+  
+  ngOnInit(): void {
+    console.log(this.singleList);
+    this.availableLists$ = this.store.pipe(select(selectAvailableListsForCards));
+  }
   
   openModal() {
     this.currentList={id:this.singleList.id, title:this.singleList.title};

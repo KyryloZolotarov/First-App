@@ -4,6 +4,11 @@ import axios from 'axios';
 import { IBoardLists} from '../interfaces/boardLists';
 import { IAvailableList } from '../interfaces/availableList';
 import { IAddList } from '../interfaces/addList';
+import { Store, select } from '@ngrx/store';
+import { AppState } from '../store/reducers/app-reducer';
+import * as ListActions from '../store/actions/list-actions';
+import { Observable } from 'rxjs';
+import { selectLists } from '../store/selectors/list-selectors';
 
 @Component({
   selector: 'app-work-dashboard',
@@ -12,38 +17,26 @@ import { IAddList } from '../interfaces/addList';
 })
 export class WorkDashboardComponent {
 @Input() boardSelected!:number;
-lists: IList[] = [];
+lists$: Observable<IList[]> = new Observable<IList[]>();
 addList: IAddList = { title : "", boardId: 0};
 availableListsForCards: IAvailableList[] = [];
 addingNewList:boolean = false;
 isDropdownOpen: boolean = false;
 currentBordId!:number;
 
-ngOnChanges(changes: SimpleChanges): void{
+constructor(private store: Store<AppState>) {}
+
+async ngOnChanges(changes: SimpleChanges) {
   this.addingNewList = false;
-this.getLists(this.boardSelected)
+  await this.getLists();
+  console.log(this.lists$);
 }
 
-public async getLists(boardId:number): Promise<void> {
-  try {
-    this.currentBordId = boardId
-    console.log("I'm trying to get lists");
-    console.log(boardId);
-    const response = await axios.get<IBoardLists>(`http://localhost:5007/lists/${boardId}`);
-      this.lists = response.data.lists;
-    console.log(this.lists);
-
-    this.availableListsForCards = this.lists.map(list => {
-      return {
-        id: list.id,
-        title: list.title
-      };
-    });
-    console.log(this.availableListsForCards);
-  } catch (error) {
-    console.error(error);
-  };
+public async getLists(): Promise<void> {
+  this.store.dispatch(ListActions.getLists({ boardId: this.boardSelected }));
+  this.lists$ = this.store.pipe(select(selectLists));
 }
+
 async onAddList(){
   try {
     console.log("I'm trying to add list");
@@ -54,7 +47,7 @@ async onAddList(){
     console.log("Added list:", this.addList);
     this.addingNewList=false;
     this.refresh();
-    console.log("Updated lists:", this.lists);
+    console.log("Updated lists:", this.lists$);
   } catch (error) {
     console.error(error);
   };
@@ -66,6 +59,6 @@ toggleDropdown() {
 }
 async refresh(){
   console.log("refreshing");
-  await this.getLists(this.currentBordId);
+  await this.getLists();
 }
 }

@@ -3,6 +3,9 @@ import axios from 'axios';
 import { IAvailableList } from '../interfaces/availableList';
 import { Priority } from '../interfaces/priority';
 import { ICard } from '../interfaces/card';
+import { Store, select } from '@ngrx/store';
+import { selectAvailableListsForCards } from '../store/selectors/list-selectors';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-edit-card',
@@ -10,10 +13,10 @@ import { ICard } from '../interfaces/card';
   styleUrl: './edit-card.component.css'
 })
 export class EditCardComponent {
-  @Input() lists!: IAvailableList[];
   @Input() cardEditing!: ICard;
   @Output() close: EventEmitter<void> = new EventEmitter<void>();
   @Output() cardEdited = new EventEmitter<void>();
+  availableLists$: Observable<IAvailableList[]> = new Observable<IAvailableList[]>();
   today: Date;
   tempDate!:Date;
   stringDate:string="";
@@ -27,13 +30,14 @@ export class EditCardComponent {
     dueDate: new Date()
   };
 
-  constructor() {
+
+  constructor(private store: Store) {
     const currentDate = new Date();
     this.today = currentDate;
   }
 
   ngOnInit(){
-    console.log(this.cardEditing);
+    this.availableLists$ = this.store.pipe(select(selectAvailableListsForCards));
     if (this.cardEditing && typeof this.cardEditing.dueDate === 'string') {
     this.card.id = this.cardEditing.id;
     this.card.name = this.cardEditing.name;
