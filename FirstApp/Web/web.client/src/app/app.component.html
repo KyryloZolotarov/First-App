@@ -6,7 +6,7 @@
       <app-header (openPanelEvent)="onOpenPanel()"></app-header>
       <app-board-menu (boardsAvailable)="setBoardsState($event)"></app-board-menu>
       <div *ngIf="boardsAreAvailable">
-        <app-work-dashboard></app-work-dashboard>
+        <app-work-dashboard [boardSelected]="selectedBoardId"></app-work-dashboard>
       </div>
       <div *ngIf="historyPanelState" class="relative z-10" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
         <app-history-panel [closePanel]="closePanel.bind(this)"></app-history-panel>

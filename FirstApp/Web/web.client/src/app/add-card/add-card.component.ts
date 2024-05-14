@@ -29,7 +29,7 @@ export class AddCardComponent {
     dueDate: new Date()
   };
 
-  constructor(private store: Store<AppState>) {
+  constructor() {
     const currentDate = new Date();
     this.today = currentDate;
   }

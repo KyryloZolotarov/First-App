@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, SimpleChanges } from '@angular/core';
 import { IList } from '../interfaces/list';
 import axios from 'axios';
 import { IBoardLists} from '../interfaces/boardLists';
@@ -11,12 +11,18 @@ import { IAddList } from '../interfaces/addList';
   styleUrl: './work-dashboard.component.css'
 })
 export class WorkDashboardComponent {
+@Input() boardSelected!:number;
 lists: IList[] = [];
 addList: IAddList = { title : "", boardId: 0};
 availableListsForCards: IAvailableList[] = [];
 addingNewList:boolean = false;
 isDropdownOpen: boolean = false;
 currentBordId!:number;
+
+ngOnChanges(changes: SimpleChanges): void{
+  this.addingNewList = false;
+this.getLists(this.boardSelected)
+}
 
 public async getLists(boardId:number): Promise<void> {
   try {
@@ -41,6 +47,7 @@ public async getLists(boardId:number): Promise<void> {
 async onAddList(){
   try {
     console.log("I'm trying to add list");
+    this.addList.boardId = this.boardSelected;
     console.log(this.addList);
     let listId:number = await axios.post(`http://localhost:5007/lists/`, this.addList);
     let newList: IList = { id:listId, title:this.addList.title, boardId:this.currentBordId, cards:[] };

@@ -8,7 +8,6 @@ import { WorkDashboardComponent } from './work-dashboard/work-dashboard.componen
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit {
-  @ViewChild(WorkDashboardComponent) dashboard!: WorkDashboardComponent;
   public isAuthenticated: boolean = false;
   historyPanelState: boolean = false;
   boardsAreAvailable: boolean = false;
@@ -40,9 +39,6 @@ export class AppComponent implements OnInit {
   setBoardsState(eventData: { id: number, flag: boolean }){
     this.boardsAreAvailable = eventData.flag;
     this.selectedBoardId = eventData.id;
-    if (this.dashboard) {
-      this.dashboard.getLists(this.selectedBoardId);
-    }
   }
 
   title = 'web.client';
