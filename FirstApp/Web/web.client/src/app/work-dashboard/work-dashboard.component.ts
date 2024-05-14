@@ -24,7 +24,14 @@ addingNewList:boolean = false;
 isDropdownOpen: boolean = false;
 currentBordId!:number;
 
-constructor(private store: Store<AppState>) {}
+constructor(private store: Store<AppState>) 
+{
+  
+}
+
+ngOninit() {
+  this.lists$ = this.store.pipe(select(selectLists));
+}
 
 async ngOnChanges(changes: SimpleChanges) {
   this.addingNewList = false;
