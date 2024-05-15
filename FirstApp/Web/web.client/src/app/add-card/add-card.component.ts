@@ -32,6 +32,7 @@ export class AddCardComponent {
   };
 
   constructor(private store: Store<RootState>) {
+    this.availableLists$ = this.store.select(selectAvailableListsForCards);
     const currentDate = new Date();
     this.today = currentDate;
   }
@@ -41,7 +42,6 @@ export class AddCardComponent {
   }
 
   ngOnInit(): void {
-    this.availableLists$ = this.store.pipe(select(selectAvailableListsForCards));
   }
 
   async onSubmit() {

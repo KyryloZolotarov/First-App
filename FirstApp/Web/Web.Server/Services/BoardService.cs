@@ -19,7 +19,7 @@ namespace Web.Server.Services
         public BoardService(IBoardRepository boardRepository, IListRepository listRepository, IHistoryRepository historyRepository, IMapper mapper)
         {
             _boardRepository = boardRepository;
-            _boardRepository = boardRepository;
+            _listRepository = listRepository;
             _historyRepository = historyRepository;
             _mapper = mapper;
         }

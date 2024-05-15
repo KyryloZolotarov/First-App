@@ -5,7 +5,6 @@ import { IAvailableList } from '../../interfaces/availableList';
 import { RootState } from '../interfaces/root-state';
 
 export const selectListState = (state: RootState) => {
-  debugger;
   return state.list;
 };
 

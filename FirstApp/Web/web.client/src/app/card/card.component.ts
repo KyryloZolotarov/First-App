@@ -29,11 +29,12 @@ export class CardComponent {
   isModalOpen: boolean = false;
   cardForEdit!:ICard;
 
-  constructor(private store: Store<RootState>) {}
+  constructor(private store: Store<RootState>) {
+    this.availableLists$ = this.store.select(selectAvailableListsForCards);
+  }
 
     
   ngOnInit(): void {
-    this.availableLists$ = this.store.pipe(select(selectAvailableListsForCards));
     this.cardForEdit = { ...this.card };
   }
 

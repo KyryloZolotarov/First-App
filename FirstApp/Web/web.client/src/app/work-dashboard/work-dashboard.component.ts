@@ -27,19 +27,17 @@ currentBordId!:number;
 
 constructor(private store: Store<RootState>) 
 {
-  debugger;
+  this.lists$ = this.store.select(selectLists);
 }
 
 async ngOnInit() {
   await this.getLists();
-  this.store.pipe(select(selectLists)).subscribe(value=>console.log(value));
-  this.lists$ = this.store.pipe(select(selectLists));
   console.log(this.lists$);
 }
 
 async ngOnChanges(changes: SimpleChanges) {
   this.addingNewList = false;
-  
+  await this.getLists();
   console.log(this.lists$);
 }
 

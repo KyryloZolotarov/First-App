@@ -5,6 +5,7 @@ using System.Net;
 using System.Security.Claims;
 using Web.Server.Data.Models;
 using Web.Server.Data.Requests;
+using Web.Server.Repositories.Interfaces;
 using Web.Server.Services.Interfaces;
 
 namespace Web.Server.Controllers
@@ -24,7 +25,8 @@ namespace Web.Server.Controllers
         [ProducesResponseType(typeof(BoardListModel), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetListsAsync(int id)
         {
-            return Ok(await _listService.GetListsAsync(id));
+            var result = await _listService.GetListsAsync(id);
+            return Ok(result.Lists);
         }
 
         [HttpPost]

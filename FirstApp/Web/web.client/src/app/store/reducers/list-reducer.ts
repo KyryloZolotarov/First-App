@@ -23,11 +23,11 @@ export const listReducer = createReducer(
     ...state,
     lists: state.lists.filter(list => list.id !== id)
   })),
-  on(ListActions.getListsSuccess, (state, { lists }) => ({
+  on(ListActions.getListsSuccess, (state, { lists }) => {debugger; return {
     ...state,
     lists: lists instanceof Array ? lists : [], // Убедимся, что lists является массивом
     availableListsForCards: lists instanceof Array ? 
       lists.map(list => ({ id: list.id, title: list.title })) : []
-  }))
+  }})
 );
 

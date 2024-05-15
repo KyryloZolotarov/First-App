@@ -33,12 +33,12 @@ export class EditCardComponent {
 
 
   constructor(private store: Store<RootState>) {
+    this.availableLists$ = this.store.select(selectAvailableListsForCards);
     const currentDate = new Date();
     this.today = currentDate;
   }
 
   ngOnInit(){
-    this.availableLists$ = this.store.pipe(select(selectAvailableListsForCards));
     if (this.cardEditing && typeof this.cardEditing.dueDate === 'string') {
     this.card.id = this.cardEditing.id;
     this.card.name = this.cardEditing.name;

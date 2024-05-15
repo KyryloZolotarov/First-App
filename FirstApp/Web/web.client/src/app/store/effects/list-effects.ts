@@ -6,6 +6,7 @@ import { catchError, map, mergeMap } from 'rxjs/operators';
 import * as ListActions from '../actions/list-actions';
 import axios from 'axios';
 import { IList } from '../../interfaces/list';
+import { IBoardLists } from '../../interfaces/boardLists';
 
 @Injectable()
 export class ListEffects {
