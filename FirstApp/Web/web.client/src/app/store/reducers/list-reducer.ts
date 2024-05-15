@@ -15,15 +15,7 @@ export const initialState: ListState = {
 
 export const listReducer = createReducer(
   initialState,
-  on(ListActions.addList, (state, { list }) => ({
-    ...state,
-    lists: [...state.lists, list]
-  })),
-  on(ListActions.deleteList, (state, { id }) => ({
-    ...state,
-    lists: state.lists.filter(list => list.id !== id)
-  })),
-  on(ListActions.getListsSuccess, (state, { lists }) => {debugger; return {
+  on(ListActions.getListsSuccess, (state, { lists }) => { return {
     ...state,
     lists: lists instanceof Array ? lists : [], // Убедимся, что lists является массивом
     availableListsForCards: lists instanceof Array ? 

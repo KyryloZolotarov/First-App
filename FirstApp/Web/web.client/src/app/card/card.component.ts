@@ -82,7 +82,6 @@ export class CardComponent {
     };
   }
   onCardEdited() {
-    console.log("cards refresh");
     this.cardMoved.emit();
   }
   closeModal() {

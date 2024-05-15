@@ -32,13 +32,11 @@ constructor(private store: Store<RootState>)
 
 async ngOnInit() {
   await this.getLists();
-  console.log(this.lists$);
 }
 
 async ngOnChanges(changes: SimpleChanges) {
   this.addingNewList = false;
   await this.getLists();
-  console.log(this.lists$);
 }
 
 public async getLists(): Promise<void> {
@@ -46,27 +44,16 @@ public async getLists(): Promise<void> {
 }
 
 async onAddList(){
-  try {
-    console.log("I'm trying to add list");
-    this.addList.boardId = this.boardSelected;
-    console.log(this.addList);
-    let listId:number = await axios.post(`http://localhost:5007/lists/`, this.addList);
-    let newList: IList = { id:listId, title:this.addList.title, boardId:this.currentBordId, cards:[] };
-    console.log("Added list:", this.addList);
-    this.addingNewList=false;
-    this.refresh();
-    console.log("Updated lists:", this.lists$);
-  } catch (error) {
-    console.error(error);
-  };
-
+  this.addList.boardId = this.boardSelected;
+  this.store.dispatch(ListActions.addList({ title:this.addList.title, boardId:this.addList.boardId}));
+  this.addingNewList = false;
+  this.addList = { title : "", boardId: 0};
 }
 
 toggleDropdown() {
   this.isDropdownOpen = !this.isDropdownOpen;
 }
 async refresh(){
-  console.log("refreshing");
   await this.getLists();
 }
 }

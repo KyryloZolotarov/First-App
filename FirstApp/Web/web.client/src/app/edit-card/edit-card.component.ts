@@ -1,11 +1,11 @@
-import { Component, EventEmitter, Input, Output, input } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, input } from '@angular/core';
 import axios from 'axios';
 import { IAvailableList } from '../interfaces/availableList';
 import { Priority } from '../interfaces/priority';
 import { ICard } from '../interfaces/card';
 import { Store, select } from '@ngrx/store';
-import { selectAvailableListsForCards } from '../store/selectors/list-selectors';
-import { Observable } from 'rxjs';
+import { selectAvailableListById, selectAvailableListsForCards } from '../store/selectors/list-selectors';
+import { Observable, Subscription } from 'rxjs';
 import { RootState } from '../store/interfaces/root-state';
 
 @Component({
@@ -13,13 +13,18 @@ import { RootState } from '../store/interfaces/root-state';
   templateUrl: './edit-card.component.html',
   styleUrl: './edit-card.component.css'
 })
-export class EditCardComponent {
+export class EditCardComponent implements OnInit, OnChanges {
   @Input() cardEditing!: ICard;
   @Output() close: EventEmitter<void> = new EventEmitter<void>();
   @Output() cardEdited = new EventEmitter<void>();
-  availableLists$: Observable<IAvailableList[]> = new Observable<IAvailableList[]>();
+  singleList:IAvailableList | undefined;
+  otherLists:IAvailableList[] | undefined;
+  private subscriptionForSingleList: Subscription;
+  private subscriptionForOtherLists: Subscription;
+  isDropdownOpen: boolean = false;
   today: Date;
   tempDate!:Date;
+  tempListId!:number;
   stringDate:string="";
   Priority = Priority;
   card: ICard = {
@@ -33,19 +38,19 @@ export class EditCardComponent {
 
 
   constructor(private store: Store<RootState>) {
-    this.availableLists$ = this.store.select(selectAvailableListsForCards);
+    this.subscriptionForSingleList = new Subscription();
+    this.subscriptionForOtherLists = new Subscription();
     const currentDate = new Date();
     this.today = currentDate;
   }
 
-  ngOnInit(){
+  ngOnInit(){    
     if (this.cardEditing && typeof this.cardEditing.dueDate === 'string') {
     this.card.id = this.cardEditing.id;
     this.card.name = this.cardEditing.name;
     this.card.description = this.cardEditing.description;
     this.card.priority = this.cardEditing.priority;
-    this.card.listId = this.cardEditing.listId;
-    
+    this.tempListId=this.cardEditing.listId;
 
     this.tempDate = new Date(this.cardEditing.dueDate);
     this.card.dueDate = new Date(this.cardEditing.dueDate);
@@ -55,16 +60,57 @@ export class EditCardComponent {
     const day = String(this.tempDate.getDate()).padStart(2, '0');
     this.stringDate = `${year}-${month}-${day}`;
     console.log(this.stringDate);
-} else {
+  } else {
     // В случае, если дата уже является объектом Date, просто присвоим ее свойству card.dueDate
     this.tempDate = this.cardEditing.dueDate;
     this.stringDate = this.tempDate.toISOString();
-    console.log(this.stringDate)
-}
+    console.log(this.stringDate)    
+  }
+  this.listsSettings();      
+  }  
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.listsSettings();
+  }
+
+  listsSettings(){
+    this.subscriptionForSingleList = this.store.select(selectAvailableListsForCards)
+      .subscribe(lists => {
+        if (this.cardEditing) {
+          this.singleList = lists.find(x => x.id===this.tempListId);
+        }
+      });
+      this.subscriptionForOtherLists = this.store.select(selectAvailableListsForCards)
+      .subscribe(lists => {
+        if (this.cardEditing) {
+          this.otherLists = lists.filter(list => list !== this.singleList);
+        }
+      });
+    if(this.singleList !== undefined)
+    {
+      this.card.listId = this.singleList.id;
+    }
+      
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptionForSingleList.unsubscribe();
+    this.subscriptionForOtherLists.unsubscribe();
   }
 
   onClose() {
     this.close.emit();
+  }
+
+  toggleDropdownForList() {
+    this.isDropdownOpen = !this.isDropdownOpen;
+  }
+
+  moveCardToOtherList(id:number){
+    this.card.listId=id;
+    this.tempListId = id;
+    this.listsSettings();
+    this.toggleDropdownForList();    
   }
 
   async onSubmit() {

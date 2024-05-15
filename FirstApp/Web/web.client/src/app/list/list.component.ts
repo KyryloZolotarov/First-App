@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import axios from 'axios';
 import { ICard } from '../interfaces/card';
 import { IList } from '../interfaces/list';
@@ -7,13 +7,14 @@ import { Store, select } from '@ngrx/store';
 import { selectAvailableListsForCards } from '../store/selectors/list-selectors';
 import { Observable } from 'rxjs';
 import { RootState } from '../store/interfaces/root-state';
+import * as ListActions from '../store/actions/list-actions';
 
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
   styleUrl: './list.component.css'
 })
-export class ListComponent {
+export class ListComponent implements OnInit {
   @Input() singleList!: IList;
   @Output() refreshLists = new EventEmitter<void>();
   availableLists$: Observable<IAvailableList[]> = new Observable<IAvailableList[]>();
@@ -27,11 +28,13 @@ export class ListComponent {
   
   ngOnInit(): void {
     console.log(this.singleList);
-    this.availableLists$ = this.store.pipe(select(selectAvailableListsForCards));
+    this.availableLists$ = this.store.pipe(select(selectAvailableListsForCards));    
+    this.currentList={id:this.singleList.id, title:this.singleList.title};
+    console.log(this.currentList);
+    
   }
   
   openModal() {
-    this.currentList={id:this.singleList.id, title:this.singleList.title};
     this.isModalOpen = true;
   }
 
@@ -41,29 +44,14 @@ export class ListComponent {
   }
 
   onCardDeleted(deletedCard: ICard) {
-    console.log("Deleting card:", deletedCard.id);
-    this.singleList.cards = this.singleList.cards.filter(card => card.id !== deletedCard.id);
-    console.log("Updated cards:", this.singleList.cards);
+    this.refreshLists.emit();
   }
   onCardAdded(addedCard: ICard) {
-    console.log("Added card:", addedCard.id);
-    this.singleList.cards.push(addedCard);
-    console.log("Updated cards:", this.singleList.cards);
+    this.refreshLists.emit();
   }
 
   async deleteList() {
-    try {
-      console.log("I'm deleting the list");
-      await axios.delete(`http://localhost:5007/lists/${this.singleList.id}`, {data: {
-        id:this.singleList.id,
-        title:this.singleList.title
-         }});
-      console.log(`I deleted list ${this.singleList.title}`);
-      this.refreshLists.emit();
-    } catch (error) {
-      console.error(error);
-    };
-
+    this.store.dispatch(ListActions.deleteList({ id:this.singleList.id, title:this.singleList.title, boardId:this.singleList.boardId }));
   }
   
   onCardMoved(){
