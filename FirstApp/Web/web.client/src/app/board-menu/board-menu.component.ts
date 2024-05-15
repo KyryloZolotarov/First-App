@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { IBoard } from '../interfaces/board';
 import axios from 'axios';
 
@@ -7,7 +7,7 @@ import axios from 'axios';
   templateUrl: './board-menu.component.html',
   styleUrl: './board-menu.component.css'
 })
-export class BoardMenuComponent {
+export class BoardMenuComponent implements OnInit, OnChanges {
 @Output() cardAdded = new EventEmitter<number>();
 @Output() boardsAvailable = new EventEmitter<{id:number,flag:boolean}>();
 boards:IBoard[]=[];
@@ -19,6 +19,13 @@ newBoard:IBoard = { id:0, title:""};
 selectedBoard!:IBoard;
 
 async ngOnInit(): Promise<void> {
+  await this.getBoards();
+  if(this.boards.length > 0){
+    this.areBoardsAvailable = true;    
+  }
+}
+
+async ngOnChanges(changes: SimpleChanges){
   await this.getBoards();
   if(this.boards.length > 0){
     this.areBoardsAvailable = true;    
@@ -40,6 +47,7 @@ async creatBoard(){
     console.log("I'm trying to add board");
     let result = await axios.post("http://localhost:5007/boards", this.newBoard);
      await this.getBoards();
+     this.areBoardsAvailable = true; 
      this.isNewBoardInputVisible = false;
   } catch (error) {
     console.error(error);
