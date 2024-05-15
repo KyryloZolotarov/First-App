@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using Infrastructure.Exceptions;
 using Infrastructure.Services.Interfaces;
 using List.Host.Data.Entities;
 using List.Host.Models.Dtos;
+using List.Host.Models.Requests;
 using List.Host.Repositories.Interfaces;
 using List.Host.Services;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -19,7 +21,7 @@ namespace List.Test.Services
     public class ListServiceTest
     {
         [Fact]
-        public async Task GetListsAsync_Returns_IEnumerableListDto_Seccesfully()
+        public async Task GetListsAsync_Returns_IEnumerableListDto_Successfully()
         {
             var dbContextWrapperMock = new Mock<IDbContextWrapper<ApplicationDbContext>>();
             var loggerMock = new Mock<ILogger<ListService>>();
@@ -28,9 +30,6 @@ namespace List.Test.Services
             var dbContextTransactionMock = new Mock<IDbContextTransaction>();
             dbContextWrapperMock.Setup(s => s.BeginTransactionAsync(CancellationToken.None))
                 .ReturnsAsync(dbContextTransactionMock.Object);
-
-            var listRepositoryResultMock = new List<ListEntity>();
-            var listServiceResultMock = new List<ListDto>();
 
             var listEntitySucces = new ListEntity()
             {
@@ -48,146 +47,204 @@ namespace List.Test.Services
 
             var boardIdRequest = 1;
 
-            listRepositoryResultMock.Add(listEntitySucces);
-            listRepositoryResultMock.Add(listEntitySucces);
+            var listRepositoryResultMock = new List<ListEntity> { listEntitySucces };
+            var listServiceResultMock = new List<ListDto> { listDtoSucces };
 
             var mapperMock = new Mock<IMapper>();
-            mapperMock.Setup(s => s.Map<ListDto>(
-                It.Is<ListEntity>(i => listRepositoryResultMock.Equals(listEntitySucces)))).Returns(listDtoSucces);
-
+            mapperMock.Setup(s => s.Map<ListDto>(It.IsAny<ListEntity>())).Returns(listDtoSucces);
 
             listRepositoryMock.Setup(h => h.GetListsAsync(boardIdRequest)).ReturnsAsync(listRepositoryResultMock);
 
             var listService = new ListService(
                 listRepositoryMock.Object,
-                loggerMock.Object,
+                mapperMock.Object,
                 dbContextWrapperMock.Object,
-                mapperMock.Object);
+                loggerMock.Object
+            );
 
             var result = await listService.GetListsAsync(boardIdRequest);
             Assert.NotNull(result);
-            if (result == null)
-            {
-                return;
-            }
 
             Assert.Equal(listServiceResultMock, result);
             listRepositoryMock.Verify(x => x.GetListsAsync(It.IsAny<int>()), Times.Once());
         }
 
-        /*
         [Fact]
-        public async Task GetListsAsync_Throws_ArgumentNullException_Failed()
+        public async Task GetListsAsync_Failed_ReturnsNull()
         {
             var dbContextWrapperMock = new Mock<IDbContextWrapper<ApplicationDbContext>>();
-            var loggerMock = new Mock<ILogger<DogsService>>();
-            var dogsRepositoryMock = new Mock<IDogsRepository>();
+            var loggerMock = new Mock<ILogger<ListService>>();
+            var listRepositoryMock = new Mock<IListRepository>();
 
             var dbContextTransactionMock = new Mock<IDbContextTransaction>();
             dbContextWrapperMock.Setup(s => s.BeginTransactionAsync(CancellationToken.None))
                 .ReturnsAsync(dbContextTransactionMock.Object);
 
-            var dogsRepositoryResultMock = new List<DogEntity>();
-            var dogsServiceResultMock = new List<DogDto>();
-
-            var cancellationTokenMock = new CancellationToken();
-
-            var paramMock = new GetDogsQueryParametrs()
-            {
-                Attribute = "tailLength",
-            };
+            var boardIdRequest = 1;
 
             var mapperMock = new Mock<IMapper>();
-            mapperMock.Setup(s => s.Map<List<DogDto>>(
-                It.Is<List<DogEntity>>(i => i.Equals(dogsRepositoryMock)))).Returns(dogsServiceResultMock);
 
+            mapperMock.Setup(s => s.Map<List<ListDto>>(
+                It.IsAny<List<ListEntity>>())).Returns(new List<ListDto>());
 
-            dogsRepositoryMock.Setup(h => h.GetDogsAsync(It.IsAny<GetDogsQueryParametrs>())).ReturnsAsync((Func<List<DogEntity>>)null!);
+            listRepositoryMock.Setup(h => h.GetListsAsync(boardIdRequest)).ReturnsAsync((List<ListEntity>)null!);
 
-            var dogsService = new DogsService(
-                dogsRepositoryMock.Object,
-                loggerMock.Object,
+            var listService = new ListService(
+                listRepositoryMock.Object,
+                mapperMock.Object,
                 dbContextWrapperMock.Object,
-                mapperMock.Object);
+                loggerMock.Object
+            );
 
+            var result = await listService.GetListsAsync(boardIdRequest);
 
-            await Assert.ThrowsAsync<ArgumentNullException>(async () => {
-                var result = await dogsService.GetDogsAsync(paramMock, cancellationTokenMock);
-            });
+            Assert.Null(result);
         }
+
+        
         [Fact]
         public async Task AddListAsync_Succesfully()
         {
             var dbContextWrapperMock = new Mock<IDbContextWrapper<ApplicationDbContext>>();
-            var loggerMock = new Mock<ILogger<DogsService>>();
-            var dogsRepositoryMock = new Mock<IDogsRepository>();
+            var loggerMock = new Mock<ILogger<ListService>>();
+            var listRepositoryMock = new Mock<IListRepository>();
 
             var dbContextTransactionMock = new Mock<IDbContextTransaction>();
             dbContextWrapperMock.Setup(s => s.BeginTransactionAsync(CancellationToken.None))
                 .ReturnsAsync(dbContextTransactionMock.Object);
 
-            var dogEntitySucces = new DogEntity()
+            var listEntitySuccess = new ListEntity()
             {
-                Name = "Test",
-                Color = "Test_Color",
-                TailLength = 10,
-                Weight = 3
+                Id = 1,
+                Title = "Test",
+                BoardId = 1,
             };
 
-            var dogDtoSucces = new DogDto()
+            var listEntityMapped = new ListEntity()
             {
-                Name = "Test",
-                Color = "Test_Color",
-                TailLength = 10,
-                Weight = 3
+                Title = "Test",
+                BoardId = 1,
             };
+
+            var listRequestSuccess = new AddListRequest()
+            {
+                Title = "Test",
+                BoardId = 1
+            };
+
+            var listId = 1;
 
             var mapperMock = new Mock<IMapper>();
-            mapperMock.Setup(s => s.Map<DogEntity>(
-                It.Is<DogDto>(i => i.Equals(dogDtoSucces)))).Returns(dogEntitySucces);
+            mapperMock.Setup(s => s.Map<ListEntity>(
+                It.Is<AddListRequest>(i => i.Equals(listRequestSuccess)))).Returns(listEntityMapped);
 
-            dogsRepositoryMock.Setup(h => h.AddDogAsync(It.IsAny<DogEntity>())).Returns(Task.CompletedTask);
 
-            var dogsService = new DogsService(
-                dogsRepositoryMock.Object,
-                loggerMock.Object,
+            var listService = new ListService(
+                listRepositoryMock.Object,
+                mapperMock.Object,
                 dbContextWrapperMock.Object,
-                mapperMock.Object);
+                loggerMock.Object
+            );
 
-            await dogsService.AddDogAsync(dogDtoSucces, CancellationToken.None);
-            mapperMock.Verify(m => m.Map<DogEntity>(dogDtoSucces), Times.Once);
-            dogsRepositoryMock.Verify(r => r.AddDogAsync(dogEntitySucces), Times.Once);
+            var result = await listService.AddListAsync(listRequestSuccess);
+
+            listRepositoryMock.Verify(r => r.AddListAsync(It.IsAny<ListEntity>()), Times.Once);
+
+
+            Assert.NotNull(result);
         }
+
         [Fact]
         public async Task AddListAsync_Failed()
         {
             var dbContextWrapperMock = new Mock<IDbContextWrapper<ApplicationDbContext>>();
-            var loggerMock = new Mock<ILogger<DogsService>>();
-            var dogsRepositoryMock = new Mock<IDogsRepository>();
+            var loggerMock = new Mock<ILogger<ListService>>();
+            var listRepositoryMock = new Mock<IListRepository>();
+
+            var dbContextTransactionMock = new Mock<IDbContextTransaction>();
+            dbContextWrapperMock.Setup(s => s.BeginTransactionAsync(CancellationToken.None)).ThrowsAsync(new BusinessException());
+
+            var listEntitySucces = new ListEntity();
+
+            var listRequestSucces = new AddListRequest();
+
+            var mapperMock = new Mock<IMapper>();
+            mapperMock.Setup(s => s.Map<AddListRequest>(
+                It.Is<ListEntity>(i => i.Equals(listEntitySucces)))).Returns(listRequestSucces);
+
+            listRepositoryMock.Setup(h => h.AddListAsync(It.IsAny<ListEntity>())).ReturnsAsync(null);
+
+            var listService = new ListService(
+                listRepositoryMock.Object,
+                mapperMock.Object,
+                dbContextWrapperMock.Object,
+                loggerMock.Object
+            );
+
+            await Assert.ThrowsAsync<BusinessException>(async () => await listService.AddListAsync(listRequestSucces));
+        }
+
+        [Fact]
+        public async Task DeleteListAsync_ValidList_DeletesList()
+        {
+            var dbContextWrapperMock = new Mock<IDbContextWrapper<ApplicationDbContext>>();
+            var loggerMock = new Mock<ILogger<ListService>>();
+            var listRepositoryMock = new Mock<IListRepository>();
+            var mapperMock = new Mock<IMapper>();
 
             var dbContextTransactionMock = new Mock<IDbContextTransaction>();
             dbContextWrapperMock.Setup(s => s.BeginTransactionAsync(CancellationToken.None))
                 .ReturnsAsync(dbContextTransactionMock.Object);
 
-            var dogEntitySucces = new DogEntity();
+            // Arrange
 
-            var dogDtoSucces = new DogDto();
+            var existingListId = 1;
+            var existingList = new ListEntity { Id = 1, Title = "Existing", BoardId = 1 };
 
-            var cancellationTokenMock = new CancellationToken();
-            var mapperMock = new Mock<IMapper>();
-            mapperMock.Setup(s => s.Map<DogDto>(
-                It.Is<DogEntity>(i => i.Equals(dogEntitySucces)))).Returns(dogDtoSucces);
+            listRepositoryMock.Setup(repo => repo.GetListAsync(existingListId))
+                .ReturnsAsync(existingList);
 
-            dogsRepositoryMock.Setup(h => h.AddDogAsync(It.IsAny<DogEntity>())).Returns(Task.CompletedTask);
+            listRepositoryMock.Setup(h => h.DeleteListAsync(It.IsAny<ListEntity>())).Returns(Task.CompletedTask);
 
-            var dogsService = new DogsService(
-                dogsRepositoryMock.Object,
-                loggerMock.Object,
+            var listService = new ListService(
+                listRepositoryMock.Object,
+                mapperMock.Object,
                 dbContextWrapperMock.Object,
-                mapperMock.Object);
+                loggerMock.Object
+            );
 
-            await dogsService.AddDogAsync(dogDtoSucces, cancellationTokenMock);
+            // Act
+            await listService.DeleteListAsync(existingListId);
+
+            // Assert
+            listRepositoryMock.Verify(repo => repo.DeleteListAsync(existingList), Times.Once);
         }
-        */
+
+        [Fact]
+        public async Task DeleteListAsync_NonexistentList_ThrowsBusinessException()
+        {
+            var dbContextWrapperMock = new Mock<IDbContextWrapper<ApplicationDbContext>>();
+            var loggerMock = new Mock<ILogger<ListService>>();
+            var listRepositoryMock = new Mock<IListRepository>();
+            var mapperMock = new Mock<IMapper>();
+
+            var dbContextTransactionMock = new Mock<IDbContextTransaction>();
+            dbContextWrapperMock.Setup(s => s.BeginTransactionAsync(CancellationToken.None)).ThrowsAsync(new BusinessException());
+
+            var nonExistentListId = 999;
+
+            listRepositoryMock.Setup(repo => repo.GetListAsync(nonExistentListId))
+                .ReturnsAsync((ListEntity)null); // Simulate non-existent question
+
+            var listService = new ListService(
+                listRepositoryMock.Object,
+                mapperMock.Object,
+                dbContextWrapperMock.Object,
+                loggerMock.Object
+            );
+
+            // Act & Assert
+            await Assert.ThrowsAsync<BusinessException>(async () => await listService.DeleteListAsync(nonExistentListId));
+        }
     }
 }
