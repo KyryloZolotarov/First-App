@@ -27,10 +27,8 @@ export class ListComponent implements OnInit {
   constructor(private store: Store<RootState>) {}
   
   ngOnInit(): void {
-    console.log(this.singleList);
     this.availableLists$ = this.store.pipe(select(selectAvailableListsForCards));    
     this.currentList={id:this.singleList.id, title:this.singleList.title};
-    console.log(this.currentList);
     
   }
   
@@ -74,12 +72,10 @@ export class ListComponent implements OnInit {
 
   async onEditList(){
     try {
-      console.log("I'm patching the list");
       axios.patch(`http://localhost:5007/lists/${this.singleList.id}`, [{ "op": "replace", "path": "/Title", "value": `${this.singleList.title}`, "from": `${this.originListTitle}` }], {
         headers: {
           'Content-Type': 'application/json-patch+json'
         } });
-        console.log("I putched list");
         this.onEditClosing();
     } catch (error) {
       console.error(error);

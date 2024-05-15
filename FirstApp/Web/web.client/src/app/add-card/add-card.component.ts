@@ -49,19 +49,19 @@ export class AddCardComponent implements OnInit {
 
   ngOnInit(): void {    
     this.tempListId = this.selectedList.id;
-    this.listsSettings();   
+    this.listsSettings();  
   }
 
   listsSettings(){
     this.subscriptionForSingleList = this.store.select(selectAvailableListsForCards)
       .subscribe(lists => {
-        if (this.singleList) {
-          this.singleList = lists.find(x => x.id===this.tempListId);
+        if (this.selectedList) {
+          this.singleList = lists.find(list => list.id===this.tempListId);
         }
       });
       this.subscriptionForOtherLists = this.store.select(selectAvailableListsForCards)
       .subscribe(lists => {
-        if (this.singleList) {
+        if (this.selectedList) {
           this.otherLists = lists.filter(list => list !== this.singleList);
         }
       });
@@ -84,8 +84,6 @@ export class AddCardComponent implements OnInit {
 
   async onSubmit() {
     try {
-      console.log("I'm trying to add card");
-      console.log(this.card);
       let date:Date = new Date(this.card.dueDate);
       let cardAdd:IAddCard = 
       {
@@ -97,9 +95,7 @@ export class AddCardComponent implements OnInit {
       let result = await axios.post<number>("http://localhost:5007/cards", cardAdd);
       console.log(result.data);
       this.card.id = result.data;
-      console.log(this.card);
       this.cardAdded.emit(this.card);
-      console.log(this.card);
     } catch (error) {
       console.error(error);
     };

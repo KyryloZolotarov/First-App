@@ -54,7 +54,6 @@ export class CardComponent {
   }
   async moveCardToOteherList(id:number){
     try {
-      console.log("I'm patching the card");
       await axios.patch(`http://localhost:5007/cards/${this.card.id}`, [{ "op": "replace", "path": "/ListId", "from": this.card.listId, "value": id }], {
         headers: {
           'Content-Type': 'application/json-patch+json'
@@ -66,7 +65,6 @@ export class CardComponent {
   }
   async deleteCard() {
     try {
-      console.log("I'm deleting the card");
       let date:Date = new Date(this.card.dueDate);
       await axios.delete<ICard>(`http://localhost:5007/cards/${this.card.id}`, {data: {
         id:this.card.id,
@@ -75,7 +73,6 @@ export class CardComponent {
         priority:+this.card.priority,
         listId:+this.card.listId,
         dueDate:date.toISOString()  }});
-      console.log(this.card);
       this.cardDeleted.emit(this.card);
     } catch (error) {
       console.error(error);

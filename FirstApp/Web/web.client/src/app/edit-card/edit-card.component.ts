@@ -54,17 +54,14 @@ export class EditCardComponent implements OnInit, OnChanges {
 
     this.tempDate = new Date(this.cardEditing.dueDate);
     this.card.dueDate = new Date(this.cardEditing.dueDate);
-    console.log(this.stringDate)
     const year = this.tempDate.getFullYear();
     const month = String(this.tempDate.getMonth() + 1).padStart(2, '0');
     const day = String(this.tempDate.getDate()).padStart(2, '0');
     this.stringDate = `${year}-${month}-${day}`;
-    console.log(this.stringDate);
   } else {
     // В случае, если дата уже является объектом Date, просто присвоим ее свойству card.dueDate
     this.tempDate = this.cardEditing.dueDate;
     this.stringDate = this.tempDate.toISOString();
-    console.log(this.stringDate)    
   }
   this.listsSettings();      
   }  
@@ -115,7 +112,6 @@ export class EditCardComponent implements OnInit, OnChanges {
 
   async onSubmit() {
     try {
-      console.log(this.stringDate);
       this.card.dueDate = new Date(this.stringDate);
       let date:Date = new Date(this.stringDate);
       let dateFordChek:Date = new Date(this.cardEditing.dueDate);
@@ -148,7 +144,6 @@ export class EditCardComponent implements OnInit, OnChanges {
         } });
       console.log("card putched");
       this.cardEdited.emit();
-      console.log(this.card);
       }
     } catch (error) {
       console.error(error);

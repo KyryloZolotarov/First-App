@@ -20,11 +20,9 @@ selectedBoard!:IBoard;
 
 async ngOnInit(): Promise<void> {
   await this.getBoards();
-  console.log(this.boards);
   if(this.boards.length > 0){
     this.areBoardsAvailable = true;    
   }
-  console.log(this.areBoardsAvailable);
 }
 
 async getBoards(){

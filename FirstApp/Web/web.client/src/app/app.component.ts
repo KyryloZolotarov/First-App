@@ -26,13 +26,11 @@ export class AppComponent implements OnInit {
   }
 
   closePanel(): void {
-    console.log("I'm trying to close panel");
     this.historyPanelState = false;
     console.log(this.historyPanelState);
   }
 
   onOpenPanel(): void {
-    console.log(this.historyPanelState);
     this.historyPanelState = true;
   }
 

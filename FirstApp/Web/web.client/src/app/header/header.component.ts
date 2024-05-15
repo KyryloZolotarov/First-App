@@ -8,7 +8,6 @@ import { Component, EventEmitter, Output } from '@angular/core';
 export class HeaderComponent {
   @Output() openPanelEvent: EventEmitter<void> = new EventEmitter<void>();
   openPanel(){
-    console.log("I'm trying to open panel")
     this.openPanelEvent.emit();
   }
 }
