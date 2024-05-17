@@ -1,0 +1,41 @@
+.message {
+    background-color: #f9f9f9;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+ }
+ 
+ .main-info {
+    font-size: 12px;
+ }
+ 
+ .datetime {
+    font-size: 8px;
+    color: #777;
+ }
+ .show-more {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+ }
+
+ .show-more-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 10px;
+    background-color: #f9f9f9;
+    color: black;
+    border: 1px solid #a5b4c4;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+ }
+ 
+ .show-more-img {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+ }

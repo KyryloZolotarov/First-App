@@ -1,0 +1,10 @@
+<div *ngIf="!isLoading">
+   <div *ngFor="let item of displayRecords" class="message">
+      <div class="main-info">{{ OperationType[item.event] }} {{ item.property }} {{item.destination}}</div>
+      <div class="datetime">{{ item.dateTime | date: 'd MMM, y' }} at {{ item.dateTime | date: 'hh:mm a' }}</div>
+   </div>
+   <div *ngIf="isShowMoreVisible" class="show-more">
+      
+      <button class="show-more-btn" (click)="loadMoreRecords()"><img class="show-more-img" src="https://img.icons8.com/ios-glyphs/30/reboot.png" alt="reboot"/>Show more</button>
+   </div>
+</div>

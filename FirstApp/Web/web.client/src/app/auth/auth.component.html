@@ -1,0 +1,6 @@
+<div *ngIf="isSignedUp">
+    <app-login (signUpEvent)="toggleSignedUp()"></app-login>
+</div>
+<div *ngIf="!isSignedUp">
+    <app-signup (signUpEvent)="toggleSignedUp()"></app-signup>
+</div>
