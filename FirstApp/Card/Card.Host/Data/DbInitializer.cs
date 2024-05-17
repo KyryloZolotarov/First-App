@@ -1,4 +1,4 @@
-﻿namespace TestCatalog.Host.Data
+﻿namespace Card.Host.Data
 {
     public class DbInitializer
     {

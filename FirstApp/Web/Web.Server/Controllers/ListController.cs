@@ -5,6 +5,7 @@ using System.Net;
 using System.Security.Claims;
 using Web.Server.Data.Models;
 using Web.Server.Data.Requests;
+using Web.Server.Repositories.Interfaces;
 using Web.Server.Services.Interfaces;
 
 namespace Web.Server.Controllers
@@ -20,12 +21,12 @@ namespace Web.Server.Controllers
             _listService = listService;
         }
 
-        [HttpGet]
-        [ProducesResponseType(typeof(UserListModel), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> GetListsAsync()
+        [HttpGet("{id}")]
+        [ProducesResponseType(typeof(BoardListModel), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetListsAsync(int id)
         {
-            var userId = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid)?.Value;
-            return Ok(await _listService.GetListsAsync(userId));
+            var result = await _listService.GetListsAsync(id);
+            return Ok(result.Lists);
         }
 
         [HttpPost]
@@ -33,8 +34,7 @@ namespace Web.Server.Controllers
         public async Task<IActionResult> AddListAsync([FromBody] AddListRequest list)
         {
             var userId = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid)?.Value;
-            list.UserId = userId;
-            var listId = await _listService.AddListAsync(list);
+            var listId = await _listService.AddListAsync(userId, list);
             return Ok(listId);
         }
 
@@ -43,8 +43,7 @@ namespace Web.Server.Controllers
         public async Task<IActionResult> DeleteListAsync([FromBody] DeleteListRequest list)
         {
             var userId = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid)?.Value;
-            list.UserId = userId;
-            await _listService.DeleteListAsync(list);
+            await _listService.DeleteListAsync(userId, list);
             return Ok();
         }
 

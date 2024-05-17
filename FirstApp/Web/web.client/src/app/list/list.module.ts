@@ -4,6 +4,9 @@ import { ListComponent } from './list.component';
 import { CardModule } from '../card/card.module';
 import { AddCardModule } from '../add-card/add-card.module';
 import { FormsModule } from '@angular/forms';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
+import { ListEffects } from '../store/effects/list-effects';
 
 
 
@@ -15,7 +18,8 @@ import { FormsModule } from '@angular/forms';
     CommonModule,
     CardModule,
     AddCardModule,
-    FormsModule
+    FormsModule,
+    EffectsModule.forFeature([ListEffects])
   ],
   exports: [
     ListComponent

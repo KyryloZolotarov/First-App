@@ -1,23 +1,26 @@
-﻿{
-  "$schema": "http://json.schemastore.org/launchsettings.json",
-  "iisSettings": {
-    "windowsAuthentication": false,
-    "anonymousAuthentication": true,
-    "iisExpress": {
-      "applicationUrl": "http://localhost:5009",
-      "sslPort": 0
+{
+  "profiles": {
+    "http": {
+      "commandName": "Project",
+      "launchBrowser": false,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ConnectionString": "Host=localhost;Port=5432;Database=postgres;User Id=postgres;Password=password"
+      },
+      "dotnetRunMessages": true,
+      "applicationUrl": "http://localhost:5009"
+    },
+    "iisSettings": {
+      "windowsAuthentication": false,
+      "anonymousAuthentication": true,
+      "iisExpress": {
+        "applicationUrl": "http://localhost:5009",
+        "sslPort": 0
+      }
     }
   },
-  "http": {
-    "commandName": "Project",
-    "launchBrowser": false,
-    "environmentVariables": {
-      "ASPNETCORE_ENVIRONMENT": "Development",
-      "ConnectionString": "Host=localhost;Port=5432;Database=postgres;User Id=postgres;Password=password"
-    },
-    "dotnetRunMessages": true,
-    "applicationUrl": "http://localhost:5009"
-  },
+  
+  "$schema": "http://json.schemastore.org/launchsettings.json",
   "IIS Express": {
     "commandName": "IISExpress",
     "launchBrowser": true,
@@ -26,5 +29,5 @@
       "ASPNETCORE_ENVIRONMENT": "Development"
     }
   }
-}
+  
 }

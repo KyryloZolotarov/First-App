@@ -27,7 +27,6 @@ export class HistoryComponent {
 
   async loadMoreRecords() {
     this.pageIndex ++;
-    console.log("I'm trying to get more history");
     this.requestRecords();
 
   }
@@ -40,28 +39,22 @@ export class HistoryComponent {
     {
       let request:IPaginatedRecordsRequest = { pageSize:this.pageSize, pageIndex:this.pageIndex };
       let result = await axios.post<IHistoryRecords>(`http://localhost:5007/history/userRecords`, request);
-      console.log(result.data);
       this.isLoading = false;
       result.data.records.forEach(elem=>{
       this.displayRecords.push(elem);
       });
       this.totalRecordsCount = result.data.totalCount;
-      console.log(result.data.totalCount);
-      console.log(this.displayRecords);
       this.cdr.detectChanges();
     }
     if(this.cardId !== undefined)
     {
       let request = { pageSize:this.pageSize, pageIndex:this.pageIndex , id:this.cardId };
       let result = await axios.post<IHistoryRecords>(`http://localhost:5007/history/cardRecords`, request);
-      console.log(result.data);
       this.isLoading = false;
       this.totalRecordsCount = result.data.totalCount;
       result.data.records.forEach(elem=>{
       this.displayRecords.push(elem);
       });
-      console.log(result.data.totalCount);
-      console.log(this.displayRecords);
       this.cdr.detectChanges();
     }
     if( this.displayRecords.length >= this.totalRecordsCount)

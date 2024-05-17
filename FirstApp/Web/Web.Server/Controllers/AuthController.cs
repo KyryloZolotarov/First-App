@@ -49,7 +49,6 @@ namespace Web.Server.Controllers
         public async Task<IActionResult> SignUp(UserRequest model)
         {
             var user = await _userService.SignUpAsync(model);
-            if (string.IsNullOrEmpty(user.Id)) return BadRequest();
             return Ok();
         }
 

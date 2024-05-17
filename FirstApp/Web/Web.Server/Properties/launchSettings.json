@@ -8,7 +8,8 @@
         "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Microsoft.AspNetCore.SpaProxy",
         "UserUrl": "http://localhost:5002",
         "ListCardUrl": "http://localhost:5008",
-        "HistoryUrl": "http://localhost:5004"
+        "HistoryUrl": "http://localhost:5004",
+        "BoardUrl": "http://localhost:5010"
       },
       "dotnetRunMessages": true,
       "applicationUrl": "http://localhost:5007"

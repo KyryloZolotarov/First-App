@@ -16,6 +16,8 @@ builder.Services.AddAutoMapper(typeof(Program));
 
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IUserRepository, UserRepository>();
+builder.Services.AddTransient<IBoardService, BoardService>();
+builder.Services.AddTransient<IBoardRepository, BoardRepository>();
 builder.Services.AddTransient<ICardService, CardService>();
 builder.Services.AddTransient<ICardRepository, CardRepository>();
 builder.Services.AddTransient<IListService, ListService>();

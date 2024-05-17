@@ -2,7 +2,7 @@
 using Card.Host.Repositories.Interfaces;
 using Infrastructure.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using TestCatalog.Host.Data;
+using Card.Host.Data;
 
 namespace Card.Host.Repositories
 {

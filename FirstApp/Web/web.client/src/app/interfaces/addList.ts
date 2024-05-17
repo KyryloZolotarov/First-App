@@ -1,3 +1,4 @@
 export interface IAddList{
-    "Title":string
+    "boardId":number,
+    "title":string
 }

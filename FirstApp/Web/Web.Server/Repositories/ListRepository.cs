@@ -31,11 +31,11 @@ namespace Web.Server.Repositories
             HttpMethod.Delete);
         }
 
-        public async Task<UserListDto> GetListsAsync(string userId)
+        public async Task<BoardListDto> GetListsAsync(int boardId)
         {
-            return await _httpClient.SendAsync<UserListDto, string>(
-                $"{_settings.Value.ListCardUrl}/lists/",
-            HttpMethod.Get, userId);
+            return await _httpClient.SendAsync<BoardListDto>(
+                $"{_settings.Value.ListCardUrl}/lists/{boardId}",
+            HttpMethod.Get);
         }
 
         public async Task PatchListAsync(int id, JsonPatchDocument<UpdateListRequest> list)

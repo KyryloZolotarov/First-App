@@ -3,6 +3,6 @@
     public class AddListRequest
     {
         public string Title { get; set; }
-        public string? UserId { get; set; }
+        public int? BoardId { get; set; }
     }
 }

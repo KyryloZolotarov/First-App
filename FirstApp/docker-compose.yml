@@ -38,6 +38,19 @@ services:
       - postgres
     ports:
       - 5009:5009
+  board.api:
+    container_name: lde.board.api
+    build:
+      context: .
+      dockerfile: Board/Board.Host/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5010
+      - ConnectionString=server=postgres;port=5432;database=lists;uid=postgres;password=postgres;
+    depends_on:
+      - postgres
+    ports:
+      - 5010:5010
   listcard.api:
     container_name: lde.listcard.api
     build:
@@ -77,6 +90,7 @@ services:
        - UserUrl=http://user.api:5003
        - ListCardUrl=http://listcard.api:5002
        - HistoryUrl=http://history.api:5004
+       - BoardUrl=http://board.api:5010
     depends_on:
       - user.api
       - history.api

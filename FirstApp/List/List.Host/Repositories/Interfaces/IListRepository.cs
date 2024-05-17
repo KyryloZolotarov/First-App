@@ -9,6 +9,6 @@ namespace List.Host.Repositories.Interfaces
         Task UpdateListAsync(ListEntity list);
         Task DeleteListAsync(ListEntity list);
         Task<ListEntity> GetListAsync(int listId);
-        Task<List<ListEntity>> GetListsAsync(string userId);
+        Task<List<ListEntity>> GetListsAsync(int boardId);
     }
 }

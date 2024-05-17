@@ -1,5 +1,5 @@
 import { IList } from "./list";
 
-export interface IUserLists{
+export interface IBoardLists{
     lists: IList[]
 }

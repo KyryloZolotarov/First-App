@@ -1,8 +1,8 @@
 ﻿namespace Web.Server.Data.Models
 {
-    public class UserListModel
+    public class BoardListModel
     {
-        public string UserId { get; set; }
+        public int? BoardId { get; set; }
         public List<ListModel> Lists { get; set; }
     }
 }

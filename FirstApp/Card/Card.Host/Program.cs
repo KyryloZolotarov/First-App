@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using TestCatalog.Host.Data;
 using Infrastructure.Services;
 using Infrastructure.Services.Interfaces;
 using Card.Host.Services.Interfaces;
@@ -10,6 +9,7 @@ using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Card.Host.Data;
 
 var configuration = GetConfiguration();
 

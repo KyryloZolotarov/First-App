@@ -8,7 +8,10 @@ import {
   Ripple,
   initTWE,
 } from "tw-elements";
-
+import { Store, select } from '@ngrx/store';
+import { selectAvailableListsForCards } from '../store/selectors/list-selectors';
+import { Observable } from 'rxjs';
+import { RootState } from '../store/interfaces/root-state';
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',
@@ -16,31 +19,32 @@ import {
 })
 export class CardComponent {
   @Input() card!: ICard;
-  @Input() availableLists!: IAvailableList[];
   @Input() currentListName!: string;
   @Output() cardDeleted = new EventEmitter<ICard>();
   @Output() cardMoved = new EventEmitter<void>();
+  availableLists$: Observable<IAvailableList[]> = new Observable<IAvailableList[]>();
   Priority = Priority;
   isDropdownOpen: boolean = false;
   isDropdownTwoOpen: boolean = false;
   isModalOpen: boolean = false;
   cardForEdit!:ICard;
 
-    toggleDropdown() {
-        this.isDropdownOpen = !this.isDropdownOpen;
-    }
-
-    toggle(){
-      this.isDropdownTwoOpen = !this.isDropdownTwoOpen;
-    }
-  ngOnInit(): void {
-
-    console.log(this.currentListName);
-    console.log(this.card);
-    console.log(this.card.dueDate);
-    this.cardForEdit = { ...this.card };
-    console.log(this.cardForEdit);
+  constructor(private store: Store<RootState>) {
+    this.availableLists$ = this.store.select(selectAvailableListsForCards);
   }
+
+    
+  ngOnInit(): void {
+    this.cardForEdit = { ...this.card };
+  }
+
+  toggleDropdown() {
+    this.isDropdownOpen = !this.isDropdownOpen;
+}
+
+  toggle(){
+  this.isDropdownTwoOpen = !this.isDropdownTwoOpen;
+}
 
   toggleDropdownForList() {
     this.isDropdownTwoOpen = !this.isDropdownTwoOpen;
@@ -50,8 +54,7 @@ export class CardComponent {
   }
   async moveCardToOteherList(id:number){
     try {
-      console.log("I'm patching the card");
-      axios.patch(`http://localhost:5007/cards/${this.card.id}`, [{ "op": "replace", "path": "/ListId", "from": this.card.listId, "value": id }], {
+      await axios.patch(`http://localhost:5007/cards/${this.card.id}`, [{ "op": "replace", "path": "/ListId", "from": this.card.listId, "value": id }], {
         headers: {
           'Content-Type': 'application/json-patch+json'
         } });
@@ -62,7 +65,6 @@ export class CardComponent {
   }
   async deleteCard() {
     try {
-      console.log("I'm deleting the card");
       let date:Date = new Date(this.card.dueDate);
       await axios.delete<ICard>(`http://localhost:5007/cards/${this.card.id}`, {data: {
         id:this.card.id,
@@ -71,14 +73,12 @@ export class CardComponent {
         priority:+this.card.priority,
         listId:+this.card.listId,
         dueDate:date.toISOString()  }});
-      console.log(this.card);
       this.cardDeleted.emit(this.card);
     } catch (error) {
       console.error(error);
     };
   }
   onCardEdited() {
-    console.log("cards refresh");
     this.cardMoved.emit();
   }
   closeModal() {

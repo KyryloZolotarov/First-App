@@ -7,7 +7,7 @@ namespace ListCard.Validators
     {
         public AddListRequestValidator()
         {
-            RuleFor(h => h.UserId).NotEmpty();
+            RuleFor(h => h.BoardId).NotEmpty();
             RuleFor(x => x.Title).MaximumLength(30);
         }
     }
