@@ -10,7 +10,7 @@ using Infrastructure.Services.Interfaces;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
-using TestCatalog.Host.Data;
+using Card.Host.Data;
 
 namespace Card.Host.Services
 {

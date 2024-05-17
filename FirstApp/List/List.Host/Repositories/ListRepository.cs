@@ -35,10 +35,10 @@ namespace List.Host.Repositories
             return await _dbContext.Lists.FirstOrDefaultAsync(h => h.Id == listId);
         }
 
-        public async Task<List<ListEntity>> GetListsAsync(string userId)
+        public async Task<List<ListEntity>> GetListsAsync(int boardId)
         {
 
-            return await _dbContext.Lists.Where(c => c.UserId == userId).ToListAsync();
+            return await _dbContext.Lists.Where(c => c.BoardId == boardId).ToListAsync();
         }
 
         public async Task UpdateListAsync(ListEntity list)

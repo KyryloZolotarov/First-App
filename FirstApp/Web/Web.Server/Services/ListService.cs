@@ -22,34 +22,34 @@ namespace Web.Server.Services
             _mapper = mapper;
         }
 
-        public async Task<int> AddListAsync(AddListRequest list)
+        public async Task<int> AddListAsync(string userId, AddListRequest list)
         {
             var listId = await _listRepository.AddListAsync(list);
             var record = new RecordRequest();
             record.DateTime = DateTime.UtcNow;
             record.Property = "List";
-            record.UserId = list.UserId;
+            record.UserId = userId;
             record.Event = OperationType.Add;
             record.Destination = list.Title;
             await _historyRepository.AddRecordAsync(record);
             return listId;
         }
 
-        public async Task DeleteListAsync(DeleteListRequest list)
+        public async Task DeleteListAsync(string userId, DeleteListRequest list)
         {
             await _listRepository.DeleteListAsync(list.Id);
             var record = new RecordRequest();
             record.DateTime = DateTime.UtcNow;
             record.Property = "List";
-            record.UserId = list.UserId;
+            record.UserId = userId;
             record.Event = OperationType.Remove;
             await _historyRepository.AddRecordAsync(record);
         }
 
-        public async Task<UserListModel> GetListsAsync(string userId)
+        public async Task<BoardListModel> GetListsAsync(int boardId)
         {
-            var list = await _listRepository.GetListsAsync(userId);
-            return _mapper.Map<UserListModel>(list);
+            var list = await _listRepository.GetListsAsync(boardId);
+            return _mapper.Map<BoardListModel>(list);
         }
 
         public async Task PatchListAsync(string userId, int id, JsonPatchDocument<UpdateListRequest> list)

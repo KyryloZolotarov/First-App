@@ -10,7 +10,6 @@ export class HistoryPanelComponent {
   @Input() closePanel!: () => void;
 
   close(): void {
-    console.log("I'm trying to close panel from component");
     this.closePanel();
   }
 }

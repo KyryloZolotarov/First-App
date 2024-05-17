@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from './auth/AuthProvider';
+import { WorkDashboardComponent } from './work-dashboard/work-dashboard.component';
 
 @Component({
   selector: 'app-root',
@@ -9,6 +10,8 @@ import { AuthService } from './auth/AuthProvider';
 export class AppComponent implements OnInit {
   public isAuthenticated: boolean = false;
   historyPanelState: boolean = false;
+  boardsAreAvailable: boolean = false;
+  selectedBoardId!:number;
   constructor(private authService: AuthService) {}
 
   ngOnInit() {
@@ -23,13 +26,17 @@ export class AppComponent implements OnInit {
   }
 
   closePanel(): void {
-    console.log("I'm trying to close panel");
     this.historyPanelState = false;
     console.log(this.historyPanelState);
   }
 
-  openPanel(): void {
+  onOpenPanel(): void {
     this.historyPanelState = true;
+  }
+
+  setBoardsState(eventData: { id: number, flag: boolean }){
+    this.boardsAreAvailable = eventData.flag;
+    this.selectedBoardId = eventData.id;
   }
 
   title = 'web.client';

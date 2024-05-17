@@ -2,7 +2,7 @@
 using Card.Host.Data.EntityConfigurations;
 using Microsoft.EntityFrameworkCore;
 
-namespace TestCatalog.Host.Data
+namespace Card.Host.Data
 {
     public class ApplicationDbContext : DbContext
     {

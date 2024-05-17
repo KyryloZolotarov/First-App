@@ -9,6 +9,6 @@ namespace ListCard.Repositories.Interfaces
         Task<int> AddListAsync(AddListRequest list);
         Task PatchListAsync(int id, JsonPatchDocument<UpdateListRequest> list);
         Task DeleteListAsync(int id);
-        Task<List<ListResponse>> GetListsAsync(string userId);
+        Task<List<ListResponse>> GetListsAsync(int boardId);
     }
 }

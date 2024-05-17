@@ -33,16 +33,16 @@ namespace ListCard.Services
             await _cardRepository.DeleteCardsByListAsync(id);
         }
 
-        public async Task<UserListDto> GetListsAsync(string userId)
+        public async Task<BoardListDto> GetListsAsync(int boardId)
         {
-            var lists = await _listRepository.GetListsAsync(userId);
-            var userLists = new UserListDto() { UserId = userId, Lists = new List<ListDto>() };
+            var lists = await _listRepository.GetListsAsync(boardId);
+            var boardLists = new BoardListDto() { BoardId = boardId, Lists = new List<ListDto>() };
             foreach (var list in lists)
             {
                 var cards = await _cardRepository.GetCardsAsync(list.Id);
-                userLists.Lists.Add(new ListDto() { UserId = list.UserId, Title = list.Title, Id = list.Id, Cards = cards } );
+                boardLists.Lists.Add(new ListDto() { BoardId = list.BoardId, Title = list.Title, Id = list.Id, Cards = cards } );
             }
-            return userLists;
+            return boardLists;
         }
 
         public async Task PatchListAsync(int id, JsonPatchDocument<UpdateListRequest> list)

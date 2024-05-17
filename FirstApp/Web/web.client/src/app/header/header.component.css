@@ -1,0 +1,16 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: black;
+    margin: 20px;
+    font-size: 24px;
+  }
+  
+  .history {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    color:black;
+    font-size: 16px;
+  }

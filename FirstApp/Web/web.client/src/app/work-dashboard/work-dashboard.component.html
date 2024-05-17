@@ -1,9 +1,9 @@
-<div style="display: flex; flex-wrap: wrap;">
-    <div *ngFor="let list of lists" style="flex: 0 0 calc(25% - 10px); margin-right: 5px; margin-left: 5px; margin-bottom: 10px;">
-        
-        
-        <app-list [singleList]="list" (refreshLists)="refresh()" [availableListsInput]="availableListsForCards"></app-list>
-    </div>
+<div style="margin-top: 8px; display: flex; flex-wrap: wrap;">
+    <ng-container *ngIf="(this.lists$ | async) as lists">
+        <div *ngFor="let list of lists" style="flex: 0 0 calc(25% - 10px); margin-right: 5px; margin-left: 5px; margin-bottom: 10px;">
+            <app-list [singleList]="list" (refreshLists)="refresh()"></app-list>
+        </div>
+    </ng-container>
     <div style="flex: 0 0 calc(25% - 10px)">
         <div *ngIf="!addingNewList" 
             style="padding: 12px; background-color: transparent; border-bottom: 1px solid #ccc; border-top: 1px solid #ccc; color: #555; display: flex;">
@@ -11,7 +11,7 @@
             <div style="cursor: pointer;" (click)="addingNewList = true;">+</div>
         </div>
         <div *ngIf="addingNewList" style="margin-right: 10px; margin-bottom: 10px;">
-            <input type="text" placeholder="Enter new list name" [(ngModel)]="addList.Title" required>
+            <input type="text" placeholder="Enter new list name" [(ngModel)]="addList.title" required>
             <div style="margin-top: 8px; display: flex; justify-content: space-between;">
                 <button class="rounded-md" style="flex: 1; margin-right: 5px; background-color: #7575a3; border: none; padding: 8px;" (click)="onAddList()" >Add List</button>
                 <button class="rounded-md" style="flex: 1; margin-left: 5px; background-color: #f0f0f5; border: none; padding: 8px;" (click)="addingNewList = false;">Cancel</button>

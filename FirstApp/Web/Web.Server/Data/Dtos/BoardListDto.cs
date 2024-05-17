@@ -1,8 +1,8 @@
 ﻿namespace Web.Server.Repositories.Interfaces
 {
-    public class UserListDto
+    public class BoardListDto
     {
-        public string UserId { get; set; }
+        public int? BoardId { get; set; }
         public List<ListDto> Lists { get; set; }
     }
 }

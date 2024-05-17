@@ -13,7 +13,6 @@ export class SignupComponent {
   async signUp(firstName: string, lastName: string, email: string, password: string, event: Event): Promise<void> {
     event.preventDefault();
     let signUpData : ISignUp = {FirstName:firstName,LastName:lastName,Email:email,Password:password};
-    console.log(email);
     await this.authService.signUp(signUpData);
     this.setSignedUp(true);
   }  
